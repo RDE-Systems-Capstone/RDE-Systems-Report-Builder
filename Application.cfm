@@ -1,0 +1,1 @@
+<cfapplication name="ReportBuilder" sessionmanagement="true" sessiontimeout="#CreateTimeSpan(0,0,30,0)#"/>
