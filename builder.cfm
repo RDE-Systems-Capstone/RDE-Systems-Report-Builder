@@ -6,13 +6,16 @@ RDE Systems Capstone Fall 2018
 Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
 -->
 
-<cfquery name="ethnicity_list">
-    SELECT DISTINCT ETHNICITY FROM patients ORDER BY ETHNICITY
-</cfquery>
+<cfinvoke 	component="app.builder.report" 
+			method="getObservations"
+			returnvariable="allObservations"></cfinvoke>
+<cfinvoke 	component="app.builder.report" 
+			method="getEthnicities"
+			returnvariable="allEthnicities"></cfinvoke>
+<cfinvoke 	component="app.builder.report" 
+			method="getConditions"
+			returnvariable="allConditions"></cfinvoke>
 
-<cfquery name="condition_list">
-    SELECT DISTINCT CODE, DESCRIPTION FROM conditions ORDER BY DESCRIPTION
-</cfquery>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -98,11 +101,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div hidden id="ethnicity_filter">
 					<h2>Ethnicity filter</h2>
 					<div class="checkbox">
-						<cfloop query="#ethnicity_list#">
-							<cfoutput>
-								<label><input type="checkbox" name="ethnicity" value="#ETHNICITY#">#ETHNICITY#</label>
-							</cfoutput>
-						</cfloop>
+						<cfinvoke component="app.builder.report" method="ethnicitiesList"></cfinvoke>
 					</div>
 				</div>
 				<div hidden id="marital_filter">
@@ -113,17 +112,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div hidden id="conditions_filter">
 					<h2>Conditions filter</h2>
 					<div class="checkbox">
-						<cfform>
-							<cfselect 
-								name="condition"
-								query="condition_list"
-								value="CODE"
-								display="DESCRIPTION"
-								message="Select a condition"
-								class="form-control">
-									<option selected="true" disabled="disabled"> -- select an option -- </option>
-							</cfselect>
-						</cfform>
+						<cfinvoke component="app.builder.report" method="conditionsList"></cfinvoke>
 					</div>
 				</div>
 			</div>
