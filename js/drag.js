@@ -30,6 +30,9 @@ $(document).ready(function() { 	//only run once page is ready
 			if ($(ui.draggable).attr('id') === "marital_button") {
 				$("#marital_filter").removeAttr('hidden')
 			}
+			if ($(ui.draggable).attr('id') === "conditions_button") {
+				$("#conditions_filter").removeAttr('hidden')
+			}
             $(ui.draggable).remove();
         }
     });

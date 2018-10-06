@@ -5,11 +5,13 @@ Built using Bootstrap/ColdFusion
 RDE Systems Capstone Fall 2018
 Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
 -->
-<cfquery name="observations_list">
-    SELECT DISTINCT DESCRIPTION, CODE FROM observations ORDER BY DESCRIPTION
-</cfquery>
+
 <cfquery name="ethnicity_list">
     SELECT DISTINCT ETHNICITY FROM patients ORDER BY ETHNICITY
+</cfquery>
+
+<cfquery name="condition_list">
+    SELECT DISTINCT CODE, DESCRIPTION FROM conditions ORDER BY DESCRIPTION
 </cfquery>
 
 <!DOCTYPE html>
@@ -22,6 +24,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="js/drag.js"></script>
+	<script src="js/forms.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 
   </head>
@@ -44,15 +47,20 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<div class="col-lg-10">
 	  <h1>Report Builder</h1>
 		<div class="form-group" style="width: 50%">
-			<label for="exampleFormControlSelect1">Report Type</label>
-			<select class="form-control report_type" id="exampleFormControlSelect1">
-			  <option selected="selected" disabled selected value> -- select an option -- </option>
-			  <option value="trend">Trend Graph</option>
-			  <option value="pie">Pie/Doughnut Chart</option>
-			  <option value="bar">Bar Chart</option>
-			  <option value="table">Data Table</option>
-			</select>
+			<cfform name="report_type_form">
+				<cfselect 
+					name="report_type"
+					message="Select a type of report"
+					class="form-control">
+						<option selected="true" disabled="disabled"> -- select an option -- </option>
+						<option value="trend">Trend Graph</option>
+						<option value="pie">Pie/Doughnut Chart</option>
+						<option value="bar">Bar Chart</option>
+						<option value="table">Data Table</option>
+				</cfselect>
+			</cfform>
 		</div>
+		
 		
 		<!-- filters will be dragged here
 		as we add filters, JS code will make the filters unhidden-->
@@ -102,18 +110,24 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<input type="checkbox" name="marital" value="S"> Single<br>
 					<input type="checkbox" name="marital" value="M"> Married<br>
 				</div>
+				<div hidden id="conditions_filter">
+					<h2>Conditions filter</h2>
+					<div class="checkbox">
+						<cfloop query="#condition_list#">
+							<cfoutput>
+								<label><input type="checkbox" name="condition" value="#CODE#">#DESCRIPTION#</label>
+							</cfoutput>
+						</cfloop>
+					</div>
+				</div>
 			</div>
 		
 		<h1>Output</h1>
 		<div id="output" style="width: 50%">
-			<select name="trend_observation" class="form-control">
-				<cfloop query="#observations_list#">
-					<cfoutput>
-					<option value="#CODE#">#DESCRIPTION#</option>
-					</cfoutput>
-				</cfloop>
-			</select>
+			<!-- Will be dynamically populated with JS -->
+			<p>Select a report type to continue.</p>
 		</div>
+		<br />
 		<div>
 		<button type="button" class="btn btn-primary">Submit</button>
 		</div>
