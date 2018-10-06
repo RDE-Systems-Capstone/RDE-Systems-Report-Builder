@@ -28,7 +28,7 @@
 		<cfinvoke 	component="app.builder.report" 
 		method="getConditions"
 		returnvariable="allConditions"></cfinvoke>
-		<cfform>
+		<cfform name="condition_filter_form">
 			<cfselect 
 				name="condition"
 				query="allConditions"
@@ -46,7 +46,7 @@
 		<cfinvoke 	component="app.builder.report" 
 		method="getEthnicities"
 		returnvariable="allEthnicities"></cfinvoke>
-		<cfform>
+		<cfform name="ethnicity_filter_form">
 			<cfloop query="allEthnicities">
 				<cfset ethnicity_desc="#reReplace('#ETHNICITY#',"(^[a-z])","\U\1","ALL")#">
 				<cfset ethnicity_desc="#Replace('#ethnicity_desc#',"_"," ","all")#">
@@ -54,6 +54,40 @@
 					<label><cfinput type="checkbox" name="ethnicity" value="#ETHNICITY#">#ethnicity_desc#</label>
 				</cfoutput>
 			</cfloop>
+		</cfform>
+	</cffunction>
+	
+	<!---Output trend graph options --->
+	<cffunction name="trendOptions" returntype="void">
+		<cfinvoke 	component="app.builder.report" 
+		method="getObservations"
+		returnvariable="observations_list"></cfinvoke>
+		<cfform name="trend_output">
+				<cfselect 
+				name="trend_observation"
+				query="observations_list"
+				message="Select a value to graph"
+				display="DESCRIPTION"
+				value="CODE"
+				class="form-control">
+				<option selected="true" disabled="disabled"> -- select an option -- </option>
+			</cfselect>
+		</cfform>
+	</cffunction>
+	
+	<!---Output pie/donut graph options --->
+	<cffunction name="pieOptions" returntype="void">
+		<cfform name="trend_output">
+			<cfselect 
+				name="pie_group"
+				message="Select a group"
+				class="form-control">
+				<option selected="true" disabled="disabled"> -- select an option -- </option>
+				<option value="age">Age</option>
+				<option value="gender">Gender</option>
+				<option value="race">Race</option>
+				<option value="ethnicity">Ethnicity</option>
+			</cfselect>
 		</cfform>
 	</cffunction>
 	

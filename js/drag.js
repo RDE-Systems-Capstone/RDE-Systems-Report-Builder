@@ -33,7 +33,8 @@ $(document).ready(function() { 	//only run once page is ready
 			if ($(ui.draggable).attr('id') === "conditions_button") {
 				$("#conditions_filter").removeAttr('hidden')
 			}
-            $(ui.draggable).remove();
+            //$(ui.draggable).remove();
+			$("#chosen_filters").append($(ui.draggable));
         }
     });
 });

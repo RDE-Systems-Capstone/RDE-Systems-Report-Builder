@@ -70,6 +70,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<h1>Filters</h1>
 		<div class="filter_drop well">
 			<p>Drag and drop filters here to add them.</p>
+			<div id="chosen_filters"></div>
 				<!-- Age filter -->
 				<div hidden id="age_filter">
 					<h2>Age filter</h2>
@@ -119,8 +120,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		
 		<h1>Output</h1>
 		<div id="output" style="width: 50%">
-			<!-- Will be dynamically populated with JS -->
-			<p>Select a report type to continue.</p>
+			<div hidden id="trend_output_div">
+				<p>Select value to graph over time</p>
+				<cfinvoke component="app.builder.report" method="trendOptions"></cfinvoke>
+			</div>
 		</div>
 		<br />
 		<div>
