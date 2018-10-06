@@ -4,7 +4,7 @@ report builder filters.
 */
 
 //Allow drag and drop of filters to filter area
-$(document).ready(function() {
+$(document).ready(function() { 	//only run once page is ready
 	//allow drag and drop buttons
     $('.btn.verticalButton').draggable({
         cancel: false,
