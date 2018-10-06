@@ -6,13 +6,13 @@ RDE Systems Capstone Fall 2018
 Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
 -->
 
-<cfinvoke 	component="app.builder.report" 
+<cfinvoke 	component="app.builder.report"
 			method="getObservations"
 			returnvariable="allObservations"></cfinvoke>
-<cfinvoke 	component="app.builder.report" 
+<cfinvoke 	component="app.builder.report"
 			method="getEthnicities"
 			returnvariable="allEthnicities"></cfinvoke>
-<cfinvoke 	component="app.builder.report" 
+<cfinvoke 	component="app.builder.report"
 			method="getConditions"
 			returnvariable="allConditions"></cfinvoke>
 
@@ -45,13 +45,13 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</ul>
 	  </div>
 	</nav>
-	
+
 	<!-- left column code-->
 	<div class="col-lg-10">
 	  <h1>Report Builder</h1>
 		<div class="form-group" style="width: 50%">
 			<cfform name="report_type_form">
-				<cfselect 
+				<cfselect
 					name="report_type"
 					message="Select a type of report"
 					class="form-control">
@@ -59,12 +59,12 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<option value="trend">Trend Graph</option>
 						<option value="pie">Pie/Doughnut Chart</option>
 						<option value="bar">Bar Chart</option>
-						<option value="table">Data Table</option>
+						<option value="data">Data Table</option>
 				</cfselect>
 			</cfform>
 		</div>
-		
-		
+
+
 		<!-- filters will be dragged here
 		as we add filters, JS code will make the filters unhidden-->
 		<h1>Filters</h1>
@@ -117,12 +117,26 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					</div>
 				</div>
 			</div>
-		
+
 		<h1>Output</h1>
 		<div id="output" style="width: 50%">
 			<div hidden id="trend_output_div">
 				<p>Select value to graph over time</p>
 				<cfinvoke component="app.builder.report" method="trendOptions"></cfinvoke>
+			</div>
+			<div hidden id="pie_output_div">
+				<p>Select field to group by:</p>
+				<cfinvoke component="app.builder.report" method="pieOptions"></cfinvoke>
+			</div>
+			<div hidden id="bar_output_div">
+				<p>Work in progress</p>
+				<!--- <cfinvoke component="app.builder.report" method="trendOptions"></cfinvoke> --->
+			</div>
+			<div hidden id="data_output_div">
+				<p>Select columns to include</p>
+				<div class="checkbox">
+					<cfinvoke component="app.builder.report" method="dataOptions"></cfinvoke>
+				</div>
 			</div>
 		</div>
 		<br />
@@ -130,7 +144,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<button type="button" class="btn btn-primary">Submit</button>
 		</div>
 	 </div>
-	
+
 	<!-- Available filters column code-->
 	 <div class="col-lg-2">
 	  <h1>Available Filters</h1>

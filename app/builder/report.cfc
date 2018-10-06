@@ -6,7 +6,7 @@
 		</cfquery>
 		<cfreturn observations_list>
 	</cffunction>
-	
+
 	<!--- Function to get list of ethnicities --->
 	<cffunction name="getEthnicities" returntype="query">
 		<cfquery name="ethnicity_list">
@@ -14,7 +14,14 @@
 		</cfquery>
 		<cfreturn ethnicity_list>
 	</cffunction>
-	
+
+	<cffunction name="getTableColumns" returntype="query">
+		<cfquery name="columns_list">
+			EXEC sp_columns patients
+		</cfquery>
+		<cfreturn columns_list>
+	</cffunction>
+
 	<!--- Function to get list of conditions --->
 	<cffunction name="getConditions" returntype="query">
 		<cfquery name="condition_list">
@@ -22,14 +29,14 @@
 		</cfquery>
 		<cfreturn condition_list>
 	</cffunction>
-	
+
 	<!---Output conditions dropdown menu --->
 	<cffunction name="conditionsList" returntype="void">
-		<cfinvoke 	component="app.builder.report" 
+		<cfinvoke 	component="app.builder.report"
 		method="getConditions"
 		returnvariable="allConditions"></cfinvoke>
 		<cfform name="condition_filter_form">
-			<cfselect 
+			<cfselect
 				name="condition"
 				query="allConditions"
 				value="CODE"
@@ -40,10 +47,10 @@
 			</cfselect>
 		</cfform>
 	</cffunction>
-	
+
 	<!---Output ethnicities dropdown menu --->
 	<cffunction name="ethnicitiesList" returntype="void">
-		<cfinvoke 	component="app.builder.report" 
+		<cfinvoke 	component="app.builder.report"
 		method="getEthnicities"
 		returnvariable="allEthnicities"></cfinvoke>
 		<cfform name="ethnicity_filter_form">
@@ -56,14 +63,14 @@
 			</cfloop>
 		</cfform>
 	</cffunction>
-	
+
 	<!---Output trend graph options --->
 	<cffunction name="trendOptions" returntype="void">
-		<cfinvoke 	component="app.builder.report" 
+		<cfinvoke 	component="app.builder.report"
 		method="getObservations"
 		returnvariable="observations_list"></cfinvoke>
 		<cfform name="trend_output">
-				<cfselect 
+				<cfselect
 				name="trend_observation"
 				query="observations_list"
 				message="Select a value to graph"
@@ -74,11 +81,11 @@
 			</cfselect>
 		</cfform>
 	</cffunction>
-	
+
 	<!---Output pie/donut graph options --->
 	<cffunction name="pieOptions" returntype="void">
-		<cfform name="trend_output">
-			<cfselect 
+		<cfform name="pie_output">
+			<cfselect
 				name="pie_group"
 				message="Select a group"
 				class="form-control">
@@ -90,5 +97,19 @@
 			</cfselect>
 		</cfform>
 	</cffunction>
-	
+
+	<!---Output Data table options --->
+	<cffunction name="dataOptions" returntype="void">
+		<cfinvoke 	component="app.builder.report"
+		method="getTableColumns"
+		returnvariable="columns_list"></cfinvoke>
+		<cfform name="data_output">
+			<cfloop query="#columns_list#">
+				<cfoutput>
+					<label><cfinput type="checkbox" name="columns" value="#COLUMN_NAME#">#COLUMN_NAME#</label>
+				</cfoutput>
+			</cfloop>
+		</cfform>
+	</cffunction>
+
 </cfcomponent>
