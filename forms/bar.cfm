@@ -16,6 +16,6 @@
 		<option value="gender">Gender</option>
 		<option value="ethnicity">Ethnicity</option>
 		<option value="race">Race</option>
-		<option value="marital">Marital</option>
+		<option value="marital">Marital Status</option>
 	</cfselect>
 </cfform>

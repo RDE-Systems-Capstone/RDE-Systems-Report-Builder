@@ -106,18 +106,24 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					</div>
 				</div>
 				<div hidden id="marital_filter">
-					<h2>Marital filter</h2>
+					<h2>Marital Status filter</h2>
 					<input type="checkbox" name="marital" value="S"> Single<br>
 					<input type="checkbox" name="marital" value="M"> Married<br>
 				</div>
 				<div hidden id="conditions_filter">
 					<h2>Conditions filter</h2>
 					<div class="checkbox">
-						<cfloop query="#condition_list#">
-							<cfoutput>
-								<label><input type="checkbox" name="condition" value="#CODE#">#DESCRIPTION#</label>
-							</cfoutput>
-						</cfloop>
+						<cfform>
+							<cfselect 
+								name="condition"
+								query="condition_list"
+								value="CODE"
+								display="DESCRIPTION"
+								message="Select a condition"
+								class="form-control">
+									<option selected="true" disabled="disabled"> -- select an option -- </option>
+							</cfselect>
+						</cfform>
 					</div>
 				</div>
 			</div>
