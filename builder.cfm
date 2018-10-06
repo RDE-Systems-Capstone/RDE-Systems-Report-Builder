@@ -5,10 +5,10 @@ Built using Bootstrap/ColdFusion
 RDE Systems Capstone Fall 2018
 Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
 -->
-<cfquery name="observations_list" datasource="MEDICALDATA"> 
+<cfquery name="observations_list">
     SELECT DISTINCT DESCRIPTION, CODE FROM observations ORDER BY DESCRIPTION
 </cfquery>
-<cfquery name="ethnicity_list" datasource="MEDICALDATA"> 
+<cfquery name="ethnicity_list">
     SELECT DISTINCT ETHNICITY FROM patients ORDER BY ETHNICITY
 </cfquery>
 
