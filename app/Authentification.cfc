@@ -25,22 +25,37 @@
 		<!---Create isUserLoggedIn var--->
 		<cfset var isUserLoggedIn = false />
 		
+		<cfset tempvar = "#arguments.password#">
+		
+		<cfscript>
+			salt="A41n9t0Q";
+	      	password="Password123";
+	      	PBKDFalgorithm ="PBKDF2WithHmacSHA512";
+	      	PassToEnc="#tempvar#";
+	      	encryptionAlgorithm="AES";
+	      	PassKey=GeneratePBKDFKey(PBKDFalgorithm ,password ,salt,4096,128);	      	
+	      	decryptedData = encrypt(PassToEnc, PassKey, encryptionAlgorithm, "Base64" );
+		</cfscript>
+		
+		<cfset decPass = decryptedData />
+		<cfdump var="#decPass#" />
+		
 		<!---Get data from DB--->
 		<cfquery name="userLogin" datasource="MS_SQL_Server" >
-			SELECT AccountDetails.Usr, AccountDetails.Pwd, AccountDetails.Role
-			FROM AccountDetails
-			WHERE Usr = <cfqueryparam value="#arguments.username#" cfsqltype="cf_sql_varchar" /> AND Pwd = <cfqueryparam value="#arguments.password#" cfsqltype="cf_sql_varchar" />
+			SELECT TestHash.Username, TestHash.Password, TestHash.Role
+			FROM TestHash
+			WHERE Username = <cfqueryparam value="#arguments.username#" cfsqltype="cf_sql_varchar" /> AND Password = <cfqueryparam value="#decPass#" cfsqltype="cf_sql_varchar" />
 		</cfquery>
-		
+				
 		<!---Check if query returns only one user--->
 		<cfif userLogin.recordCount eq 1>
 		
 			<!---Log user in--->
 			<cflogin >
-				<cfloginuser name="#userLogin.Usr#" password="#userLogin.Pwd#" roles="#userLogin.Role#" >
+				<cfloginuser name="#userLogin.Username#" password="#userLogin.Password#" roles="#userLogin.Role#" >
 			</cflogin>
 			<!---Save user data in session scope--->
-			<cfset session.stLoggedInUser = {'username' = userLogin.Usr} />
+			<cfset session.stLoggedInUser = {'username' = userLogin.Username} />
 			<!---Change isUserLoggedIn to true--->
 			<cfset var isUserLoggedIn = true />
 		
