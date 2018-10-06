@@ -112,7 +112,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</div>
 				<div hidden id="conditions_filter">
 					<h2>Conditions filter</h2>
-					<div class="checkbox">
+					<div style="width: 50%">
 						<cfinvoke component="app.builder.report" method="conditionsList"></cfinvoke>
 					</div>
 				</div>
@@ -120,6 +120,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 		<h1>Output</h1>
 		<div id="output" style="width: 50%">
+			<p>Choose a graph type to configure this section</p>
 			<div hidden id="trend_output_div">
 				<p>Select value to graph over time</p>
 				<cfinvoke component="app.builder.report" method="trendOptions"></cfinvoke>
@@ -148,13 +149,13 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<!-- Available filters column code-->
 	 <div class="col-lg-2">
 	  <h1>Available Filters</h1>
-	  <button type="button" class="btn verticalButton" id="age_button">Age</button>
-	  <button type="button" class="btn verticalButton" id="gender_button">Gender</button>
-	  <button type="button" class="btn verticalButton" id="race_button">Race</button>
-	  <button type="button" class="btn verticalButton" id="ethnicity_button">Ethnicity</button>
-	  <button type="button" class="btn verticalButton" id="marital_button">Marital Status</button>
-	  <button type="button" class="btn verticalButton" id="conditions_button">Conditions</button>
-	  <button type="button" class="btn verticalButton" id="observations_button">Observations</button>
+	  <button type="button" class="btn verticalButton" id="age_button" value=0>Age</button>
+	  <button type="button" class="btn verticalButton" id="gender_button" value=0>Gender</button>
+	  <button type="button" class="btn verticalButton" id="race_button" value=0>Race</button>
+	  <button type="button" class="btn verticalButton" id="ethnicity_button" value=0>Ethnicity</button>
+	  <button type="button" class="btn verticalButton" id="marital_button" value=0>Marital Status</button>
+	  <button type="button" class="btn verticalButton" id="conditions_button" value=0>Conditions</button>
+	  <button type="button" class="btn verticalButton" id="observations_button" value=0>Observations</button>
 	 </div>
 
   </body>

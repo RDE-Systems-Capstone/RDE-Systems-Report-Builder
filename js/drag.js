@@ -34,6 +34,7 @@ $(document).ready(function() { 	//only run once page is ready
 				$("#conditions_filter").removeAttr('hidden')
 			}
             //$(ui.draggable).remove();
+			$(ui.draggable).attr('value', 1);
 			$("#chosen_filters").append($(ui.draggable));
         }
     });
