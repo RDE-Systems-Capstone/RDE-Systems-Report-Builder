@@ -1,3 +1,5 @@
+<cfapplication name="cfcentral" sessionmanagement="true" sessiontimeout="#CreateTimeSpan(0,0,30,0)#"/>
+
 <!---Handles logout--->
 <cfif structKeyExists(URL, 'logout')>
 	<cfset createObject("component", 'CF Projects.RDE Systems.app.Authentification').doLogout()/>
