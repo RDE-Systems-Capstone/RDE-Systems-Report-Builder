@@ -79,7 +79,6 @@
 				class="form-control">
 				<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
-			<cfoutput>Hello</cfoutput>
 		</cfform>
 	</cffunction>
 

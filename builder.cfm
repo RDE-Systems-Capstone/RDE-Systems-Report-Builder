@@ -92,7 +92,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<!-- Race filter -->
 				<div hidden id="race_filter">
 					<h2>Race filter</h2>
-					<div id="race_options"class="checkbox">
+					<div id="race_options" class="checkbox">
 						<label><input type="checkbox" name="race" value="white">White</label>
 						<label><input type="checkbox" name="race" value="black">Black</label>
 						<label><input type="checkbox" name="race" value="asian">Asian</label>
@@ -108,8 +108,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div hidden id="marital_filter">
 					<h2>Marital Status filter</h2>
 					<div id="marital_options" class="checkbox">
-						<input type="checkbox" name="marital" value="S"> Single<br>
-						<input type="checkbox" name="marital" value="M"> Married<br>
+						<label><input type="checkbox" name="marital" value="S">Single</label>
+						<label><input type="checkbox" name="marital" value="M">Married</label>
 					</div>
 				</div>
 				<div hidden id="conditions_filter">
