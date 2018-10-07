@@ -76,15 +76,15 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<h2>Age filter</h2>
 					<form class="form-inline">
 						<label for="age_min">Between</label>
-						<input type="number" name="age_min" min="0" max="120" step="1" value="20" class="form-control">
+						<input type="number" id="age_min" min="0" max="120" step="1" value="20" class="form-control">
 						<label for="age_max">and</label>
-						<input type="number" name="age_max" min="0" max="120" step="1" value="50" class="form-control">
+						<input type="number" id="age_max" min="0" max="120" step="1" value="50" class="form-control">
 					</form>
 				</div>
 				<!-- Gender filter -->
 				<div hidden id="gender_filter">
 					<h2>Gender filter</h2>
-					<div class="checkbox">
+					<div id="gender_options" class="checkbox">
 						<label><input type="checkbox" name="gender" value="M">Male</label>
 						<label><input type="checkbox" name="gender" value="F">Female</label>
 					</div>
@@ -92,7 +92,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<!-- Race filter -->
 				<div hidden id="race_filter">
 					<h2>Race filter</h2>
-					<div class="checkbox">
+					<div id="race_options"class="checkbox">
 						<label><input type="checkbox" name="race" value="white">White</label>
 						<label><input type="checkbox" name="race" value="black">Black</label>
 						<label><input type="checkbox" name="race" value="asian">Asian</label>
@@ -101,14 +101,16 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</div>
 				<div hidden id="ethnicity_filter">
 					<h2>Ethnicity filter</h2>
-					<div class="checkbox">
+					<div id="ethnicity_options" class="checkbox">
 						<cfinvoke component="app.builder.report" method="ethnicitiesList"></cfinvoke>
 					</div>
 				</div>
 				<div hidden id="marital_filter">
 					<h2>Marital Status filter</h2>
-					<input type="checkbox" name="marital" value="S"> Single<br>
-					<input type="checkbox" name="marital" value="M"> Married<br>
+					<div id="marital_options" class="checkbox">
+						<input type="checkbox" name="marital" value="S"> Single<br>
+						<input type="checkbox" name="marital" value="M"> Married<br>
+					</div>
 				</div>
 				<div hidden id="conditions_filter">
 					<h2>Conditions filter</h2>
@@ -142,7 +144,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</div>
 		<br />
 		<div>
-		<button type="button" class="btn btn-primary">Submit</button>
+		<button type="button" id= "submit" class="btn btn-primary">Submit</button>
 		</div>
 	 </div>
 

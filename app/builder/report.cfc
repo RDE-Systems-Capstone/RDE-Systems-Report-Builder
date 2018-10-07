@@ -2,7 +2,7 @@
 	<!--- Function to get list of observations --->
 	<cffunction name="getObservations" returntype="query">
 		<cfquery name="observations_list">
-			SELECT DISTINCT DESCRIPTION, CODE FROM observations ORDER BY DESCRIPTION
+			SELECT DISTINCT DESCRIPTION, CODE, UNITS FROM observations ORDER BY DESCRIPTION
 		</cfquery>
 		<cfreturn observations_list>
 	</cffunction>
@@ -79,6 +79,7 @@
 				class="form-control">
 				<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
+			<cfoutput>Hello</cfoutput>
 		</cfform>
 	</cffunction>
 
