@@ -39,8 +39,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		  <a class="navbar-brand" href="#">RDE</a>
 		</div>
 		<ul class="nav navbar-nav">
-			<li class="active"><a href="#">Builder</a></li>
-			<li><a href="#">Output</a></li>
+			<li class="active"><a href="builder.cfm">Builder</a></li>
+			<li><a href="output.cfm">Output</a></li>
 			<li><a href="#">Saved Reports</a></li>
 		</ul>
 	  </div>
@@ -74,6 +74,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<!-- Age filter -->
 				<div hidden id="age_filter">
 					<h2>Age filter</h2>
+					<form id="agefilter_opt" class="form-inline radio">
+						<label><input type="radio" name="gender" value="male">Between</label>
+						<label><input type="radio" name="gender" value="female">Greater than</label>
+						<label><input type="radio" name="gender" value="other">Less than</label> 
+					</form>
 					<form class="form-inline">
 						<label for="age_min">Between</label>
 						<input type="number" id="age_min" min="0" max="120" step="1" value="20" class="form-control">
@@ -99,12 +104,14 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<label><input type="checkbox" name="race" value="hispanic">Hispanic</label>
 					</div>
 				</div>
+				<!-- Ethnicity filter -->
 				<div hidden id="ethnicity_filter">
 					<h2>Ethnicity filter</h2>
 					<div id="ethnicity_options" class="checkbox">
 						<cfinvoke component="app.builder.report" method="ethnicitiesList"></cfinvoke>
 					</div>
 				</div>
+				<!-- Marital status filter -->
 				<div hidden id="marital_filter">
 					<h2>Marital Status filter</h2>
 					<div id="marital_options" class="checkbox">
@@ -112,10 +119,18 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<label><input type="checkbox" name="marital" value="M">Married</label>
 					</div>
 				</div>
+				<!-- Conditions filter -->
 				<div hidden id="conditions_filter">
 					<h2>Conditions filter</h2>
 					<div style="width: 50%">
 						<cfinvoke component="app.builder.report" method="conditionsList"></cfinvoke>
+					</div>
+				</div>
+				<!-- Medications filter -->
+				<div hidden id="medications_filter">
+					<h2>Medications filter</h2>
+					<div style="width: 50%">
+						<cfinvoke component="app.builder.report" method="medicationsList"></cfinvoke>
 					</div>
 				</div>
 			</div>
@@ -158,6 +173,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	  <button type="button" class="btn verticalButton" id="marital_button" value=0>Marital Status</button>
 	  <button type="button" class="btn verticalButton" id="conditions_button" value=0>Conditions</button>
 	  <button type="button" class="btn verticalButton" id="observations_button" value=0>Observations</button>
+	  <button type="button" class="btn verticalButton" id="medications_button" value=0>Medications</button>
 	 </div>
 
   </body>

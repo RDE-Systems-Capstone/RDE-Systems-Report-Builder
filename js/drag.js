@@ -1,7 +1,10 @@
 /*
 JavaScript/JQuery code to support the drag/drop functionality for the 
 report builder filters.
+RDE Capstone Fall 2018
+Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
 */
+
 
 //Allow drag and drop of filters to filter area
 $(document).ready(function() { 	//only run once page is ready
@@ -43,6 +46,10 @@ $(document).ready(function() { 	//only run once page is ready
 			if ($(ui.draggable).attr('id') === "observations_button") {
 				$("#observations_filter").removeAttr('hidden')
 				filter_status.observations = 1;
+			}
+			if ($(ui.draggable).attr('id') === "medications_button") {
+				$("#medications_filter").removeAttr('hidden')
+				filter_status.medications = 1;
 			}
             //$(ui.draggable).remove();
 			$(ui.draggable).attr('value', 1);

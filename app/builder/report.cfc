@@ -1,3 +1,11 @@
+<!---
+Code for report builder page
+Built using Bootstrap/ColdFusion
+
+RDE Systems Capstone Fall 2018
+Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
+--->
+
 <cfcomponent displayname="report_builder">
 	<!--- Function to get list of observations --->
 	<cffunction name="getObservations" returntype="query">
@@ -29,6 +37,14 @@
 		</cfquery>
 		<cfreturn condition_list>
 	</cffunction>
+	
+	<!--- Function to get list of medications --->
+	<cffunction name="getMedications" returntype="query">
+		<cfquery name="medication_list">
+			SELECT DISTINCT CODE, DESCRIPTION FROM medications ORDER BY DESCRIPTION
+		</cfquery>
+		<cfreturn medication_list>
+	</cffunction>
 
 	<!---Output conditions dropdown menu --->
 	<cffunction name="conditionsList" returntype="void">
@@ -39,6 +55,25 @@
 			<cfselect
 				name="condition"
 				query="allConditions"
+				queryPosition="below"
+				value="CODE"
+				display="DESCRIPTION"
+				message="Select a condition"
+				class="form-control">
+					<option selected="true" disabled="disabled"> -- select an option -- </option>
+			</cfselect>
+		</cfform>
+	</cffunction>
+	
+	<cffunction name="medicationsList" returntype="void">
+		<cfinvoke 	component="app.builder.report"
+		method="getMedications"
+		returnvariable="allMedications"></cfinvoke>
+		<cfform name="medication_filter_form">
+			<cfselect
+				name="medication_opt"
+				query="allMedications"
+				queryPosition="below"
 				value="CODE"
 				display="DESCRIPTION"
 				message="Select a condition"
@@ -70,16 +105,22 @@
 		method="getObservations"
 		returnvariable="observations_list"></cfinvoke>
 		<cfform name="trend_output">
-				<cfselect
+			<cfselect
 				name="trend_observation"
 				query="observations_list"
+				queryPosition="below"
 				message="Select a value to graph"
 				display="DESCRIPTION"
 				value="CODE"
 				class="form-control">
 				<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
+			<select class="form-control">
+				<option>Sum</option>
+				<option>Average</option>
+			</select>
 		</cfform>
+
 	</cffunction>
 
 	<!---Output pie/donut graph options --->
