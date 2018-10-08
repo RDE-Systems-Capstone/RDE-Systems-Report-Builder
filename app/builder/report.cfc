@@ -9,7 +9,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 <cfcomponent displayname="report_builder">
 	<!--- Function to get list of observations --->
 	<cffunction name="getObservations" returntype="query">
-		<cfquery name="observations_list">
+		<cfquery 
+			name="observations_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
 			SELECT DISTINCT DESCRIPTION, CODE, UNITS FROM observations ORDER BY DESCRIPTION
 		</cfquery>
 		<cfreturn observations_list>
@@ -17,14 +19,16 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<!--- Function to get list of ethnicities --->
 	<cffunction name="getEthnicities" returntype="query">
-		<cfquery name="ethnicity_list">
+		<cfquery name="ethnicity_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
 			SELECT DISTINCT ETHNICITY FROM patients ORDER BY ETHNICITY
 		</cfquery>
 		<cfreturn ethnicity_list>
 	</cffunction>
 
 	<cffunction name="getTableColumns" returntype="query">
-		<cfquery name="columns_list">
+		<cfquery name="columns_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
 			EXEC sp_columns patients
 		</cfquery>
 		<cfreturn columns_list>
@@ -32,7 +36,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<!--- Function to get list of conditions --->
 	<cffunction name="getConditions" returntype="query">
-		<cfquery name="condition_list">
+		<cfquery name="condition_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
 			SELECT DISTINCT CODE, DESCRIPTION FROM conditions ORDER BY DESCRIPTION
 		</cfquery>
 		<cfreturn condition_list>
@@ -40,7 +45,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	
 	<!--- Function to get list of medications --->
 	<cffunction name="getMedications" returntype="query">
-		<cfquery name="medication_list">
+		<cfquery name="medication_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
 			SELECT DISTINCT CODE, DESCRIPTION FROM medications ORDER BY DESCRIPTION
 		</cfquery>
 		<cfreturn medication_list>
