@@ -38,20 +38,23 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<!-- left column code-->
 	<div class="col-lg-10">
-	  <h1>Report Builder</h1>
-		<div class="form-group" style="width: 50%">
-			<cfform name="report_type_form">
-				<cfselect
-					name="report_type"
-					message="Select a type of report"
-					class="form-control">
-						<option selected="true" disabled="disabled"> -- select an option -- </option>
-						<option value="trend">Trend Graph</option>
-						<option value="pie">Pie/Doughnut Chart</option>
-						<option value="bar">Bar Chart</option>
-						<option value="data">Data Table</option>
-				</cfselect>
-			</cfform>
+		<h1>Report Builder</h1>
+		<div class="row">
+			<div class="form-group col-sm-4">
+				<cfform name="report_type_form">
+					<label for="report_type">Select report type:</label>
+					<cfselect
+						name="report_type"
+						message="Select a type of report"
+						class="form-control">
+							<option selected="true" disabled="disabled"> -- select an option -- </option>
+							<option value="trend">Trend Graph</option>
+							<option value="pie">Pie/Doughnut Chart</option>
+							<option value="bar">Bar Chart</option>
+							<option value="data">Data Table</option>
+					</cfselect>
+				</cfform>
+			</div>
 		</div>
 
 
