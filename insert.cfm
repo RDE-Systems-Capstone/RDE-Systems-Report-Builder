@@ -3,7 +3,21 @@
 	<!---serverside validation--->
 	<cfif len(trim(form.First)) NEQ "" AND len(trim(form.Last)) NEQ "" AND len(trim(form.User)) NEQ "" 
 	      AND len(trim(form.Pass)) NEQ "">
-	
+		<cfscript>
+			// Correct procedure for registering user
+			salt = randomly_generated_string;
+			PBKDFalgorithm = "PBKDF2WithHmacSHA512";
+			PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
+			writeOutput(PassKey); // insert into database
+			writeOutput(salt); // insert into database
+			
+			// Correct procedure for checking password on login
+			salt = salt_from_database;
+			PBKDFalgorithm = "PBKDF2WithHmacSHA512";
+			PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
+			writeOutput(PassKey); // check against database
+		</cfscript>
+		
 		<cfscript>
 			salt = "A41n9t0Q";
 			password = "Password123";
@@ -104,3 +118,21 @@
 		</section>
 	</cfform>
 </cfoutput>
+
+<cffunction name="generateSecureRandomString" output="false">
+	<cfargument name="length" type="numeric">
+	<cfset var l = {}>
+
+	<cfset l.generator = CreateObject("java", "java.security.SecureRandom")>
+
+	<!---A list of unambiguous, URL-friendly characters--->
+	<cfset l.validChars = 'abcdefghjkmnpqrstuvwxyzABCDEFGHJKLMNPQRSTUVWXYZ23456789'>
+	<cfset l.string = ''>
+	<cfloop index="l.i" from="1" to="#arguments.length#">
+		<!---nextInt returns a number from 0 to n-1, so we need to add 1 to get valid ColdFusion string indexes--->
+		<cfset l.pos = l.generator.nextInt( len(l.validChars) ) + 1>
+
+		<cfset l.string &= Mid(l.validChars, l.pos, 1)>
+	</cfloop>
+	<cfreturn l.string>
+</cffunction>
