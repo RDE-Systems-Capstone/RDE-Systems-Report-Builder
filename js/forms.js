@@ -109,6 +109,14 @@ $(document).ready(function() { 	//only run once page is ready
 			query_debug += "CONDITION is " + $("#condition").val();
 			query_debug += "\n"
 		}
+		if (filter_status.observations === 1) {
+			filter_count++;
+			if (filter_count > 1) {
+				query_debug += "AND ";
+			}
+			query_debug += "OBSERVATION is " + $("#observations_opt").val();
+			query_debug += "\n"
+		}
 		if (filter_status.medications === 1) {
 			filter_count++;
 			if (filter_count > 1) {
@@ -117,6 +125,14 @@ $(document).ready(function() { 	//only run once page is ready
 			query_debug += "MEDICATION is " + $("#medication_opt").val();
 			query_debug += "\n"
 		}
+		
+		if ($("#report_type").val() === "trend") {
+			query_debug += "Values graphed will be " + $("#trend_numbers").val() + "\n";
+			query_debug += "DATE range is from " + $("#trend_start_date").val() + " to " + $("#trend_end_date").val();
+			
+		}
+		
+		
 		alert(query_debug);
 	});
 });

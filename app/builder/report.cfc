@@ -12,7 +12,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfquery 
 			name="observations_list"
 			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
-			SELECT DISTINCT DESCRIPTION, CODE, UNITS FROM observations ORDER BY DESCRIPTION
+			SELECT DISTINCT DESCRIPTION, CODE FROM observations ORDER BY DESCRIPTION
 		</cfquery>
 		<cfreturn observations_list>
 	</cffunction>
@@ -71,6 +71,26 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</cfform>
 	</cffunction>
 	
+	<!--- Output observations list for filter --->
+	<cffunction name="observationsList" returntype="void">
+		<cfinvoke 	component="app.builder.report"
+		method="getObservations"
+		returnvariable="allObservations"></cfinvoke>
+		<cfform name="observations_filter_form">
+			<cfselect
+				name="observations_opt"
+				query="allObservations"
+				queryPosition="below"
+				value="CODE"
+				display="DESCRIPTION"
+				message="Select an observation"
+				class="form-control">
+					<option selected="true" disabled="disabled"> -- select an option -- </option>
+			</cfselect>
+		</cfform>
+	</cffunction>
+	
+	<!--- Output medications list --->
 	<cffunction name="medicationsList" returntype="void">
 		<cfinvoke 	component="app.builder.report"
 		method="getMedications"
@@ -110,22 +130,36 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfinvoke 	component="app.builder.report"
 		method="getObservations"
 		returnvariable="observations_list"></cfinvoke>
-		<cfform name="trend_output">
-			<cfselect
-				name="trend_observation"
-				query="observations_list"
-				queryPosition="below"
-				message="Select a value to graph"
-				display="DESCRIPTION"
-				value="CODE"
-				class="form-control">
-				<option selected="true" disabled="disabled"> -- select an option -- </option>
-			</cfselect>
-			<select class="form-control">
-				<option>Sum</option>
-				<option>Average</option>
-			</select>
-		</cfform>
+		<div class="row">
+			<cfform name="trend_output">
+				<div class="col-sm-6">
+				<cfselect
+					name="trend_observation"
+					query="observations_list"
+					queryPosition="below"
+					message="Select a value to graph"
+					display="DESCRIPTION"
+					value="CODE"
+					class="form-control">
+					<option selected="true" disabled="disabled"> -- select an option -- </option>
+				</cfselect>
+				</div>
+				<div class="col-sm-4">
+				<select id="trend_numbers" class="form-control">
+					<option value="sum">Sum</option>
+					<option value="average">Average</option>
+				</select>
+				</div>
+			</cfform>
+		</div>
+		<div class="row">
+			<div class="col-sm-6">
+				<label>Start:</label><input class="form-control" id="trend_start_date" type="date" value="2016-01-01">
+			</div>
+			<div class="col-sm-4">
+				<label>End:</label><input class="form-control" id="trend_end_date"  type="date" value="2016-12-31">
+			</div>
+		</div>
 
 	</cffunction>
 

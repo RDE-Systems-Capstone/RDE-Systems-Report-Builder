@@ -11,12 +11,13 @@ The goal of this project is "to create a data analytics tool that will allow use
 
 ### Report Builder Page
 This part of the project will be where filters and other options are chosen for reports. 
-To-do list:
+
+### To-do list:
  - Add configurable boolean logic options to filters
  - Granularity options for report outputs
  - Input validation
  - Remove filters once added
  - Multiple select options for conditions/medications/observations
- - Observation filter code
+ - Age filter - between, >=, <= options
  - and more
  
