@@ -64,11 +64,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<!-- Age filter -->
 				<div hidden id="age_filter">
 					<h2>Age filter</h2>
-					<!--> <form id="agefilter_opt" class="form-inline radio">
+					<!-- <form id="agefilter_opt" class="form-inline radio">
 						<label><input type="radio" name="gender" value="male">Between</label>
 						<label><input type="radio" name="gender" value="female">Greater than</label>
 						<label><input type="radio" name="gender" value="other">Less than</label> 
-					</form> <-->
+					</form> -->
 					<form class="form-inline">
 						<label for="age_min">Between</label>
 						<input type="number" id="age_min" min="0" max="120" step="1" value="20" class="form-control">
