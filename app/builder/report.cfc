@@ -60,6 +60,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfform name="condition_filter_form">
 			<cfselect
 				name="condition"
+				id="condition"
 				query="allConditions"
 				queryPosition="below"
 				value="CODE"
@@ -79,6 +80,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfform name="observations_filter_form">
 			<cfselect
 				name="observations_opt"
+				id="observations_opt"
 				query="allObservations"
 				queryPosition="below"
 				value="CODE"
@@ -98,6 +100,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfform name="medication_filter_form">
 			<cfselect
 				name="medication_opt"
+				id="medication_opt"
 				query="allMedications"
 				queryPosition="below"
 				value="CODE"
@@ -135,6 +138,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div class="col-sm-6">
 				<cfselect
 					name="trend_observation"
+					id="trend_observation"
 					query="observations_list"
 					queryPosition="below"
 					message="Select a value to graph"
@@ -168,6 +172,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfform name="pie_output">
 			<cfselect
 				name="pie_group"
+				id="pie_group"
 				message="Select a group"
 				class="form-control">
 				<option selected="true" disabled="disabled"> -- select an option -- </option>

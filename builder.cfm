@@ -45,6 +45,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<label for="report_type">Select report type:</label>
 					<cfselect
 						name="report_type"
+						id="report_type"
 						message="Select a type of report"
 						class="form-control">
 							<option selected="true" disabled="disabled"> -- select an option -- </option>
