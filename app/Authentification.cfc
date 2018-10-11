@@ -59,8 +59,7 @@
 				<cfapplication name="session" datasource="MEDICALDATA" loginstorage="session" sessionmanagement="true" applicationtimeout="#CreateTimeSpan(0,0,30,0)#">
 			</cflogin>
 			
-			<!---create session?--->
-			
+			<!---create session?--->			
 			
 			<!---Save user data in session scope--->
 			<cfset session.stLoggedInUser = {'FirstName' = userLogin.FirstName, 'LastName' = userLogin.LastName} />
