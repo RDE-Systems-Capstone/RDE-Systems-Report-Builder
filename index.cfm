@@ -1,9 +1,9 @@
-<cfapplication name="cfcentral" sessionmanagement="true" sessiontimeout="#CreateTimeSpan(0,0,30,0)#"/>
-
-<!---Handles logout--->
+<!---Logout--->
+<!-- gives session undefined error when redirecting back to this page-->
 <cfif structKeyExists(URL, 'logout')>
 	<cfset createObject("component", 'CF Projects.RDE Systems.app.Authentification').doLogout()/>
 </cfif>
+
 <!--- Processing Entered Data --->
 <cfif structKeyExists(form, 'submit')>
 	<!---Create instance of authentification service component--->
@@ -14,6 +14,7 @@
 	<cfif ArrayIsEmpty(aErrorMessages)>
 		<!---Proceed to login--->
 		<cfset isUserLoggedIn = authenticationService.doLogin(form.User, form.Pass)/>
+		<cflocation url="/CF Projects/RDE Systems/Success.cfm" addtoken="false" >
 	</cfif>
 </cfif>
 <style>
@@ -50,6 +51,9 @@
 </style>
 <html>
 	<head>
+		<img src="images/rde_logo.png" style = "float: left;" width="10%">
+	</head>
+	<body>
 		<section>
 		
 			<!--- Login Form --->
@@ -69,23 +73,7 @@
 						Username/Password are invalid. Please try again!
 					</p>
 				</cfif>
-				<cfif structKeyExists(session, 'stLoggedInUser')>
-					<!---display welcome--->
-					<!-- <script type="text/javascript">
-						window.open("/CF Projects/RDE Systems/Success.cfm", 'self');
-					</script> -->
-					
-					<!--<p>
-						<cfoutput>Welcome!</cfoutput>
-					</p>
-					<p>
-						<a href="/CF Projects/RDE Systems/index.cfm?logout">
-							Logout
-						</a>
-					</p> -->
-					<cflocation url="/CF Projects/RDE Systems/Success.cfm" >
-					
-				<cfelse>
+				
 					<h1>
 						Login
 					</h1>
@@ -102,45 +90,14 @@
 					<p id="p1">
 						<cfinput type="submit" name="submit" id="sumbit" value="Login"/>
 					</p>
-					<!---Different Login form--->
-					<!-- 
-					<dl>
-						<dt>
-							<label for="User">
-								Username:
-							</label>
-						</dt>
-						<dd>
-							<cfinput type="text" name="User" id="User" required="true"
-							         validateat="onSubmit" message="Please provide a username"/>
-						</dd>
-						<dt>
-							<label for="Pass">
-								Password:
-							</label>
-						</dt>
-						<dd>
-							<cfinput type="password" name="Pass" id="Pass" required="true"
-							         validateat="onSubmit" message="Please provide a password"/>
-						</dd>
-					</dl>
-					<p>
-						<cfinput type="submit" name="submit" id="sumbit" value="Login"/>
-					</p>
-					-->
-				</cfif>
+					
+				
 			</cfform>
 		</section>
-	</head>
-	<body>
+	
+		
 		<p>
-			debugging window: (will remove later)
+			
 		</p>
 	</body>
 </html>
-
-<script>
-	function testFunc(){
-	var redirect=window.open("http://localhost:8500/CF%20Projects/RDE%20Systems/Landing.cfm","_self");
-	}
-</script>

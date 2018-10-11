@@ -1,10 +1,8 @@
-component {
-    this.name = "RDEReportBuilder";
-    this.datasource = "MEDICALDATA";
-    this.sessionManagement = true;
-	this.applicationtimeout="#CreateTimeSpan(0,0,30,0)#";
-	this.appBasePath = getDirectoryFromPath(getCurrentTemplatePath());
-	this.mappings["/app"] = getDirectoryFromPath(getCurrentTemplatePath()) & "app/";
-	
-	setting showdebugoutput="no";
- }
+<cfcomponent output="false">
+	<cfset this.name = 'RDE_Login' />
+	<cfset this.applicationTimeout = createTimespan(0,0,30,0) />
+	<cfset this.sessionManagement = "yes" />
+	<cfset this.sessionTimeout = createTimespan(0,0,30,0) />
+	<cfset this.setClientCookies = "yes" />
+	<cfset this.datasource = 'MEDICALDATA' />
+</cfcomponent>
