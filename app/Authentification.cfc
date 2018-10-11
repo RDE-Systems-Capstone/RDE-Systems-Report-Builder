@@ -1,4 +1,8 @@
 <cfcomponent output="false">
+	<cfset this.sessionManagement = true />
+	<cfset this.clientManagement = true />
+	
+	
 	<!---vaidate user mthd--->
 	<cffunction name="validateUser" access="public" output="false" returntype="array">
 		<cfargument name="username" type="string" required="true" />
@@ -25,37 +29,41 @@
 		<!---Create isUserLoggedIn var--->
 		<cfset var isUserLoggedIn = false />
 		
-		<cfset tempvar = "#arguments.password#">
-		
-		<cfscript>
-			salt="A41n9t0Q";
-	      	password="Password123";
-	      	PBKDFalgorithm ="PBKDF2WithHmacSHA512";
-	      	PassToEnc="#tempvar#";
-	      	encryptionAlgorithm="AES";
-	      	PassKey=GeneratePBKDFKey(PBKDFalgorithm ,password ,salt,4096,128);	      	
-	      	decryptedData = encrypt(PassToEnc, PassKey, encryptionAlgorithm, "Base64" );
-		</cfscript>
-		
-		<cfset decPass = decryptedData />
-		<cfdump var="#decPass#" />
+		<cfset tempvar = "#arguments.password#" />
 		
 		<!---Get data from DB--->
-		<cfquery name="userLogin" datasource="MS_SQL_Server" >
-			SELECT TestHash.Username, TestHash.Password, TestHash.Role
-			FROM TestHash
-			WHERE Username = <cfqueryparam value="#arguments.username#" cfsqltype="cf_sql_varchar" /> AND Password = <cfqueryparam value="#decPass#" cfsqltype="cf_sql_varchar" />
+		<cfquery name="userLogin" datasource="MEDICALDATA" >
+			SELECT users.username, users.password, users.role, users.salt, users.firstName, users.lastname
+			FROM users
+			WHERE username = <cfqueryparam value="#arguments.username#" cfsqltype="cf_sql_varchar" />
 		</cfquery>
+		
+		<!--add if exists, go forward. else display error here.-->
+		
+		<cfscript>
+			// Correct procedure for checking password on login
+			salt = '#userLogin.salt#';
+			PBKDFalgorithm = "PBKDF2WithHmacSHA512";
+			PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
+			writeOutput(PassKey); // check against database
+		</cfscript>
+		
+		<cfset decPass = PassKey />
 				
 		<!---Check if query returns only one user--->
 		<cfif userLogin.recordCount eq 1>
 		
 			<!---Log user in--->
-			<cflogin >
-				<cfloginuser name="#userLogin.Username#" password="#userLogin.Password#" roles="#userLogin.Role#" >
+			<cflogin allowconcurrent="false" applicationtoken="test" idletimeout="1800">
+				<cfloginuser name="#userLogin.firstName# #userLogin.lastname#" password="#userLogin.password#" roles="#userLogin.role#" >
+				<cfapplication name="session" datasource="MEDICALDATA" loginstorage="session" sessionmanagement="true" applicationtimeout="#CreateTimeSpan(0,0,30,0)#">
 			</cflogin>
+			
+			<!---create session?--->
+			
+			
 			<!---Save user data in session scope--->
-			<cfset session.stLoggedInUser = {'username' = userLogin.Username} />
+			<cfset session.stLoggedInUser = {'FirstName' = userLogin.FirstName, 'LastName' = userLogin.LastName} />
 			<!---Change isUserLoggedIn to true--->
 			<cfset var isUserLoggedIn = true />
 		
@@ -73,5 +81,8 @@
 		<cflogout />
 		
 	</cffunction>
+	
+	<!---Not sure if needed--->
+	
 
 </cfcomponent>
