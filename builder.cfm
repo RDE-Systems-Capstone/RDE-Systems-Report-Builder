@@ -64,9 +64,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<div class="filter_drop well">
 			<p>Drag and drop filters here to add them.</p>
 			<div id="chosen_filters"></div>
-
-			<div id="filter_forms"></div>
 		</div>
+		<div id="filter_forms"></div>
 		
 
 		<h1>Output</h1>
@@ -99,16 +98,21 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<!-- Available filters column code-->
 	 <div class="col-lg-2">
-	  <h1>Available Filters</h1>
 		<div id="filters_list">
-		  <button type="button" class="btn verticalButton" id="age_button" value=0>Age</button>
-		  <button type="button" class="btn verticalButton" id="gender_button" value=0>Gender</button>
-		  <button type="button" class="btn verticalButton" id="race_button" value=0>Race</button>
-		  <button type="button" class="btn verticalButton" id="ethnicity_button" value=0>Ethnicity</button>
-		  <button type="button" class="btn verticalButton" id="marital_button" value=0>Marital Status</button>
-		  <button type="button" class="btn verticalButton" id="conditions_button" value=0>Conditions</button>
-		  <button type="button" class="btn verticalButton" id="observations_button" value=0>Observations</button>
-		  <button type="button" class="btn verticalButton" id="medications_button" value=0>Medications</button>
+			<h1>Available Filters</h1>
+			<button type="button" class="btn verticalButton filter" id="age_button" value=0>Age</button>
+			<button type="button" class="btn verticalButton filter" id="gender_button" value=0>Gender</button>
+			<button type="button" class="btn verticalButton filter" id="race_button" value=0>Race</button>
+			<button type="button" class="btn verticalButton filter" id="ethnicity_button" value=0>Ethnicity</button>
+			<button type="button" class="btn verticalButton filter" id="marital_button" value=0>Marital Status</button>
+			<button type="button" class="btn verticalButton filter" id="conditions_button" value=0>Conditions</button>
+			<button type="button" class="btn verticalButton filter" id="observations_button" value=0>Observations</button>
+			<button type="button" class="btn verticalButton filter" id="medications_button" value=0>Medications</button>
+		</div>
+		<div id="filter_logic">
+			<h1>Boolean Logic</h1>
+			<button type="button" class="btn verticalButton logic" id="and_box" value=0>AND box</button>
+			<button type="button" class="btn verticalButton logic" id="or_box" value=0>OR box</button>
 		</div>
 	 </div>
 
