@@ -111,8 +111,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</div>
 		<div id="filter_logic">
 			<h1>Boolean Logic</h1>
-			<button type="button" class="btn verticalButton logic" id="and_box" value=0>AND box</button>
-			<button type="button" class="btn verticalButton logic" id="or_box" value=0>OR box</button>
+			<button type="button" class="btn verticalButton logic" id="l_paren" value=0>(</button>
+			<button type="button" class="btn verticalButton logic" id="r_paren" value=0>)</button>
+			<button type="button" class="btn verticalButton logic" id="and_box" value=0>AND</button>
+			<button type="button" class="btn verticalButton logic" id="or_box" value=0>OR</button>
 		</div>
 	 </div>
 
