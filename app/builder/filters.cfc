@@ -64,7 +64,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<cfelseif arguments.filter eq "conditions">
 				<div id="conditions_filter">
 					<h2>Conditions filter</h2>
-					<cfoutput><div id="#arguments.id#" style="width: 50%"></cfoutput>
+					<cfoutput><div id="#arguments.id#" style="width: 100%"></cfoutput>
 						<cfinvoke component="app.builder.report" method="conditionsList"></cfinvoke>
 					</div>
 				</div>
@@ -73,7 +73,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<cfelseif arguments.filter eq "observations">
 				<div id="observations_filter">
 					<h2>Observations filter</h2>
-					<cfoutput><div id="#arguments.id#" style="width: 50%"></cfoutput>
+					<cfoutput><div id="#arguments.id#" style="width: 100%"></cfoutput>
 						<cfinvoke component="app.builder.report" method="observationsList"></cfinvoke>
 					</div>
 				</div>

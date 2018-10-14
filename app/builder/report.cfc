@@ -12,7 +12,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfquery 
 			name="observations_list"
 			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
-			SELECT DISTINCT DESCRIPTION, CODE FROM observations ORDER BY DESCRIPTION
+			SELECT DISTINCT DESCRIPTION, CODE, UNITS FROM observations ORDER BY DESCRIPTION
 		</cfquery>
 		<cfreturn observations_list>
 	</cffunction>
@@ -77,7 +77,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfinvoke 	component="app.builder.report"
 		method="getObservations"
 		returnvariable="allObservations"></cfinvoke>
-		<cfform name="observations_filter_form">
+		<cfform name="observations_filter_form" class="form-inline">
 			<cfselect
 				name="observations_opt"
 				id="observations_opt"
@@ -89,6 +89,15 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				class="form-control">
 					<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
+			<cfselect
+				name="value_options"
+				id="value_options"
+				class="form-control">
+					<option value="greater">></option>
+					<option value="less"><</option>
+					<option value="equal">=</option>
+			</cfselect>
+			<input id="value_num" type="number" class="form-control" />
 		</cfform>
 	</cffunction>
 	

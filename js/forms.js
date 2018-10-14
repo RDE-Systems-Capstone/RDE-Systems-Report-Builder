@@ -4,18 +4,6 @@ RDE Capstone Fall 2018
 Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
 */
 
-//JS object to keep track of enabled filters
-var filter_status = {
-		age: 0,
-		gender: 0,
-		race: 0,
-		ethnicity: 0,
-		marital: 0,
-		conditions: 0,
-		observations: 0,
-		medications: 0
-}
-
 //graph options
 $(document).ready(function() { 	//only run once page is ready
 	//Load output section based on report chosen
@@ -53,7 +41,7 @@ function getFilters() {
 	//also get the report type
 	var report_options = {};
 	report_options["type"] = $("#report_type").val();
-	alert(JSON.stringify(report_options));
+	//alert(JSON.stringify(report_options));
 	var chosen_filters = $("#chosen_filters").children();
 	if (chosen_filters.length !== 0) {
 	}
@@ -72,7 +60,7 @@ function getFilters() {
 					age_array["max"] = this.value;
 				}
 			});
-			alert(JSON.stringify(age_array));
+			//alert(JSON.stringify(age_array));
 			filters_array.push(age_array);
 		}
 		//gender filter
@@ -115,25 +103,30 @@ function getFilters() {
 		}
 		 else if (this.id == "conditions_button") {
 			var conditions_array = {"type":"conditions"}
-			conditions_array["value"] = [];
 			var options = $("#" + this.value).find("[name='condition']").each(function() {
-				conditions_array["value"].push(this.value)
+				conditions_array["id"] = this.value;
 			});
 			filters_array.push(conditions_array);
 		}
 		 else if (this.id == "observations_button") {
 			var observations_array = {"type":"observations"}
-			observations_array["value"] = [];
 			var options = $("#" + this.value).find("[name='observations_opt']").each(function() {
-				observations_array["value"].push(this.value)
+				observations_array["id"] = this.value;
+			});
+			$("#" + this.value).find("*").each(function() {
+				if (this.id == "value_options") {
+					observations_array["options"] = this.value;
+				}
+				if (this.id == "value_num") {
+					observations_array["value"] = this.value;
+				}
 			});
 			filters_array.push(observations_array);
 		}
 		 else if (this.id == "medications_button") {
 			var medications_array = {"type":"medications"}
-			medications_array["value"] = [];
 			var options = $("#" + this.value).find("[name='medication_opt']").each(function() {
-				medications_array["value"].push(this.value)
+				medications_array["id"] = this.value;
 			});
 			filters_array.push(medications_array);
 		}
@@ -158,7 +151,7 @@ function getFilters() {
 			
 		}
 	});
-	alert(JSON.stringify(filters_array));
+	//alert(JSON.stringify(filters_array));
 	
 	$("#query_string").val(JSON.stringify(filters_array));
 	$("#report_type_string").val(JSON.stringify(report_options));

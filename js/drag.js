@@ -31,35 +31,27 @@ $(document).ready(function() { 	//only run once page is ready
 				//Check if the added element is a filter or boolean logic
 				if ($(ui.draggable).attr('id') === "age_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=age&id=" + filter_id));
-					filter_status.age = 1;
 				} 
 				else if ($(ui.draggable).attr('id') === "gender_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=gender&id=" + filter_id));
-					filter_status.gender = 1;
 				}
 				else if ($(ui.draggable).attr('id') === "race_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=race&id=" + filter_id));
-					filter_status.race = 1;
 				}
 				else if ($(ui.draggable).attr('id') === "ethnicity_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=ethnicity&id=" + filter_id));
-					filter_status.ethnicity = 1;
 				}
 				else if ($(ui.draggable).attr('id') === "marital_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=marital&id=" + filter_id));
-					filter_status.marital = 1;
 				}
 				else if ($(ui.draggable).attr('id') === "conditions_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=conditions&id=" + filter_id));
-					filter_status.conditions = 1;
 				}
 				else if ($(ui.draggable).attr('id') === "observations_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=observations&id=" + filter_id));
-					filter_status.observations = 1;
 				}
 				else if ($(ui.draggable).attr('id') === "medications_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=medications&id=" + filter_id));
-					filter_status.medications = 1;
 				}
 				$(ui.draggable).attr('value', filter_id);
 				var clone = $(ui.draggable).clone().appendTo("#chosen_filters");
