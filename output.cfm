@@ -36,7 +36,12 @@
 	<div class="col-lg-10">
 		<h1>Output</h1>
 		<div>
+			<h2>Debug info:</h2>
+			<cfoutput>#FORM.report_type_string#</cfoutput>
 			<cfoutput>#FORM.query_string#</cfoutput>
+			<h2>CFDump of received report options:</h2>
+			<cfdump var="#deserializeJSON(FORM.report_type_string)#">
+			<h2>CFDump of received array:</h2>
 			<cfdump var="#deserializeJSON(FORM.query_string)#">
 		</div>
 	</div>

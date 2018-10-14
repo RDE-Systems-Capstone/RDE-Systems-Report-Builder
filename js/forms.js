@@ -18,12 +18,42 @@ var filter_status = {
 
 //graph options
 $(document).ready(function() { 	//only run once page is ready
-	//don't need code here for now
+	//Load output section based on report chosen
+	$("#report_type").change(function() {
+		if ($("#report_type").val() === "trend") {
+			$("#trend_output_div").removeAttr('hidden');
+			$("#pie_output_div").attr('hidden', true);
+			$("#bar_output_div").attr('hidden', true);
+			$("#data_output_div").attr('hidden', true);
+		}
+		else if ($("#report_type").val() === "pie") {
+			$("#trend_output_div").attr('hidden', true);
+			$("#pie_output_div").removeAttr('hidden');
+			$("#bar_output_div").attr('hidden', true);
+			$("#data_output_div").attr('hidden', true);
+		}
+		else if ($("#report_type").val() === "bar") {
+			$("#trend_output_div").attr('hidden', true);
+			$("#bar_output_div").removeAttr('hidden');
+			$("#pie_output_div").attr('hidden', true);
+			$("#data_output_div").attr('hidden', true);
+		}
+		else if ($("#report_type").val() === "data") {
+			$("#trend_output_div").attr('hidden', true);
+			$("#data_output_div").removeAttr('hidden');
+			$("#pie_output_div").attr('hidden', true);
+			$("#bar_output_div").attr('hidden', true);
+		}
+});
 });
 
 function getFilters() {
 	//store filter params in array
-	var filters_array = []
+	var filters_array = [];
+	//also get the report type
+	var report_options = {};
+	report_options["type"] = $("#report_type").val();
+	alert(JSON.stringify(report_options));
 	var chosen_filters = $("#chosen_filters").children();
 	if (chosen_filters.length !== 0) {
 	}
@@ -83,6 +113,30 @@ function getFilters() {
 			});
 			filters_array.push(marital_array);
 		}
+		 else if (this.id == "conditions_button") {
+			var conditions_array = {"type":"conditions"}
+			conditions_array["value"] = [];
+			var options = $("#" + this.value).find("[name='condition']").each(function() {
+				conditions_array["value"].push(this.value)
+			});
+			filters_array.push(conditions_array);
+		}
+		 else if (this.id == "observations_button") {
+			var observations_array = {"type":"observations"}
+			observations_array["value"] = [];
+			var options = $("#" + this.value).find("[name='observations_opt']").each(function() {
+				observations_array["value"].push(this.value)
+			});
+			filters_array.push(observations_array);
+		}
+		 else if (this.id == "medications_button") {
+			var medications_array = {"type":"medications"}
+			medications_array["value"] = [];
+			var options = $("#" + this.value).find("[name='medication_opt']").each(function() {
+				medications_array["value"].push(this.value)
+			});
+			filters_array.push(medications_array);
+		}
 		else if (this.id == "l_paren") {
 			var lparen_arr = {"type":"l_paren"}
 			filters_array.push(lparen_arr);
@@ -107,6 +161,7 @@ function getFilters() {
 	alert(JSON.stringify(filters_array));
 	
 	$("#query_string").val(JSON.stringify(filters_array));
+	$("#report_type_string").val(JSON.stringify(report_options));
 	//alert(query_string);
 	$("#form").submit();
 
