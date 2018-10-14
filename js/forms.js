@@ -16,124 +16,109 @@ var filter_status = {
 		medications: 0
 }
 
-$(document).ready(function() { 	//only run once page is ready
-	//Load output section based on report chosen
-	$("#report_type").change(function() {
-		if ($("#report_type").val() === "trend") {
-			$("#trend_output_div").removeAttr('hidden');
-			$("#pie_output_div").attr('hidden', true);
-			$("#bar_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
+function getFilters() {
+	//construct query
+	var query_string = "";
+	$("#chosen_filters").children().each(function() {
+		//for age filter
+		if (this.id == "age_button") {
+			query_string += "AGE BETWEEN "
+			$("#" + this.value).children().each(function() {
+				if(this.id == "age_min") {
+					query_string += this.value + " ";
+				}
+				if(this.id == "age_max") {
+					query_string += "AND " + this.value;
+				}
+			})
 		}
-		else if ($("#report_type").val() === "pie") {
-			$("#trend_output_div").attr('hidden', true);
-			$("#pie_output_div").removeAttr('hidden');
-			$("#bar_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
+		//gender filter
+		if (this.id == "gender_button") {
+			query_string += "GENDER IS "
+			//use map function to create comma seperated list
+			var options = $("#" + this.value).find("[name='gender']:checked").map(function() {
+				if (this.value == "M") {
+					return this.value;
+				}
+				if (this.value == "F") {
+					return this.value;
+				}
+			}).get().join(',');
+			query_string += options;
 		}
-		else if ($("#report_type").val() === "bar") {
-			$("#trend_output_div").attr('hidden', true);
-			$("#bar_output_div").removeAttr('hidden');
-			$("#pie_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
+		//race filter
+		if (this.id == "race_button") {
+			query_string += "RACE IS "
+			//use map function to create comma seperated list
+			var options = $("#" + this.value).find("[name='race']:checked").map(function() {
+				return this.value;
+			}).get().join(',');
+			query_string += options;
 		}
-		else if ($("#report_type").val() === "data") {
-			$("#trend_output_div").attr('hidden', true);
-			$("#data_output_div").removeAttr('hidden');
-			$("#pie_output_div").attr('hidden', true);
-			$("#bar_output_div").attr('hidden', true);
+		//ethnicity filter
+		if (this.id == "ethnicity_button") {
+			query_string += "ETHNICITY IS "
+			//use map function to create comma seperated list
+			var options = $("#" + this.value).find("[name='ethnicity']:checked").map(function() {
+				return this.value;
+			}).get().join(',');
+			query_string += options;
 		}
-	});
-	//for now this function will print out the enabled filters along with values passed
-	//Later on, this will probably POST to a page that will execute the SQL query to build reports
-	$("#submit").click(function() {
-		var filter_count = 0;
-		var query_debug = "";
-		
-		query_debug += "Report Type: " + $("#report_type").val() + "\n";
-		
-		query_debug += "Filters applied: \n"
-		if (filter_status.age === 1) {
-			filter_count++;
-			query_debug += "AGE between " + $("#age_min").val() + " and " + $("#age_max").val() + "\n";
+		//marital filter
+		if (this.id == "marital_button") {
+			query_string += "MARITAL IS "
+			//use map function to create comma seperated list
+			var options = $("#" + this.value).find("[name='marital']:checked").map(function() {
+				return this.value;
+			}).get().join(',');
+			query_string += options;
 		}
-		if (filter_status.gender === 1) {
-			filter_count++;
-			if (filter_count > 1) {
-				query_debug += "AND ";
-			}
-			query_debug += "GENDER is ";
-			$("#gender_options input:checked").each(function(){
-				query_debug += $(this).attr('value') + " ";
-			});
-			query_debug += "\n"
+		//conditions filter
+		if (this.id == "conditions_button") {
+			query_string += "CONDITION IS "
+			//use map function to create comma seperated list
+			var options = $("#" + this.value).find("#condition").map(function() {
+				return this.value;
+			}).get().join(',');
+			query_string += options;
 		}
-		if (filter_status.race === 1) {
-			filter_count++;
-			if (filter_count > 1) {
-				query_debug += "AND ";
-			}
-			query_debug += "RACE is ";
-			$("#race_options input:checked").each(function(){
-				query_debug += $(this).attr('value') + " ";
-			});
-			query_debug += "\n"
+		//observations filter
+		if (this.id == "observations_button") {
+			query_string += "OBSERVATION IS "
+			//use map function to create comma seperated list
+			var options = $("#" + this.value).find("#observations_opt").map(function() {
+				return this.value;
+			}).get().join(',');
+			query_string += options;
 		}
-		if (filter_status.ethnicity === 1) {
-			filter_count++;
-			if (filter_count > 1) {
-				query_debug += "AND ";
-			}
-			query_debug += "ETHNICITY is ";
-			$("#ethnicity_options input:checked").each(function(){
-				query_debug += $(this).attr('value') + " ";
-			});
-			query_debug += "\n"
-		}
-		if (filter_status.marital === 1) {
-			filter_count++;
-			if (filter_count > 1) {
-				query_debug += "AND ";
-			}
-			query_debug += "MARITAL is ";
-			$("#marital_options input:checked").each(function(){
-				query_debug += $(this).attr('value') + " ";
-			});
-			query_debug += "\n"
-		}
-		if (filter_status.conditions === 1) {
-			filter_count++;
-			if (filter_count > 1) {
-				query_debug += "AND ";
-			}
-			query_debug += "CONDITION is " + $("#condition").val();
-			query_debug += "\n"
-		}
-		if (filter_status.observations === 1) {
-			filter_count++;
-			if (filter_count > 1) {
-				query_debug += "AND ";
-			}
-			query_debug += "OBSERVATION is " + $("#observations_opt").val();
-			query_debug += "\n"
-		}
-		if (filter_status.medications === 1) {
-			filter_count++;
-			if (filter_count > 1) {
-				query_debug += "AND ";
-			}
-			query_debug += "MEDICATION is " + $("#medication_opt").val();
-			query_debug += "\n"
-		}
-		
-		if ($("#report_type").val() === "trend") {
-			query_debug += "Values graphed will be " + $("#trend_numbers").val() + "\n";
-			query_debug += "DATE range is from " + $("#trend_start_date").val() + " to " + $("#trend_end_date").val();
 			
+		//medications filter
+		if (this.id == "medications_button") {
+			query_string += "MEDICATION IS "
+			//use map function to create comma seperated list
+			var options = $("#" + this.value).find("#medication_opt").map(function() {
+				return this.value;
+			}).get().join(',');
+			query_string += options;
+		}
+		//and boolean operator
+		if (this.id == "and_box") {
+			query_string += " AND ";
+		}
+		//or boolean operator
+		if (this.id == "or_box") {
+			query_string += " OR ";
+		}
+		//left paren
+		if (this.id == "l_paren") {
+			query_string += "(";
 		}
 		
-		
-		alert(query_debug);
+		//right paren
+		if (this.id == "r_paren") {
+			query_string += ")";
+		}
 	});
-});
+	alert(query_string);
+};
 

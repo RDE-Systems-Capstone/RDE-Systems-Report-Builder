@@ -92,7 +92,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</div>
 		<br />
 		<div>
-		<button type="button" id= "submit" class="btn btn-primary">Submit</button>
+		<button type="button" id= "submit" class="btn btn-primary" onclick="getFilters()">Submit</button>
 		</div>
 	 </div>
 

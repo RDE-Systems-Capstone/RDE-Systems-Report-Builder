@@ -75,7 +75,19 @@ $(document).ready(function() { 	//only run once page is ready
 					}
 				});
 			} else {
-				//allow rearranging filters
+				var clone = $(ui.draggable).clone().appendTo("#chosen_filters");
+
+				//make the new filter button added draggable as well
+				clone.draggable({
+					cancel: false,
+					connectToSortable: '.container',
+					containment: 'document',
+					helper: 'clone',
+					start: function (event, ui) {
+						sourceElement = $(this).closest('div').attr('id');
+					}
+				});
+				$(ui.draggable).remove();
 			}
         }
 	
