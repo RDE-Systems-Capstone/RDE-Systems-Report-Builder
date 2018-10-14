@@ -54,18 +54,15 @@
 		<cfif userLogin.recordCount eq 1>
 		
 			<!---Log user in--->
-			<cflogin allowconcurrent="false" applicationtoken="test" idletimeout="1800">
+			<cflogin allowconcurrent="false" applicationtoken="test" idletimeout="300">
 				<cfloginuser name="#userLogin.firstName# #userLogin.lastname#" password="#userLogin.password#" roles="#userLogin.role#" >
-				<cfapplication name="session" datasource="MEDICALDATA" loginstorage="session" sessionmanagement="true" applicationtimeout="#CreateTimeSpan(0,0,30,0)#">
+				
 			</cflogin>
-			
-			<!---create session?--->			
-			
+
 			<!---Save user data in session scope--->
 			<cfset session.stLoggedInUser = {'FirstName' = userLogin.FirstName, 'LastName' = userLogin.LastName} />
 			<!---Change isUserLoggedIn to true--->
-			<cfset var isUserLoggedIn = true />
-		
+			<cfset var isUserLoggedIn = true />		
 		
 		</cfif>
 		<!---Return isUserLoggedIn var--->
@@ -74,7 +71,13 @@
 	<!---doLogout mthd--->
 	<cffunction name="doLogout" access="public" output="false" returntype="void">
 		<!---delete user data from session scope--->
-		<cfset structdelete(session,'stLoggedInUser') />
+		
+		
+		<cfloop item="name" collection="#cookie#">
+			<cfcookie name="#name#"  expires="now">
+		</cfloop>
+		
+		
 		
 		<!---logout user--->
 		<cflogout />

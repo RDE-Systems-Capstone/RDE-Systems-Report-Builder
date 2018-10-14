@@ -2,6 +2,7 @@
 <!-- gives session undefined error when redirecting back to this page-->
 <cfif structKeyExists(URL, 'logout')>
 	<cfset createObject("component", 'CF Projects.RDE Systems.app.Authentification').doLogout()/>
+	<cflocation url="/CF Projects/RDE Systems/index.cfm" addtoken="false">
 </cfif>
 
 <!--- Processing Entered Data --->
