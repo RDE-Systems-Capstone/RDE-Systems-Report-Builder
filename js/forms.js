@@ -16,6 +16,37 @@ var filter_status = {
 		medications: 0
 }
 
+//graph options
+$(document).ready(function() { 	//only run once page is ready
+	//Load output section based on report chosen
+	$("#report_type").change(function() {
+		if ($("#report_type").val() === "trend") {
+			$("#trend_output_div").removeAttr('hidden');
+			$("#pie_output_div").attr('hidden', true);
+			$("#bar_output_div").attr('hidden', true);
+			$("#data_output_div").attr('hidden', true);
+		}
+		else if ($("#report_type").val() === "pie") {
+			$("#trend_output_div").attr('hidden', true);
+			$("#pie_output_div").removeAttr('hidden');
+			$("#bar_output_div").attr('hidden', true);
+			$("#data_output_div").attr('hidden', true);
+		}
+		else if ($("#report_type").val() === "bar") {
+			$("#trend_output_div").attr('hidden', true);
+			$("#bar_output_div").removeAttr('hidden');
+			$("#pie_output_div").attr('hidden', true);
+			$("#data_output_div").attr('hidden', true);
+		}
+		else if ($("#report_type").val() === "data") {
+			$("#trend_output_div").attr('hidden', true);
+			$("#data_output_div").removeAttr('hidden');
+			$("#pie_output_div").attr('hidden', true);
+			$("#bar_output_div").attr('hidden', true);
+		}
+	});
+});
+
 function getFilters() {
 	//construct query
 	var query_string = "";
