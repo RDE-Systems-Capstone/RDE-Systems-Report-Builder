@@ -3,6 +3,14 @@
 	#preserveSingleQuotes(FORM.query_string)#
 </cfquery>--->
 
+<cfparam name="session.loggedin" default="false" />
+<cfif NOT session.loggedin>
+  <cflocation url="index.cfm" addtoken="false">
+</cfif>
+<cfif NOT isDefined("FORM.report_type_string")>
+	<cflocation url="builder.cfm" addtoken="false">
+</cfif>
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,6 +38,10 @@
 			<li><a href="builder.cfm">Builder</a></li>
 			<li class="active"><a href="output.cfm">Output</a></li>
 			<li><a href="#">Saved Reports</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a>Welcome <cfoutput>#session.FirstName# #session.LastName#</cfoutput></a></li>
+			<li><a href="app/logout.cfm">Logout</a></li>
 		</ul>
 	  </div>
 	</nav>

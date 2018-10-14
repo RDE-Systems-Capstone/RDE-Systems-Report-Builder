@@ -6,6 +6,11 @@ RDE Systems Capstone Fall 2018
 Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
 -->
 
+<cfparam name="session.loggedin" default="false" />
+<cfif NOT session.loggedin>
+  <cflocation url="index.cfm" addtoken="false">
+</cfif>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -33,6 +38,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<li class="active"><a href="builder.cfm">Builder</a></li>
 			<li><a href="output.cfm">Output</a></li>
 			<li><a href="#">Saved Reports</a></li>
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li><a>Welcome <cfoutput>#session.FirstName# #session.LastName#</cfoutput></a></li>
+			<li><a href="app/logout.cfm">Logout</a></li>
 		</ul>
 	  </div>
 	</nav>
