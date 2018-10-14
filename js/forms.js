@@ -32,15 +32,46 @@ $(document).ready(function() { 	//only run once page is ready
 			$("#pie_output_div").attr('hidden', true);
 			$("#bar_output_div").attr('hidden', true);
 		}
-});
+	});
 });
 
 function getFilters() {
 	//store filter params in array
 	var filters_array = [];
-	//also get the report type
+	
+	//first let's get the report type and associated parameters
 	var report_options = {};
 	report_options["type"] = $("#report_type").val();
+	
+	//add report type options to array
+	//for trend
+	if ( $("#report_type").val() === "trend" ) {
+		report_options["observation_id"] = $("#trend_observation").val();
+		report_options["options"] = $("#trend_numbers").val();
+		report_options["start_date"] = $("#trend_start_date").val();
+		report_options["end_date"] = $("#trend_end_date").val();
+	}
+	//for bar graph
+	if ( $("#report_type").val() === "bar" ) {
+		bar_array = [];
+		var options = $("#bar_output").find("[name='columns']:checked").each(function() {
+			bar_array.push(this.value);
+		});
+		report_options["group_by"] = bar_array;
+	}
+	//for pie/donut graph
+	if ( $("#report_type").val() === "pie" ) {
+		report_options["group_by"] = $("#pie_group").val();
+	}
+	//for data table
+	if ( $("#report_type").val() === "data" ) {
+		data_array = [];
+		var options = $("#data_output").find("[name='columns']:checked").each(function() {
+			data_array.push(this.value);
+		});
+		report_options["columns"] = data_array;
+	}
+	
 	//alert(JSON.stringify(report_options));
 	var chosen_filters = $("#chosen_filters").children();
 	if (chosen_filters.length !== 0) {

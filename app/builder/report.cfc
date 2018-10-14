@@ -206,5 +206,19 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			</cfloop>
 		</cfform>
 	</cffunction>
+	
+	<!---Output bar chart options --->
+	<cffunction name="barOptions" returntype="void">
+		<cfinvoke 	component="app.builder.report"
+		method="getTableColumns"
+		returnvariable="columns_list"></cfinvoke>
+		<cfform name="bar_output">
+			<cfloop query="#columns_list#">
+				<cfoutput>
+					<label><cfinput type="checkbox" name="columns" value="#COLUMN_NAME#">#COLUMN_NAME#</label>
+				</cfoutput>
+			</cfloop>
+		</cfform>
+	</cffunction>
 
 </cfcomponent>

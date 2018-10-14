@@ -82,8 +82,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<cfinvoke component="app.builder.report" method="pieOptions"></cfinvoke>
 			</div>
 			<div hidden id="bar_output_div">
-				<p>Work in progress</p>
-				<!--- <cfinvoke component="app.builder.report" method="trendOptions"></cfinvoke> --->
+				<p>How should we group the results?</p>
+				<cfinvoke component="app.builder.report" method="barOptions"></cfinvoke>
 			</div>
 			<div hidden id="data_output_div">
 				<p>Select columns to include</p>
