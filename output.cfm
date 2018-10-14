@@ -1,3 +1,8 @@
+<!---<cfquery 
+	name="builder_query" datasource="MEDICALDATA">
+	#preserveSingleQuotes(FORM.query_string)#
+</cfquery>--->
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -30,6 +35,10 @@
 	<!-- left column code-->
 	<div class="col-lg-10">
 		<h1>Output</h1>
+		<div>
+			<cfoutput>#FORM.query_string#</cfoutput>
+			<cfdump var="#deserializeJSON(FORM.query_string)#">
+		</div>
 	</div>
 
 	<!-- Right column code-->

@@ -95,6 +95,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<br />
 		<div>
 		<button type="button" id= "submit" class="btn btn-primary" onclick="getFilters()">Submit</button>
+		<form style="display: hidden" action="output.cfm" method="POST" id="form">
+			<input type="hidden" id="query_string" name="query_string" value=""/>
+		</form>
 		</div>
 	 </div>
 

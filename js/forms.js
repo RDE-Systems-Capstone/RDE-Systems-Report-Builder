@@ -18,138 +18,97 @@ var filter_status = {
 
 //graph options
 $(document).ready(function() { 	//only run once page is ready
-	//Load output section based on report chosen
-	$("#report_type").change(function() {
-		if ($("#report_type").val() === "trend") {
-			$("#trend_output_div").removeAttr('hidden');
-			$("#pie_output_div").attr('hidden', true);
-			$("#bar_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
-		}
-		else if ($("#report_type").val() === "pie") {
-			$("#trend_output_div").attr('hidden', true);
-			$("#pie_output_div").removeAttr('hidden');
-			$("#bar_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
-		}
-		else if ($("#report_type").val() === "bar") {
-			$("#trend_output_div").attr('hidden', true);
-			$("#bar_output_div").removeAttr('hidden');
-			$("#pie_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
-		}
-		else if ($("#report_type").val() === "data") {
-			$("#trend_output_div").attr('hidden', true);
-			$("#data_output_div").removeAttr('hidden');
-			$("#pie_output_div").attr('hidden', true);
-			$("#bar_output_div").attr('hidden', true);
-		}
-	});
+	//don't need code here for now
 });
 
 function getFilters() {
-	//construct query
-	var query_string = "";
-	$("#chosen_filters").children().each(function() {
+	//store filter params in array
+	var filters_array = []
+	var chosen_filters = $("#chosen_filters").children();
+	if (chosen_filters.length !== 0) {
+	}
+	chosen_filters.each(function() {
 		//for age filter
 		if (this.id == "age_button") {
-			query_string += "AGE BETWEEN "
+			var age_array = {}
+			age_array["type"] = "age";
 			$("#" + this.value).children().each(function() {
+				//define filter type and params
+				age_array['format'] = "between";
 				if(this.id == "age_min") {
-					query_string += this.value + " ";
+					age_array["min"] = this.value;
 				}
 				if(this.id == "age_max") {
-					query_string += "AND " + this.value;
+					age_array["max"] = this.value;
 				}
-			})
+			});
+			alert(JSON.stringify(age_array));
+			filters_array.push(age_array);
 		}
 		//gender filter
-		if (this.id == "gender_button") {
-			query_string += "GENDER IS "
-			//use map function to create comma seperated list
-			var options = $("#" + this.value).find("[name='gender']:checked").map(function() {
+		else if (this.id == "gender_button") {
+			var gender_array = {"type":"gender"}
+			gender_array["values"] = [];
+			var options = $("#" + this.value).find("[name='gender']:checked").each(function() {
 				if (this.value == "M") {
-					return this.value;
+					gender_array["values"].push(this.value)
 				}
 				if (this.value == "F") {
-					return this.value;
+					gender_array["values"].push(this.value)
 				}
-			}).get().join(',');
-			query_string += options;
+			});
+			filters_array.push(gender_array);
 		}
-		//race filter
-		if (this.id == "race_button") {
-			query_string += "RACE IS "
-			//use map function to create comma seperated list
-			var options = $("#" + this.value).find("[name='race']:checked").map(function() {
-				return this.value;
-			}).get().join(',');
-			query_string += options;
+		 else if (this.id == "race_button") {
+			var race_array = {"type":"race"}
+			race_array["values"] = [];
+			var options = $("#" + this.value).find("[name='race']:checked").each(function() {
+				race_array["values"].push(this.value)
+			});
+			filters_array.push(race_array);
 		}
-		//ethnicity filter
-		if (this.id == "ethnicity_button") {
-			query_string += "ETHNICITY IS "
-			//use map function to create comma seperated list
-			var options = $("#" + this.value).find("[name='ethnicity']:checked").map(function() {
-				return this.value;
-			}).get().join(',');
-			query_string += options;
+		 else if (this.id == "ethnicity_button") {
+			var eth_array = {"type":"ethnicity"}
+			eth_array["values"] = [];
+			var options = $("#" + this.value).find("[name='ethnicity']:checked").each(function() {
+				eth_array["values"].push(this.value)
+			});
+			filters_array.push(eth_array);
 		}
-		//marital filter
-		if (this.id == "marital_button") {
-			query_string += "MARITAL IS "
-			//use map function to create comma seperated list
-			var options = $("#" + this.value).find("[name='marital']:checked").map(function() {
-				return this.value;
-			}).get().join(',');
-			query_string += options;
+		 else if (this.id == "marital_button") {
+			var marital_array = {"type":"marital"}
+			marital_array["values"] = [];
+			var options = $("#" + this.value).find("[name='marital']:checked").each(function() {
+				marital_array["values"].push(this.value)
+			});
+			filters_array.push(marital_array);
 		}
-		//conditions filter
-		if (this.id == "conditions_button") {
-			query_string += "CONDITION IS "
-			//use map function to create comma seperated list
-			var options = $("#" + this.value).find("#condition").map(function() {
-				return this.value;
-			}).get().join(',');
-			query_string += options;
-		}
-		//observations filter
-		if (this.id == "observations_button") {
-			query_string += "OBSERVATION IS "
-			//use map function to create comma seperated list
-			var options = $("#" + this.value).find("#observations_opt").map(function() {
-				return this.value;
-			}).get().join(',');
-			query_string += options;
-		}
+		else if (this.id == "l_paren") {
+			var lparen_arr = {"type":"l_paren"}
+			filters_array.push(lparen_arr);
 			
-		//medications filter
-		if (this.id == "medications_button") {
-			query_string += "MEDICATION IS "
-			//use map function to create comma seperated list
-			var options = $("#" + this.value).find("#medication_opt").map(function() {
-				return this.value;
-			}).get().join(',');
-			query_string += options;
 		}
-		//and boolean operator
-		if (this.id == "and_box") {
-			query_string += " AND ";
+		else if (this.id == "r_paren") {
+			var rparen_arr = {"type":"r_paren"}
+			filters_array.push(rparen_arr);
+			
 		}
-		//or boolean operator
-		if (this.id == "or_box") {
-			query_string += " OR ";
+		else if (this.id == "and_box") {
+			var and_arr = {"type":"and"}
+			filters_array.push(and_arr);
+			
 		}
-		//left paren
-		if (this.id == "l_paren") {
-			query_string += "(";
-		}
-		
-		//right paren
-		if (this.id == "r_paren") {
-			query_string += ")";
+		else if (this.id == "or_box") {
+			var or_arr = {"type":"or"}
+			filters_array.push(or_arr);
+			
 		}
 	});
-	alert(query_string);
+	alert(JSON.stringify(filters_array));
+	
+	$("#query_string").val(JSON.stringify(filters_array));
+	//alert(query_string);
+	$("#form").submit();
+
 };
 
