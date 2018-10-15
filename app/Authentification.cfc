@@ -60,7 +60,9 @@
 			</cflogin>
 
 			<!---Save user data in session scope--->
-			<cfset session.stLoggedInUser = {'FirstName' = userLogin.FirstName, 'LastName' = userLogin.LastName} />
+			<cfset session.FirstName = userLogin.FirstName>
+			<cfset session.LastName = userLogin.LastName>
+			<cfset session.loggedin = true />
 			<!---Change isUserLoggedIn to true--->
 			<cfset var isUserLoggedIn = true />		
 			
