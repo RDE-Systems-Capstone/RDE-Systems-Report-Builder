@@ -7,6 +7,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 --->
 
 <cfcomponent displayname="report_builder">
+	<cfparam name="session.loggedin" default="false" />
+	<cfif NOT session.loggedin>
+	  <cflocation url="../../index.cfm" addtoken="false">
+	</cfif>
 	<!--- Function to get list of observations --->
 	<cffunction name="getObservations" returntype="query">
 		<cfquery 
