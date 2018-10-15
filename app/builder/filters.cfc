@@ -86,6 +86,42 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<cfinvoke component="app.builder.report" method="medicationsList"></cfinvoke>
 					</div>
 				</div>
+				
+			<!--- Immunizations filter --->
+			<cfelseif arguments.filter eq "immunizations">
+				<div id="immunizations_filter">
+					<h2>Immunizations filter</h2>
+					<cfoutput><div id="#arguments.id#" style="width: 50%"></cfoutput>
+						<cfinvoke component="app.builder.report" method="immunizationsList"></cfinvoke>
+					</div>
+				</div>
+				
+			<!--- allergies filter --->
+			<cfelseif arguments.filter eq "allergies">
+				<div id="allergies_filter">
+					<h2>Allergies filter</h2>
+					<cfoutput><div id="#arguments.id#" style="width: 50%"></cfoutput>
+						<cfinvoke component="app.builder.report" method="allergiesList"></cfinvoke>
+					</div>
+				</div>
+				
+			<!--- encounters filter --->
+			<cfelseif arguments.filter eq "encounters">
+				<div id="encounters_filter">
+					<h2>Encounters filter</h2>
+					<cfoutput><div id="#arguments.id#" style="width: 50%"></cfoutput>
+						<cfinvoke component="app.builder.report" method="encountersList"></cfinvoke>
+					</div>
+				</div>
+				
+			<!--- procedures filter --->
+			<cfelseif arguments.filter eq "procedures">
+				<div id="procedures_filter">
+					<h2>Procedures filter</h2>
+					<cfoutput><div id="#arguments.id#" style="width: 50%"></cfoutput>
+						<cfinvoke component="app.builder.report" method="proceduresList"></cfinvoke>
+					</div>
+				</div>
 			</cfif>
 	</cffunction>
 </cfcomponent>

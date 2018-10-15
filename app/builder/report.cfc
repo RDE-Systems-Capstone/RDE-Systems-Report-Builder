@@ -51,6 +51,42 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</cfquery>
 		<cfreturn medication_list>
 	</cffunction>
+	
+	<!--- Function to get list of immunizations --->
+	<cffunction name="getImmunizations" returntype="query">
+		<cfquery name="immunization_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
+			SELECT DISTINCT CODE, DESCRIPTION FROM immunizations ORDER BY DESCRIPTION
+		</cfquery>
+		<cfreturn immunization_list>
+	</cffunction>
+	
+	<!--- Function to get list of allergies --->
+	<cffunction name="getAllergies" returntype="query">
+		<cfquery name="allergy_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
+			SELECT DISTINCT CODE, DESCRIPTION FROM allergies ORDER BY DESCRIPTION
+		</cfquery>
+		<cfreturn allergy_list>
+	</cffunction>
+	
+	<!--- Function to get list of encounters --->
+	<cffunction name="getEncounters" returntype="query">
+		<cfquery name="encounter_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
+			SELECT DISTINCT CODE, DESCRIPTION FROM encounters ORDER BY DESCRIPTION
+		</cfquery>
+		<cfreturn encounter_list>
+	</cffunction>
+	
+	<!--- Function to get list of procedures --->
+	<cffunction name="getProcedures" returntype="query">
+		<cfquery name="procedure_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
+			SELECT DISTINCT CODE, DESCRIPTION FROM procedures ORDER BY DESCRIPTION
+		</cfquery>
+		<cfreturn procedure_list>
+	</cffunction>
 
 	<!---Output conditions dropdown menu --->
 	<cffunction name="conditionsList" returntype="void">
@@ -134,6 +170,86 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<label><cfinput type="checkbox" name="ethnicity" value="#ETHNICITY#">#ethnicity_desc#</label>
 				</cfoutput>
 			</cfloop>
+		</cfform>
+	</cffunction>
+	
+	<!---Output immunizations dropdown menu --->
+	<cffunction name="immunizationsList" returntype="void">
+		<cfinvoke 	component="app.builder.report"
+		method="getImmunizations"
+		returnvariable="allImmunizations"></cfinvoke>
+		<cfform name="immunization_filter_form">
+			<cfselect
+				name="immunization"
+				id="immunization"
+				query="allImmunizations"
+				queryPosition="below"
+				value="CODE"
+				display="DESCRIPTION"
+				message="Select an immunization"
+				class="form-control">
+					<option selected="true" disabled="disabled"> -- select an option -- </option>
+			</cfselect>
+		</cfform>
+	</cffunction>
+	
+	<!---Output allergies dropdown menu --->
+	<cffunction name="allergiesList" returntype="void">
+		<cfinvoke 	component="app.builder.report"
+		method="getAllergies"
+		returnvariable="allallergies"></cfinvoke>
+		<cfform name="allergy_filter_form">
+			<cfselect
+				name="allergy"
+				id="allergy"
+				query="allallergies"
+				queryPosition="below"
+				value="CODE"
+				display="DESCRIPTION"
+				message="Select an allergy"
+				class="form-control">
+					<option selected="true" disabled="disabled"> -- select an option -- </option>
+			</cfselect>
+		</cfform>
+	</cffunction>
+	
+	<!---Output encounters dropdown menu --->
+	<cffunction name="encountersList" returntype="void">
+		<cfinvoke 	component="app.builder.report"
+		method="getEncounters"
+		returnvariable="allEncounters"></cfinvoke>
+		<cfform name="encounter_filter_form">
+			<cfselect
+				name="encounter"
+				id="encounter"
+				query="allEncounters"
+				queryPosition="below"
+				value="CODE"
+				display="DESCRIPTION"
+				message="Select an encounter"
+				class="form-control">
+					<option selected="true" disabled="disabled"> -- select an option -- </option>
+			</cfselect>
+		</cfform>
+	</cffunction>
+	
+	<!---Output procedures dropdown menu --->
+	<cffunction name="proceduresList" returntype="void">
+		<cfinvoke 	component="app.builder.report"
+		method="getProcedures"
+		returnvariable="allProcedures"></cfinvoke>
+		<cfform name="procedure_filter_form">
+			<cfselect
+				name="procedure"
+				id="procedure"
+				query="allProcedures"
+				queryPosition="below"
+				value="CODE"
+				display="DESCRIPTION"
+				message="Select a procedure"
+				class="form-control">
+					<option selected="true" disabled="disabled"> -- select an option -- </option>
+			</cfselect>
 		</cfform>
 	</cffunction>
 

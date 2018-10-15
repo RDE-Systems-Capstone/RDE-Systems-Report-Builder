@@ -53,6 +53,18 @@ $(document).ready(function() { 	//only run once page is ready
 				else if ($(ui.draggable).attr('id') === "medications_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=medications&id=" + filter_id));
 				}
+				else if ($(ui.draggable).attr('id') === "immunizations_button") {
+					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=immunizations&id=" + filter_id));
+				}
+				else if ($(ui.draggable).attr('id') === "allergies_button") {
+					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=allergies&id=" + filter_id));
+				}
+				else if ($(ui.draggable).attr('id') === "encounters_button") {
+					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=encounters&id=" + filter_id));
+				}
+				else if ($(ui.draggable).attr('id') === "procedures_button") {
+					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=procedures&id=" + filter_id));
+				}
 				$(ui.draggable).attr('value', filter_id);
 				var clone = $(ui.draggable).clone().appendTo("#chosen_filters");
 

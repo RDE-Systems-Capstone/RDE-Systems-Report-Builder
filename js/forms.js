@@ -161,6 +161,34 @@ function getFilters() {
 			});
 			filters_array.push(medications_array);
 		}
+		 else if (this.id == "immunizations_button") {
+			var immunization_array = {"type":"immunizations"}
+			var options = $("#" + this.value).find("[name='immunization']").each(function() {
+				immunization_array["id"] = this.value;
+			});
+			filters_array.push(immunization_array);
+		}
+		 else if (this.id == "allergies_button") {
+			var allergy_array = {"type":"allergies"}
+			var options = $("#" + this.value).find("[name='allergy']").each(function() {
+				allergy_array["id"] = this.value;
+			});
+			filters_array.push(allergy_array);
+		}
+		 else if (this.id == "encounters_button") {
+			var encounters_array = {"type":"encounters"}
+			var options = $("#" + this.value).find("[name='encounter']").each(function() {
+				encounters_array["id"] = this.value;
+			});
+			filters_array.push(encounters_array);
+		}
+		 else if (this.id == "procedures_button") {
+			var procedures_array = {"type":"procedures"}
+			var options = $("#" + this.value).find("[name='procedure']").each(function() {
+				procedures_array["id"] = this.value;
+			});
+			filters_array.push(procedures_array);
+		}
 		else if (this.id == "l_paren") {
 			var lparen_arr = {"type":"l_paren"}
 			filters_array.push(lparen_arr);

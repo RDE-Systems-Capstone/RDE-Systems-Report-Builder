@@ -123,6 +123,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<button type="button" class="btn verticalButton filter" id="conditions_button" value=0>Conditions</button>
 			<button type="button" class="btn verticalButton filter" id="observations_button" value=0>Observations</button>
 			<button type="button" class="btn verticalButton filter" id="medications_button" value=0>Medications</button>
+			<button type="button" class="btn verticalButton filter" id="immunizations_button" value=0>Immunizations</button>
+			<button type="button" class="btn verticalButton filter" id="allergies_button" value=0>Allergies</button>
+			<button type="button" class="btn verticalButton filter" id="encounters_button" value=0>Encounters</button>
+			<button type="button" class="btn verticalButton filter" id="procedures_button" value=0>Procedures</button>
 		</div>
 		<div id="filter_logic">
 			<h1>Boolean Logic</h1>
