@@ -3,10 +3,6 @@
 	<cflocation url="/CF Projects/RDE Systems/index.cfm" addtoken="false">
 </cfif>
 
-<cfif not isUserLoggedIn()>
-	<cflocation url="/CF Projects/RDE Systems/index.cfm"/>
-	<cfabort/>
-</cfif>
 <style>
 	body{
 	background-color: lightblue;
@@ -45,7 +41,7 @@
 				<cfform name="Logout" action="#CGI.script_name#?#CGI.query_string#" method="Post">
 					<p id="p1">
 						<!--using href to go back to index.cfm?logout gives session undefined error -->
-						<a href="/CF Projects/RDE Systems/index.cfm?logout">
+						<a href="index.cfm?logout">
 							Logout
 						</a>
 						<!-- 

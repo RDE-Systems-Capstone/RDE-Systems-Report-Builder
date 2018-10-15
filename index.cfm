@@ -1,15 +1,15 @@
 <!---Logout--->
 <!-- gives session undefined error when redirecting back to this page-->
 <cfif structKeyExists(URL, 'logout')>
-	<cfset createObject("component", 'CF Projects.RDE Systems.app.Authentification').doLogout()/>
-	<cflocation url="/CF Projects/RDE Systems/index.cfm" addtoken="false">
+	<cfset createObject("component", 'app.Authentification').doLogout()/>
+	<cflocation url="index.cfm" addtoken="false">
 </cfif>
 
 <!--- Processing Entered Data --->
 <cfif structKeyExists(form, 'submit')>
 	<!---Create instance of authentification service component--->
 	<cfset authenticationService = createobject("component", 
-	                                            'CF Projects.RDE Systems.app.Authentification')/>
+	                                            'app.Authentification')/>
 	<!---serverside validation--->
 	<cfset aErrorMessages = authenticationService.validateUser(form.User, form.Pass)/>
 	<cfif ArrayIsEmpty(aErrorMessages)>
