@@ -3,50 +3,27 @@
 	<!---serverside validation--->
 	<cfif len(trim(form.First)) NEQ "" AND len(trim(form.Last)) NEQ "" AND len(trim(form.User)) NEQ "" 
 	      AND len(trim(form.Pass)) NEQ "">
-		<cfscript>
-			// Correct procedure for registering user
-			salt = randomly_generated_string;
+	      
+	      <cfset rand = generateSecureRandomString(length=64) />
+	      
+	      <cfscript>
+			salt = '#rand#';
 			PBKDFalgorithm = "PBKDF2WithHmacSHA512";
 			PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
-			writeOutput(PassKey); // insert into database
-			writeOutput(salt); // insert into database
+			//writeOutput(PassKey); // checking password
+			writeOutput(salt); // checking salt
+		</cfscript>
 			
-			// Correct procedure for checking password on login
-			salt = salt_from_database;
-			PBKDFalgorithm = "PBKDF2WithHmacSHA512";
-			PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
-			writeOutput(PassKey); // check against database
-		</cfscript>
-		
-		<cfscript>
-			salt = "A41n9t0Q";
-			password = "Password123";
-			PBKDFalgorithm = "PBKDF2WithHmacSHA512";
-			PassToEnc = "#form.Pass#";
-			encryptionAlgorithm = "AES";
-			PassKey = GeneratePBKDFKey(PBKDFalgorithm, password, salt, 4096, 128);
-			encryptedPass = encrypt(PassToEnc, PassKey, encryptionAlgorithm, "Base64");
-			writeOutput(encryptedPass);
-		</cfscript>
-		
-		<cfset HashPass = encryptedPass/>
+		<cfset HashPass = PassKey/>
 		<cfset UserSalt = salt/>
 	
-		<cfquery name="insert" datasource="MS_SQL_Server">
-			INSERT INTO TestHash(FirstName, LastName, Username, Password, salt, Role)
+		<!---Inserting Data into DB--->
+		<cfquery name="insert" datasource="MEDICALDATA">
+			INSERT INTO users(firstName, lastname, username, password, salt, role)
 			VALUES ('#form.First#', '#form.Last#', '#form.User#', '#HashPass#', '#UserSalt#', '1');
 		</cfquery>
 	
-		<cfscript>
-			salt = "A41n9t0Q";
-			password = "Password123";
-			PBKDFalgorithm = "PBKDF2WithHmacSHA512";
-			PassToDec="#HashPass#";
-			derivedKey = GeneratePBKDFKey(PBKDFalgorithm, password, salt, 4096, 128);
-			decryptedData = decrypt(PassToDec, derivedKey, encryptionAlgorithm, "BASE64");
-			writeoutput("Data After Decryption using PBKDF2: " & decryptedData);
-		</cfscript>
-		
+		<!---Display user feedback--->		
 		<cfoutput>
 			<p>
 				Registered!
@@ -87,6 +64,7 @@
 	}
 </style>
 <cfoutput>
+	<!---Registration form--->
 	<cfform name="RegisterForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
 		<section>
 			<h1>
@@ -119,6 +97,7 @@
 	</cfform>
 </cfoutput>
 
+<!---generates random secure string--->
 <cffunction name="generateSecureRandomString" output="false">
 	<cfargument name="length" type="numeric">
 	<cfset var l = {}>
