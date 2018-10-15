@@ -64,7 +64,7 @@
 			<!---Change isUserLoggedIn to true--->
 			<cfset var isUserLoggedIn = true />		
 			
-			<cflocation url="Success.cfm" addtoken="false" >
+			<cflocation url="builder.cfm" addtoken="false" >
 		
 		<cfelse>
 			<cfset var isUserLoggedIn = false />
