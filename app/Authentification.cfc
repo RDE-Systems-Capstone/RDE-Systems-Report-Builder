@@ -51,20 +51,23 @@
 		<cfset decPass = PassKey />
 				
 		<!---Check if query returns only one user--->
-		<cfif userLogin.recordCount eq 1>
+		<cfif compare(decPass, userLogin.password) eq 0>
 		
 			<!---Log user in--->
 			<cflogin allowconcurrent="false" applicationtoken="test" idletimeout="300">
-				<cfloginuser name="#userLogin.firstName# #userLogin.lastname#" password="#userLogin.password#" roles="#userLogin.role#" >
+				<cfloginuser name="#userLogin.firstName# #userLogin.lastname#" password="#decPass#" roles="#userLogin.role#" >
+				
 			</cflogin>
 
 			<!---Save user data in session scope--->
-			<cfset session.FirstName = userLogin.FirstName>
-			<cfset session.LastName = userLogin.LastName>
-			<cfset session.loggedin = true />
+			<cfset session.stLoggedInUser = {'FirstName' = userLogin.FirstName, 'LastName' = userLogin.LastName} />
 			<!---Change isUserLoggedIn to true--->
 			<cfset var isUserLoggedIn = true />		
+			
+			<cflocation url="/CF Projects/RDE Systems/Success.cfm" addtoken="false" >
 		
+		<cfelse>
+			<cfset var isUserLoggedIn = false />
 		</cfif>
 		<!---Return isUserLoggedIn var--->
 		<cfreturn isUserLoggedIn />
