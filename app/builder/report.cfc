@@ -318,7 +318,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfinvoke 	component="app.builder.report"
 		method="getTableColumns"
 		returnvariable="columns_list"></cfinvoke>
-		<cfform name="data_output">
+		<cfform name="data_output" id="data_output">
 			<cfloop query="#columns_list#">
 				<cfoutput>
 					<label><cfinput type="checkbox" name="columns" value="#COLUMN_NAME#">#COLUMN_NAME#</label>
@@ -332,7 +332,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfinvoke 	component="app.builder.report"
 		method="getTableColumns"
 		returnvariable="columns_list"></cfinvoke>
-		<cfform name="bar_output">
+		<cfform name="bar_output" id="bar_output">
 			<cfloop query="#columns_list#">
 				<cfoutput>
 					<label><cfinput type="checkbox" name="columns" value="#COLUMN_NAME#">#COLUMN_NAME#</label>
