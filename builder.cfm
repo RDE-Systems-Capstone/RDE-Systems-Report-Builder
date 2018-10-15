@@ -60,7 +60,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						class="form-control">
 							<option selected="true" disabled="disabled"> -- select an option -- </option>
 							<option value="trend">Trend Graph</option>
-							<option value="pie">Pie/Doughnut Chart</option>
+							<option value="pie">Pie Chart</option>
+							<option value="doughnut">Doughnut Chart</option>
 							<option value="bar">Bar Chart</option>
 							<option value="data">Data Table</option>
 					</cfselect>
@@ -91,8 +92,14 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<cfinvoke component="app.builder.report" method="pieOptions"></cfinvoke>
 			</div>
 			<div hidden id="bar_output_div">
-				<p>How should we group the results?</p>
+				<p>Select field to group by:</p>
 				<cfinvoke component="app.builder.report" method="barOptions"></cfinvoke>
+			</div>
+			<div hidden id="doughnut_output_div">
+				<p>Select field to group by:</p>
+				<div class="checkbox">
+					<cfinvoke component="app.builder.report" method="doughnutOptions"></cfinvoke>
+				</div>
 			</div>
 			<div hidden id="data_output_div">
 				<p>Select columns to include</p>

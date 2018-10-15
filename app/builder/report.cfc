@@ -296,7 +296,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	</cffunction>
 
-	<!---Output pie/donut graph options --->
+	<!---Output pie graph options --->
 	<cffunction name="pieOptions" returntype="void">
 		<cfform name="pie_output">
 			<cfselect
@@ -309,35 +309,58 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<option value="gender">Gender</option>
 				<option value="race">Race</option>
 				<option value="ethnicity">Ethnicity</option>
+				<option value="marital">Marital</option>
+			</cfselect>
+		</cfform>
+	</cffunction>
+	
+	<!---Output donut graph options --->
+	<cffunction name="doughnutOptions" returntype="void">
+		<cfform name="doughnut_output">
+			<cfselect
+				name="doughnut_group"
+				id="doughnut_group"
+				message="Select a group"
+				class="form-control">
+				<option selected="true" disabled="disabled"> -- select an option -- </option>
+				<option value="age">Age</option>
+				<option value="gender">Gender</option>
+				<option value="race">Race</option>
+				<option value="ethnicity">Ethnicity</option>
+				<option value="marital">Marital Status</option>
 			</cfselect>
 		</cfform>
 	</cffunction>
 
 	<!---Output Data table options --->
 	<cffunction name="dataOptions" returntype="void">
-		<cfinvoke 	component="app.builder.report"
-		method="getTableColumns"
-		returnvariable="columns_list"></cfinvoke>
 		<cfform name="data_output" id="data_output">
-			<cfloop query="#columns_list#">
-				<cfoutput>
-					<label><cfinput type="checkbox" name="columns" value="#COLUMN_NAME#">#COLUMN_NAME#</label>
-				</cfoutput>
-			</cfloop>
+			<label><cfinput type="checkbox" name="columns" value="ID">Patient ID</label>
+			<label><cfinput type="checkbox" name="columns" value="FIRST">First Name</label>
+			<label><cfinput type="checkbox" name="columns" value="BIRTHDATE">Birth Date</label>
+			<label><cfinput type="checkbox" name="columns" value="BIRTHDATE">Death Date</label>
+			<label><cfinput type="checkbox" name="columns" value="SSN">Social Security Number</label>
+			<label><cfinput type="checkbox" name="columns" value="DRIVERS">Driver's License Number</label>
+			<label><cfinput type="checkbox" name="columns" value="PASSPORT">Passport Number</label>
+			<label><cfinput type="checkbox" name="columns" value="PREFIX">Prefix</label>
 		</cfform>
 	</cffunction>
 	
 	<!---Output bar chart options --->
 	<cffunction name="barOptions" returntype="void">
-		<cfinvoke 	component="app.builder.report"
-		method="getTableColumns"
-		returnvariable="columns_list"></cfinvoke>
 		<cfform name="bar_output" id="bar_output">
-			<cfloop query="#columns_list#">
-				<cfoutput>
-					<label><cfinput type="checkbox" name="columns" value="#COLUMN_NAME#">#COLUMN_NAME#</label>
-				</cfoutput>
-			</cfloop>
+			<cfselect
+				name="bar_group"
+				id="bar_group"
+				message="Select a group"
+				class="form-control">
+				<option selected="true" disabled="disabled"> -- select an option -- </option>
+				<option value="age">Age</option>
+				<option value="gender">Gender</option>
+				<option value="race">Race</option>
+				<option value="ethnicity">Ethnicity</option>
+				<option value="marital">Marital Status</option>
+			</cfselect>
 		</cfform>
 	</cffunction>
 

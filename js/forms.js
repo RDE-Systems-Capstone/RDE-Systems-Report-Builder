@@ -13,24 +13,35 @@ $(document).ready(function() { 	//only run once page is ready
 			$("#pie_output_div").attr('hidden', true);
 			$("#bar_output_div").attr('hidden', true);
 			$("#data_output_div").attr('hidden', true);
+			$("#doughnut_output_div").attr('hidden', true);
 		}
 		else if ($("#report_type").val() === "pie") {
 			$("#trend_output_div").attr('hidden', true);
 			$("#pie_output_div").removeAttr('hidden');
 			$("#bar_output_div").attr('hidden', true);
 			$("#data_output_div").attr('hidden', true);
+			$("#doughnut_output_div").attr('hidden', true);
+		}
+		else if ($("#report_type").val() === "doughnut") {
+			$("#trend_output_div").attr('hidden', true);
+			$("#doughnut_output_div").removeAttr('hidden');
+			$("#bar_output_div").attr('hidden', true);
+			$("#data_output_div").attr('hidden', true);
+			$("#pie_output_div").attr('hidden', true);
 		}
 		else if ($("#report_type").val() === "bar") {
 			$("#trend_output_div").attr('hidden', true);
 			$("#bar_output_div").removeAttr('hidden');
 			$("#pie_output_div").attr('hidden', true);
 			$("#data_output_div").attr('hidden', true);
+			$("#doughnut_output_div").attr('hidden', true);
 		}
 		else if ($("#report_type").val() === "data") {
 			$("#trend_output_div").attr('hidden', true);
 			$("#data_output_div").removeAttr('hidden');
 			$("#pie_output_div").attr('hidden', true);
 			$("#bar_output_div").attr('hidden', true);
+			$("#doughnut_output_div").attr('hidden', true);
 		}
 	});
 });
@@ -53,15 +64,15 @@ function getFilters() {
 	}
 	//for bar graph
 	if ( $("#report_type").val() === "bar" ) {
-		bar_array = [];
-		var options = $("#bar_output").find("[name='columns']:checked").each(function() {
-			bar_array.push(this.value);
-		});
-		report_options["group_by"] = bar_array;
+		report_options["group_by"] = $("#bar_group").val();
 	}
 	//for pie/donut graph
 	if ( $("#report_type").val() === "pie" ) {
 		report_options["group_by"] = $("#pie_group").val();
+	}
+	//for pie/donut graph
+	if ( $("#report_type").val() === "doughnut" ) {
+		report_options["group_by"] = $("#doughnut_group").val();
 	}
 	//for data table
 	if ( $("#report_type").val() === "data" ) {
