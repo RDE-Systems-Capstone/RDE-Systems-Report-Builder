@@ -298,37 +298,23 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<!---Output pie graph options --->
 	<cffunction name="pieOptions" returntype="void">
-		<cfform name="pie_output">
-			<cfselect
-				name="pie_group"
-				id="pie_group"
-				message="Select a group"
-				class="form-control">
-				<option selected="true" disabled="disabled"> -- select an option -- </option>
-				<option value="age">Age</option>
-				<option value="gender">Gender</option>
-				<option value="race">Race</option>
-				<option value="ethnicity">Ethnicity</option>
-				<option value="marital">Marital</option>
-			</cfselect>
+		<cfform name="pie_output" id="pie_output">
+			<label><cfinput type="checkbox" name="columns" value="AGE">Age</label>
+			<label><cfinput type="checkbox" name="columns" value="GENDER">Gender</label>
+			<label><cfinput type="checkbox" name="columns" value="RACE">Race</label>
+			<label><cfinput type="checkbox" name="columns" value="ETHNICITY">Ethnicity</label>
+			<label><cfinput type="checkbox" name="columns" value="MARITAL">Marital Status</label>
 		</cfform>
 	</cffunction>
 	
 	<!---Output donut graph options --->
 	<cffunction name="doughnutOptions" returntype="void">
 		<cfform name="doughnut_output">
-			<cfselect
-				name="doughnut_group"
-				id="doughnut_group"
-				message="Select a group"
-				class="form-control">
-				<option selected="true" disabled="disabled"> -- select an option -- </option>
-				<option value="age">Age</option>
-				<option value="gender">Gender</option>
-				<option value="race">Race</option>
-				<option value="ethnicity">Ethnicity</option>
-				<option value="marital">Marital Status</option>
-			</cfselect>
+			<label><cfinput type="checkbox" name="columns" value="AGE">Age</label>
+			<label><cfinput type="checkbox" name="columns" value="GENDER">Gender</label>
+			<label><cfinput type="checkbox" name="columns" value="RACE">Race</label>
+			<label><cfinput type="checkbox" name="columns" value="ETHNICITY">Ethnicity</label>
+			<label><cfinput type="checkbox" name="columns" value="MARITAL">Marital Status</label>
 		</cfform>
 	</cffunction>
 
@@ -336,31 +322,35 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cffunction name="dataOptions" returntype="void">
 		<cfform name="data_output" id="data_output">
 			<label><cfinput type="checkbox" name="columns" value="ID">Patient ID</label>
+			<label><cfinput type="checkbox" name="columns" value="PREFIX">Prefix</label>
 			<label><cfinput type="checkbox" name="columns" value="FIRST">First Name</label>
+			<label><cfinput type="checkbox" name="columns" value="LAST">Last Name</label>
+			<label><cfinput type="checkbox" name="columns" value="SUFFIX">Suffix</label>
+			<label><cfinput type="checkbox" name="columns" value="MAIDEN">Maiden Name</label>
 			<label><cfinput type="checkbox" name="columns" value="BIRTHDATE">Birth Date</label>
-			<label><cfinput type="checkbox" name="columns" value="BIRTHDATE">Death Date</label>
+			<label><cfinput type="checkbox" name="columns" value="DEATHDATE">Death Date</label>
+			<label><cfinput type="checkbox" name="columns" value="ADDRESS">Address</label>
 			<label><cfinput type="checkbox" name="columns" value="SSN">Social Security Number</label>
 			<label><cfinput type="checkbox" name="columns" value="DRIVERS">Driver's License Number</label>
 			<label><cfinput type="checkbox" name="columns" value="PASSPORT">Passport Number</label>
-			<label><cfinput type="checkbox" name="columns" value="PREFIX">Prefix</label>
+			<label><cfinput type="checkbox" name="columns" value="AGE">Age</label>
+			<label><cfinput type="checkbox" name="columns" value="GENDER">Gender</label>
+			<label><cfinput type="checkbox" name="columns" value="RACE">Race</label>
+			<label><cfinput type="checkbox" name="columns" value="ETHNICITY">Ethnicity</label>
+			<label><cfinput type="checkbox" name="columns" value="MARITAL">Marital Status</label>
+
+
 		</cfform>
 	</cffunction>
 	
 	<!---Output bar chart options --->
 	<cffunction name="barOptions" returntype="void">
 		<cfform name="bar_output" id="bar_output">
-			<cfselect
-				name="bar_group"
-				id="bar_group"
-				message="Select a group"
-				class="form-control">
-				<option selected="true" disabled="disabled"> -- select an option -- </option>
-				<option value="age">Age</option>
-				<option value="gender">Gender</option>
-				<option value="race">Race</option>
-				<option value="ethnicity">Ethnicity</option>
-				<option value="marital">Marital Status</option>
-			</cfselect>
+			<label><cfinput type="checkbox" name="columns" value="AGE">Age</label>
+			<label><cfinput type="checkbox" name="columns" value="GENDER">Gender</label>
+			<label><cfinput type="checkbox" name="columns" value="RACE">Race</label>
+			<label><cfinput type="checkbox" name="columns" value="ETHNICITY">Ethnicity</label>
+			<label><cfinput type="checkbox" name="columns" value="MARITAL">Marital Status</label>
 		</cfform>
 	</cffunction>
 

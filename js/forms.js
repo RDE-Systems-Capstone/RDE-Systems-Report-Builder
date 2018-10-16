@@ -64,15 +64,27 @@ function getFilters() {
 	}
 	//for bar graph
 	if ( $("#report_type").val() === "bar" ) {
-		report_options["group_by"] = $("#bar_group").val();
+		bar_array = [];
+		var options = $("#bar_output").find("[name='columns']:checked").each(function() {
+			bar_array.push(this.value);
+		});
+		report_options["columns"] = bar_array;
 	}
-	//for pie/donut graph
+	//for pie graph
 	if ( $("#report_type").val() === "pie" ) {
-		report_options["group_by"] = $("#pie_group").val();
+		pie_array = [];
+		var options = $("#pie_output").find("[name='columns']:checked").each(function() {
+			pie_array.push(this.value);
+		});
+		report_options["columns"] = pie_array;
 	}
-	//for pie/donut graph
+	//for donut graph
 	if ( $("#report_type").val() === "doughnut" ) {
-		report_options["group_by"] = $("#doughnut_group").val();
+		doughnut_array = [];
+		var options = $("#doughnut_output").find("[name='columns']:checked").each(function() {
+			doughnut_array.push(this.value);
+		});
+		report_options["columns"] = doughnut_array;
 	}
 	//for data table
 	if ( $("#report_type").val() === "data" ) {
