@@ -1,3 +1,4 @@
+<!---Check if user clicked submit button--->
 <cfif structKeyExists(form, 'submit')>
 
 	<!---serverside validation--->
