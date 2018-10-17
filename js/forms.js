@@ -68,7 +68,7 @@ function getFilters() {
 		var options = $("#bar_output").find("[name='columns']:checked").each(function() {
 			bar_array.push(this.value);
 		});
-		report_options["columns"] = bar_array;
+		report_options["group_by"] = bar_array;
 	}
 	//for pie graph
 	if ( $("#report_type").val() === "pie" ) {
@@ -76,7 +76,7 @@ function getFilters() {
 		var options = $("#pie_output").find("[name='columns']:checked").each(function() {
 			pie_array.push(this.value);
 		});
-		report_options["columns"] = pie_array;
+		report_options["group_by"] = pie_array;
 	}
 	//for donut graph
 	if ( $("#report_type").val() === "doughnut" ) {
@@ -92,7 +92,7 @@ function getFilters() {
 		var options = $("#data_output").find("[name='columns']:checked").each(function() {
 			data_array.push(this.value);
 		});
-		report_options["columns"] = data_array;
+		report_options["group_by"] = data_array;
 	}
 	
 	//alert(JSON.stringify(report_options));
