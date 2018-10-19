@@ -21,7 +21,7 @@
 <style>
 	body,html {
 		height:100%;
-        background-image: url("back.jpg");
+        background-image: url("images/background.jpg");
         background-position: center;
    		background-repeat: no-repeat;
    		background-size: cover;
@@ -96,7 +96,7 @@ li a:hover:not(.active) {
 	
 	<body>
 		<ul>
-			 <li><img src="rde_logo_white.png" height="43" width="62"></li>
+			 <li><img src="images/rde_logo_white.png" height="43" width="62"></li>
 			 <li><a href="#home">RDE Systems</a></li>
 			 <li><a href="#home">Home</a></li>
 			 <li><a href="#contact">Support</a></li>
