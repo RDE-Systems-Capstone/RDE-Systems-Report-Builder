@@ -19,9 +19,41 @@
 	</cfif>
 </cfif>
 <style>
+	body,html {
+		height:100%;
+        background-image: url("back.jpg");
+        background-position: center;
+   		background-repeat: no-repeat;
+   		background-size: cover;
+        } 
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover:not(.active) {
+    background-color: #111;
+}
+
+.active {
+    background-color: #4CAF50;
+}
 	section{
-	background-color: lightblue;
-	border: 1px solid white;
 	border-radius: 1em;
 	padding: 1em;
 	position: absolute;
@@ -30,10 +62,19 @@
 	margin-right: -50%;
 	transform: translate(-50%, -50%)
 	}
-	body{
-	background-color: lightblue;
-	border: 1px solid white;
-	}
+	
+	.button {
+    background-color: #4CAF50;
+    border: none;
+    color: white;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    margin: 4px 2px;
+    cursor: pointer;
+}
 	h1{
 	text-align: center;
 	}
@@ -51,15 +92,23 @@
 	}
 </style>
 <html>
-	<head>
-		<img src="images/rde_logo.png" style = "float: left;" width="10%">
-	</head>
+	<title>RDE Login Page</title>
+	
 	<body>
+		<ul>
+			 <li><img src="rde_logo_white.png" height="43" width="62"></li>
+			 <li><a href="#home">RDE Systems</a></li>
+			 <li><a href="#home">Home</a></li>
+			 <li><a href="#contact">Support</a></li>
+			 <li style="float:right"><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/insert.cfm'">New Member?</a></li>
+</ul>
+		
 		<section>
 		
 			<!--- Login Form --->
-			<cfform name="LoginForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
 			
+			<cfform name="LoginForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
+				
 				<cfif structKeyExists(variables, 'aErrorMessages') AND NOT ArrayIsEmpty(aErrorMessages)>
 					<cfoutput>
 						<cfloop array="#aErrorMessages#" item="message">
@@ -74,28 +123,32 @@
 						Username/Password are invalid. Please try again!
 					</p>
 				</cfif>
-				
-					<h1>
-						Login
-					</h1>
+					
 					<p>
-						Username: 
+						<font size="10"><b>RDE Login </b> </font>
+					</p>
+					
+					<p>
+						<center>Username: <br>
 						<cfinput type="text" name="User" id="User" required="true"
 						         validateat="onSubmit" message="Please provide a username"/>
 					</p>
 					<p>
-						Password: 
+						<center>Password: <br>
 						<cfinput type="password" name="Pass" id="Pass" required="true"
 						         validateat="onSubmit" message="Please provide a password"/>
 					</p>
+
+					
 					<p id="p1">
-						<cfinput type="submit" name="submit" id="sumbit" value="Login"/>
+						
+						<cfinput type="submit" name="submit" id="sumbit" value="Login" />
+						
 					</p>
 					
 				
 			</cfform>
 		</section>
-	
 		
 		<p>
 			
