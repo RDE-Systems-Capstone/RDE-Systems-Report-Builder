@@ -8,17 +8,35 @@
 </cfoutput>
 <cfoutput >
 	SELECT * <br />
-	FROM -Insert Tables(s)- <br />
+	FROM -patients- INNER JOIN -conditions- INNER JOIN -observations- INNER JOIN -medications- INNER JOIN -immunizations-<br />
 	WHERE
 </cfoutput>
 <!--- Looping Through deserialized JSON Array --->
 <cfloop array="#decodedArr#" index="i">
 	<!--- Checking Type, display according output --->
+	
+	<!---Boolean Logic--->
 	<cfif #i.type# eq "l_paren">
 		<cfoutput >
 			(
 		</cfoutput>
-
+		
+	<cfelseif #i.type# eq "r_paren">
+		<cfoutput >
+			)
+		</cfoutput>	
+		
+	<cfelseif #i.type# eq "and">
+		<cfoutput >
+			AND
+		</cfoutput>
+		
+	<cfelseif #i.type# eq "or">
+		<cfoutput >
+			OR
+		</cfoutput>	
+		
+	<!---Filter Options--->	
 	<cfelseif #i.type# eq "age">
 		<cfset minVal = #i.min#>
 		<cfset maxVal = #i.max#>		
@@ -26,59 +44,94 @@
 			age BETWEEN #minVal# AND #maxVal#
 		</cfoutput>
 
-	<cfelseif #i.type# eq "and">
-		<cfoutput >
-			AND
-		</cfoutput>
-
 	<cfelseif #i.type# eq "gender">
 		<!-- Array -->
 		<cfset patientGender = #i.values#>
 		<cfoutput >
-			gender EQ gender(s)
+			gender EQ 
 		</cfoutput>
-
-	<cfelseif #i.type# eq "r_paren">
-		<cfoutput >
-			)
-		</cfoutput>
-
-	<cfelseif #i.type# eq "or">
-		<cfoutput >
-			OR
-		</cfoutput>
+		
+		<cfset myArr = #i.values#>
+		<cfloop array="#myArr#" index="j">
+			<cfoutput >
+				#j# 
+			</cfoutput>
+		</cfloop>
 
 	<cfelseif #i.type# eq "race">
 		<!-- Array -->
 		<cfoutput >
-			race EQ race(s)
+			race EQ 
 		</cfoutput>
+		
+		<cfset myArr = #i.values#>
+		<cfloop array="#myArr#" index="j">
+			<cfoutput >
+				#j# 
+			</cfoutput>
+		</cfloop>
 
 	<cfelseif #i.type# eq "ethnicity">
-		<!-- Array -->
+	<!-- Array -->
 		<cfoutput >
-			ethnicity EQ ehnicity/ies
+			ethnicity EQ 
 		</cfoutput>
+		
+		<cfset myArr = #i.values#>
+		<cfloop array="#myArr#" index="j">
+			<cfoutput >
+				#j# 
+			</cfoutput>
+		</cfloop>		
 		
 	<cfelseif #i.type# eq "marital">
 		<!-- Array -->
 		<cfoutput >
-			marital EQ marital status
+			marital EQ -marital status-
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "conditions">
+	<cfset cond = #i.id#>
 		<cfoutput >
-			conditions EQ condition(s)
+			conditions EQ #cond#
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "observations">
+	<cfset observ = #i.id#>
+	<cfset option = #i.options#>
+	<cfset val = #i.value#>
 		<cfoutput >
-			observations EQ observation
+			observations EQ #observ# #option# #val#
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "medications">
+	<cfset meds = #i.id#>
 		<cfoutput >
-			medications EQ medication
+			medications EQ #meds#
+		</cfoutput>
+		
+	<cfelseif #i.type# eq "immunizations">
+		<cfset immun = #i.id#>
+		<cfoutput >
+			immunizations EQ #immun#
+		</cfoutput>
+		
+	<cfelseif #i.type# eq "allergies">
+		<cfset alerg = #i.id#>
+		<cfoutput >
+			allergies EQ #alerg#
+		</cfoutput>	
+		
+	<cfelseif #i.type# eq "encounters">
+		<cfset encoun = #i.id#>
+		<cfoutput >
+			encounters EQ #encoun#
+		</cfoutput>
+		
+	<cfelseif #i.type# eq "procedures">
+		<cfset proced = #i.id#>
+		<cfoutput >
+			procedures EQ #proced#
 		</cfoutput>
 	</cfif>
 </cfloop>
@@ -106,6 +159,15 @@
 	<body>
 		<br />
 		<br />
+		<a href="builder.cfm">
+			Builder
+		</a>
+		<p>
+			
+		</p>
+		<p>
+			
+		</p>
 		<a href="app/logout.cfm">
 			Logout
 		</a>
