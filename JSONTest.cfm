@@ -1,3 +1,4 @@
+<!--- deserialize JSON output --->
 <cfset decodedArr = deserializeJSON(#FORM.query_string#)>
 <cfoutput >
 	<h2>Testing Looping Through JSON Array</h2>
@@ -10,15 +11,19 @@
 	FROM -Insert Tables(s)- <br />
 	WHERE
 </cfoutput>
+<!--- Looping Through deserialized JSON Array --->
 <cfloop array="#decodedArr#" index="i">
+	<!--- Checking Type, display according output --->
 	<cfif #i.type# eq "l_paren">
 		<cfoutput >
 			(
 		</cfoutput>
 
 	<cfelseif #i.type# eq "age">
+		<cfset minVal = #i.min#>
+		<cfset maxVal = #i.max#>		
 		<cfoutput >
-			age GT min AND LT max
+			age BETWEEN #minVal# AND #maxVal#
 		</cfoutput>
 
 	<cfelseif #i.type# eq "and">
@@ -27,6 +32,8 @@
 		</cfoutput>
 
 	<cfelseif #i.type# eq "gender">
+		<!-- Array -->
+		<cfset patientGender = #i.values#>
 		<cfoutput >
 			gender EQ gender(s)
 		</cfoutput>
@@ -42,16 +49,19 @@
 		</cfoutput>
 
 	<cfelseif #i.type# eq "race">
+		<!-- Array -->
 		<cfoutput >
 			race EQ race(s)
 		</cfoutput>
 
 	<cfelseif #i.type# eq "ethnicity">
+		<!-- Array -->
 		<cfoutput >
 			ethnicity EQ ehnicity/ies
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "marital">
+		<!-- Array -->
 		<cfoutput >
 			marital EQ marital status
 		</cfoutput>
@@ -79,9 +89,19 @@
 			Original JSON Output
 		</h1>
 		
+		<!--- Outputting this for reference --->
 		<cfoutput >
-			#FORM.query_string#
+			#FORM.query_string# <br />
+			<p>
+				<!-- break line -->
+			</p>
 		</cfoutput>
+		<!--- Outputting cfdump for more reference --->
+		<cfset FilterBool="#deserializeJSON(FORM.query_string)#">
+			<cfloop array = #FilterBool# item="item">
+				<cfoutput>#item["type"]#</cfoutput>
+				<cfdump var="#item#">
+			</cfloop>
 	</head>
 	<body>
 		<br />
