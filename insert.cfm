@@ -1,4 +1,3 @@
-<!---Check if user clicked submit button--->
 <cfif structKeyExists(form, 'submit')>
 
 	<!---serverside validation--->
@@ -33,11 +32,38 @@
 	</cfif>
 </cfif>
 <style>
+	body,html {
+		height:100%;
+        background-image: url("back.jpg");
+        background-position: center;
+   		background-repeat: no-repeat;
+   		background-size: cover;
+        } 
+    ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background-color: #333;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white;
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
 	section{
-	background-color: lightblue;
-	border: 1px solid white;
-	border-radius: 1em;
-	padding: 1em;
+	
+	border: 5px solid white;
+	border-radius: 5em;
+	padding: 5em;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -45,8 +71,7 @@
 	transform: translate(-50%, -50%)
 	}
 	body{
-	background-color: lightblue;
-	border: 1px solid white;
+	
 	}
 	h1{
 	text-align: center;
@@ -64,6 +89,14 @@
 	text-align:center;
 	}
 </style>
+<body>
+	<ul>
+			 <li><img src="rde_logo_white.png"  height="43" width="62"></li>
+			 <li><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/index.cfm'">RDE Systems</a></li>
+			 <li><a href="#contact">Support</a></li>
+</ul>
+		
+</body>
 <cfoutput>
 	<!---Registration form--->
 	<cfform name="RegisterForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
