@@ -39,6 +39,7 @@
 		</cfquery>
 		
 		<!--add if exists, go forward. else display error here.-->
+		<cfif userLogin.RecordCount eq 1>				
 		
 		<cfscript>
 			// Correct procedure for checking password on login
@@ -48,8 +49,9 @@
 			writeOutput(PassKey); // check against database
 		</cfscript>
 		
-		<cfset decPass = PassKey />
-				
+		<cfset decPass = PassKey />	
+			
+		
 		<!---Check if query returns only one user--->
 		<cfif compare(decPass, userLogin.password) eq 0>
 		
@@ -70,6 +72,7 @@
 		
 		<cfelse>
 			<cfset var isUserLoggedIn = false />
+		</cfif>
 		</cfif>
 		<!---Return isUserLoggedIn var--->
 		<cfreturn isUserLoggedIn />
