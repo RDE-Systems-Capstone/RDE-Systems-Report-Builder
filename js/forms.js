@@ -49,6 +49,7 @@ $(document).ready(function() { 	//only run once page is ready
 function getFilters() {
 	//store filter params in array
 	var filters_array = [];
+	var tokens = [];
 	
 	//first let's get the report type and associated parameters
 	var report_options = {};
@@ -215,12 +216,13 @@ function getFilters() {
 		else if (this.id == "l_paren") {
 			var lparen_arr = {"type":"l_paren"}
 			filters_array.push(lparen_arr);
+			tokens.push("(")
 			
 		}
 		else if (this.id == "r_paren") {
 			var rparen_arr = {"type":"r_paren"}
 			filters_array.push(rparen_arr);
-			
+			tokens.pop();
 		}
 		else if (this.id == "and_box") {
 			var and_arr = {"type":"and"}
@@ -234,6 +236,12 @@ function getFilters() {
 		}
 	});
 	//alert(JSON.stringify(filters_array));
+
+	//Verify that the parentheses match
+	if (tokens.length != 0) {
+		alert("Missing parentheses!")
+		return 0;
+	} 
 	
 	$("#query_string").val(JSON.stringify(filters_array));
 	$("#report_type_string").val(JSON.stringify(report_options));
