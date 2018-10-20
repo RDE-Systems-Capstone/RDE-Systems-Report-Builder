@@ -76,10 +76,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<div class="filter_drop well">
 			<p>Drag and drop filters here to add them.</p>
 			<div id="chosen_filters"></div>
+			<div id="filter_forms"></div>
 		</div>
-		<div id="filter_forms"></div>
 		
-
 		<h1>Output</h1>
 		<div id="output" style="width: 50%">
 			<p>Choose a graph type to configure this section</p>
