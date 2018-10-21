@@ -107,7 +107,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				display="DESCRIPTION"
 				message="Select a condition"
 				class="form-control">
-					<option selected="true" value="empty" disabled="disabled"> -- select an option -- </option>
+					<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
 		</cfform>
 	</cffunction>

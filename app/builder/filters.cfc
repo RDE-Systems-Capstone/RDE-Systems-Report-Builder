@@ -28,8 +28,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div id="gender_filter">
 					<cfoutput><div id="#arguments.id#"  class="collapse checkbox"></cfoutput>
 						<h2>Gender filter</h2>
-						<label><input type="checkbox" name="gender" value="M" onchange="genderFilterUpdate(<cfoutput>'#arguments.id#'</cfoutput>)"/>Male</label>
-						<label><input type="checkbox" name="gender" value="F" onchange="genderFilterUpdate(<cfoutput>'#arguments.id#'</cfoutput>)"/>Female</label>
+						<label><input type="checkbox" name="gender" value="M" />Male</label>
+						<label><input type="checkbox" name="gender" value="F" />Female</label>
 					</div>
 				</div>
 			
