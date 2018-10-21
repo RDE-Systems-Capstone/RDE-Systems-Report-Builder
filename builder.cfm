@@ -152,7 +152,5 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<button type="button" class="btn verticalButton logic" id="or_box" value=0>OR</button>
 		</div>
 	 </div>
-
-	 <script>
   </body>
 </html>
