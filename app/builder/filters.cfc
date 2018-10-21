@@ -26,7 +26,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<!--- Gender --->
 			<cfelseif arguments.filter eq "gender">
 				<div id="gender_filter">
-					<cfoutput><div id="#arguments.id#"  class="collapse" class="checkbox"></cfoutput>
+					<cfoutput><div id="#arguments.id#"  class="collapse checkbox"></cfoutput>
 						<h2>Gender filter</h2>
 						<label><input type="checkbox" name="gender" value="M"/>Male</label>
 						<label><input type="checkbox" name="gender" value="F"/>Female</label>
@@ -36,7 +36,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<!--- Race filter --->
 			<cfelseif arguments.filter eq "race">
 				<div id="race_filter">
-					<cfoutput><div id="#arguments.id#"  class="collapse" class="checkbox"></cfoutput>
+					<cfoutput><div id="#arguments.id#"  class="collapse checkbox"></cfoutput>
 						<h2>Race filter</h2>
 						<label><input type="checkbox" name="race" value="white"/>White</label>
 						<label><input type="checkbox" name="race" value="black"/>Black</label>
@@ -48,7 +48,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<!--- Ethnicity filter --->
 			<cfelseif arguments.filter eq "ethnicity">
 				<div id="ethnicity_filter">
-					<cfoutput><div id="#arguments.id#"  class="collapse" class="checkbox"></cfoutput>
+					<cfoutput><div id="#arguments.id#"  class="collapse checkbox"></cfoutput>
 						<h2>Ethnicity filter</h2>
 						<cfinvoke component="app.builder.report" method="ethnicitiesList"></cfinvoke>
 					</div>
@@ -57,7 +57,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<!--- Marital status filter --->
 			<cfelseif arguments.filter eq "marital">
 				<div id="marital_filter">
-					<cfoutput><div id="#arguments.id#"  class="collapse" class="checkbox"></cfoutput>
+					<cfoutput><div id="#arguments.id#"  class="collapse checkbox"></cfoutput>
 						<h2>Marital Status filter</h2>
 						<label><input type="checkbox" name="marital" value="S"/>Single</label>
 						<label><input type="checkbox" name="marital" value="M"/>Married</label>
