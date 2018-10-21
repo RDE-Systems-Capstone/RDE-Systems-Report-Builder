@@ -102,8 +102,11 @@ li a:hover:not(.active) {
 			 <li><a href="#contact">Support</a></li>
 			 <li style="float:right"><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/insert.cfm'">New Member?</a></li>
 </ul>
-		
+		<p>
+						
 		<section>
+			<center><font size="10"><b>RDE Login </b> </font>
+					</p>
 		
 			<!--- Login Form --->
 			
@@ -120,13 +123,11 @@ li a:hover:not(.active) {
 				</cfif>
 				<cfif structKeyExists(variables, 'isUserLoggedIn') AND isUserLoggedIn EQ false>
 					<p class="errorMessage">
-						Username/Password are invalid. Please try again!
+						The Username and or Password you entered was invalid. Please try again.
 					</p>
 				</cfif>
 					
-					<p>
-						<font size="10"><b>RDE Login </b> </font>
-					</p>
+					
 					
 					<p>
 						<center>Username: <br>
