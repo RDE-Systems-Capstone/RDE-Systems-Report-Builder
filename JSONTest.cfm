@@ -48,47 +48,78 @@
 		<!-- Array -->
 		<cfset patientGender = #i.values#>
 		<cfoutput >
-			gender EQ 
+			gender EQ (
 		</cfoutput>
 		
 		<cfset myArr = #i.values#>
-		<cfloop array="#myArr#" index="j">
-			<cfoutput >
-				#j# 
-			</cfoutput>
+		<cfloop from="1" to="#arrayLen(myArr)#" index="j">
+			<cfif #j# eq #arrayLen(myArr)#>
+				<cfoutput >
+					#myArr[j]# )
+				</cfoutput>
+			<cfelse>
+				<cfoutput >
+				 #myArr[j]# OR
+				</cfoutput>
+			</cfif>
 		</cfloop>
 
 	<cfelseif #i.type# eq "race">
 		<!-- Array -->
 		<cfoutput >
-			race EQ 
+			race EQ (
 		</cfoutput>
 		
 		<cfset myArr = #i.values#>
-		<cfloop array="#myArr#" index="j">
-			<cfoutput >
-				#j# 
-			</cfoutput>
+		<cfloop from="1" to="#arrayLen(myArr)#" index="j">
+			<cfif #j# eq #arrayLen(myArr)#>
+				<cfoutput >
+					#myArr[j]# )
+				</cfoutput>
+			<cfelse>
+				<cfoutput >
+				 #myArr[j]# OR
+				</cfoutput>
+			</cfif>
 		</cfloop>
 
 	<cfelseif #i.type# eq "ethnicity">
 	<!-- Array -->
 		<cfoutput >
-			ethnicity EQ 
+			ethnicity EQ (
 		</cfoutput>
 		
 		<cfset myArr = #i.values#>
-		<cfloop array="#myArr#" index="j">
-			<cfoutput >
-				#j# 
-			</cfoutput>
-		</cfloop>		
+		<cfloop from="1" to="#arrayLen(myArr)#" index="j">
+			<cfif #j# eq #arrayLen(myArr)#>
+				<cfoutput >
+					#myArr[j]# )
+				</cfoutput>
+			<cfelse>
+				<cfoutput >
+				 #myArr[j]# OR
+				</cfoutput>
+			</cfif>
+		</cfloop>	
 		
 	<cfelseif #i.type# eq "marital">
 		<!-- Array -->
 		<cfoutput >
-			marital EQ -marital status-
+			marital EQ (
 		</cfoutput>
+		
+		<cfset myArr = #i.values#>
+		<cfloop from="1" to="#arrayLen(myArr)#" index="j">
+			<cfif #j# eq #arrayLen(myArr)#>
+				<cfoutput >
+					#myArr[j]# )
+				</cfoutput>
+			<cfelse>
+				<cfoutput >
+				 #myArr[j]# OR
+				</cfoutput>
+			</cfif>
+		</cfloop>
 		
 	<cfelseif #i.type# eq "conditions">
 	<cfset cond = #i.id#>
@@ -99,9 +130,18 @@
 	<cfelseif #i.type# eq "observations">
 	<cfset observ = #i.id#>
 	<cfset option = #i.options#>
+		<cfif #option# eq 'greater'>
+			<cfset opt = 'GT'>
+		</cfif>
+		<cfif #option# eq 'less'>
+			<cfset opt = 'LT'>
+		</cfif>
+		<cfif #option# eq 'equal'>
+			<cfset opt = 'GT'>
+		</cfif>
 	<cfset val = #i.value#>
 		<cfoutput >
-			observations EQ #observ# #option# #val#
+			observations EQ #observ# #opt# #val#
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "medications">
