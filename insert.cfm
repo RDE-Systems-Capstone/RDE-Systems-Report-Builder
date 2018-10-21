@@ -62,8 +62,8 @@ li a {
 	section{
 	
 	border: 5px solid white;
-	border-radius: 5em;
-	padding: 5em;
+	border-radius: 6em;
+	padding: 6em;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -90,6 +90,9 @@ li a {
 	}
 </style>
 <body>
+	<title>Reigistration Page </title>
+		
+	</time>
 	<ul>
 			 <li><img src="images/rde_logo_white.png"  height="43" width="62"></li>
 			 <li><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/index.cfm'">RDE Systems</a></li>
@@ -105,18 +108,18 @@ li a {
 				User Registration
 			</h1>
 			<p>
-				First Name: 
-				<cfinput type="text" name="First" id="First" required="true"
+				<center>First Name:
+				<cfinput type="text" name="First" id="First" required="true" 
 				         validateat="onSubmit" message="Please provide a first name"/>
 			</p>
 			<p>
-				Last Name:&nbsp
+				Last Name:&nbsp 
 				<cfinput type="text" name="Last" id="Last" required="true"
 				         validateat="onSubmit" message="Please provide a last name"/>
 			</p>
 			<p>
 				Username:&ensp; 
-				<cfinput type="text" name="User" id="User" required="true"
+				<cfinput type="text" name="User" id="User" required="true" placeholder="This Will Be Your Display Name"
 				         validateat="onSubmit" message="Please provide a username"/>
 			</p>
 			<p>
