@@ -41,14 +41,14 @@
 		<cfset minVal = #i.min#>
 		<cfset maxVal = #i.max#>		
 		<cfoutput >
-			age BETWEEN #minVal# AND #maxVal#
+			( age BETWEEN #minVal# AND #maxVal# )
 		</cfoutput>
 
 	<cfelseif #i.type# eq "gender">
 		<!-- Array -->
 		<cfset patientGender = #i.values#>
 		<cfoutput >
-			gender EQ (
+			( gender = 
 		</cfoutput>
 		
 		<cfset myArr = #i.values#>
@@ -67,7 +67,7 @@
 	<cfelseif #i.type# eq "race">
 		<!-- Array -->
 		<cfoutput >
-			race EQ (
+			( race = 
 		</cfoutput>
 		
 		<cfset myArr = #i.values#>
@@ -86,7 +86,7 @@
 	<cfelseif #i.type# eq "ethnicity">
 	<!-- Array -->
 		<cfoutput >
-			ethnicity EQ (
+			( ethnicity = 
 		</cfoutput>
 		
 		<cfset myArr = #i.values#>
@@ -105,7 +105,7 @@
 	<cfelseif #i.type# eq "marital">
 		<!-- Array -->
 		<cfoutput >
-			marital EQ (
+			( marital = 
 		</cfoutput>
 		
 		<cfset myArr = #i.values#>
@@ -124,7 +124,7 @@
 	<cfelseif #i.type# eq "conditions">
 	<cfset cond = #i.id#>
 		<cfoutput >
-			conditions EQ #cond#
+			conditions = #cond#
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "observations">
@@ -141,37 +141,37 @@
 		</cfif>
 	<cfset val = #i.value#>
 		<cfoutput >
-			observations EQ #observ# #opt# #val#
+			observations = #observ# #opt# #val#
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "medications">
 	<cfset meds = #i.id#>
 		<cfoutput >
-			medications EQ #meds#
+			medications = #meds#
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "immunizations">
 		<cfset immun = #i.id#>
 		<cfoutput >
-			immunizations EQ #immun#
+			immunizations = #immun#
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "allergies">
 		<cfset alerg = #i.id#>
 		<cfoutput >
-			allergies EQ #alerg#
+			allergies = #alerg#
 		</cfoutput>	
 		
 	<cfelseif #i.type# eq "encounters">
 		<cfset encoun = #i.id#>
 		<cfoutput >
-			encounters EQ #encoun#
+			encounters = #encoun#
 		</cfoutput>
 		
 	<cfelseif #i.type# eq "procedures">
 		<cfset proced = #i.id#>
 		<cfoutput >
-			procedures EQ #proced#
+			procedures = #proced#
 		</cfoutput>
 	</cfif>
 </cfloop>
