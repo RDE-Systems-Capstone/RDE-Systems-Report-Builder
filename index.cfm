@@ -98,7 +98,7 @@ li a:hover:not(.active) {
 		<ul>
 			 <li><img src="images/rde_logo_white.png" height="43" width="62"></li>
 			 <li><a href="#home">RDE Systems</a></li>
-			 <li><a href="#home">Home</a></li>
+			 <li><a href="#home" onclick="location.href='http://rde.org/'">Home </a></li>
 			 <li><a href="#contact">Support</a></li>
 			 <li style="float:right"><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/insert.cfm'">New Member?</a></li>
 </ul>
