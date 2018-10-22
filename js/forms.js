@@ -84,6 +84,7 @@ function getFilters() {
 
 	//keep track of errors
 	var errors = 0;
+	var error_list = "Errors detected: \n";
 	
 	//first let's get the report type and associated parameters
 	var report_options = {};
@@ -104,7 +105,7 @@ function getFilters() {
 			bar_array.push(this.value);
 		});
 		if ( bar_array.length == 0 ) {
-			alert("Bar graph is missing options!");
+			error_list += "Output: Bar graph is missing options\n";
 			errors++;
 		}
 		report_options["group_by"] = bar_array;
@@ -116,7 +117,7 @@ function getFilters() {
 			pie_array.push(this.value);
 		});
 		if ( pie_array.length == 0 ) {
-			alert("Pie graph is missing options!");
+			error_list += "Output: Pie graph is missing options\n";
 			errors++;
 		}
 		report_options["group_by"] = pie_array;
@@ -128,7 +129,7 @@ function getFilters() {
 			doughnut_array.push(this.value);
 		});
 		if ( doughnut_array.length == 0 ) {
-			alert("Doughnut graph is missing options!");
+			error_list += "Output: Doughnut graph is missing options\n";
 			errors++;
 		}
 		report_options["columns"] = doughnut_array;
@@ -140,20 +141,20 @@ function getFilters() {
 			data_array.push(this.value);
 		});
 		if ( data_array.length == 0 ) {
-			alert("Data table is missing options!");
+			error_list += "Output: Data table is missing options\n";
 			errors++;
 		}
 		report_options["group_by"] = data_array;
 	} 
 	else if ( $("#report_type").val() == null ) {
-		alert("Graph option can't be empty!");
+		error_list += "Report Type: Graph option can't be empty\n";
 		errors++;
 	}
 	
 	//alert(JSON.stringify(report_options));
 	var chosen_filters = $("#chosen_filters").children();
 	if (chosen_filters.length == 0) {
-		alert("No filters selected!");
+		error_list += "Filters: No filters selected\n";
 		errors++;
 	} else {
 		chosen_filters.each(function() {
@@ -187,7 +188,7 @@ function getFilters() {
 					}
 				});
 				if ( gender_array["values"].length == 0) {
-					alert("Gender filter is missing options!");
+					error_list += "Filters: Gender filter is missing options\n";
 					errors++;
 				}
 				filters_array.push(gender_array);
@@ -199,7 +200,7 @@ function getFilters() {
 					race_array["values"].push(this.value)
 				});
 				if ( race_array["values"].length == 0) {
-					alert("Race filter is missing options!");
+					error_list += "Filters: Race filter is missing options\n";
 					errors++;
 				}
 				filters_array.push(race_array);
@@ -211,7 +212,7 @@ function getFilters() {
 					eth_array["values"].push(this.value)
 				});
 				if ( eth_array["values"].length == 0) {
-					alert("Ethnicity filter is missing options!");
+					error_list += "Filters: Ethnicity filter is missing options\n";
 					errors++;
 				}
 				filters_array.push(eth_array);
@@ -223,7 +224,7 @@ function getFilters() {
 					marital_array["values"].push(this.value)
 				});
 				if ( marital_array["values"].length == 0) {
-					alert("Marital status filter is missing options!");
+					error_list +="Filters: Marital status filter is missing options\n";
 					errors++;
 				}
 				filters_array.push(marital_array);
@@ -239,7 +240,7 @@ function getFilters() {
 				var observations_array = {"type":"observations"}
 				var options = $("#" + this.value).find("[name='observations_opt']").each(function() {
 					if ( $(this).val() == null ) {
-						alert("Observations filter is missing options!");
+						error_list += "Filters: Observations filter is missing options\n";
 						errors++;
 					}
 					observations_array["id"] = this.value;
@@ -258,7 +259,7 @@ function getFilters() {
 				var medications_array = {"type":"medications"}
 				var options = $("#" + this.value).find("[name='medication_opt']").each(function() {
 					if ( $(this).val() == null ) {
-						alert("Medications filter is missing options!");
+						error_list += "Filters: Medications filter is missing options\n";
 						errors++;
 					}
 					medications_array["id"] = this.value;
@@ -269,7 +270,7 @@ function getFilters() {
 				var immunization_array = {"type":"immunizations"}
 				var options = $("#" + this.value).find("[name='immunization']").each(function() {
 					if ( $(this).val() == null ) {
-						alert("Immunizations filter is missing options!");
+						error_list += "Filters: Immunizations filter is missing options!\n";
 						errors++;
 					}
 					immunization_array["id"] = this.value;
@@ -280,7 +281,7 @@ function getFilters() {
 				var allergy_array = {"type":"allergies"}
 				var options = $("#" + this.value).find("[name='allergy']").each(function() {
 					if ( $(this).val() == null ) {
-						alert("Allergy filter is missing options!");
+						error_list += "Filters: Allergy filter is missing options!\n";
 						errors++;
 					}
 					allergy_array["id"] = this.value;
@@ -291,7 +292,7 @@ function getFilters() {
 				var encounters_array = {"type":"encounters"}
 				var options = $("#" + this.value).find("[name='encounter']").each(function() {
 					if ( $(this).val() == null ) {
-						alert("Encounters filter is missing options!");
+						error_list += "Filters: Encounters filter is missing options\n";
 						errors++;
 					}
 					encounters_array["id"] = this.value;
@@ -302,7 +303,7 @@ function getFilters() {
 				var procedures_array = {"type":"procedures"}
 				var options = $("#" + this.value).find("[name='procedure']").each(function() {
 					if ( $(this).val() == null ) {
-						alert("Procedures filter is missing options!");
+						error_list += "Filters: Procedures filter is missing options!";
 						errors++;
 					}
 					procedures_array["id"] = this.value;
@@ -336,7 +337,7 @@ function getFilters() {
 
 	//Verify that the parentheses match
 	if (tokens.length != 0) {
-		alert("Missing parentheses!")
+		error_list +="Filters: Missing parentheses\n";
 		errors++;
 	} 
 	
@@ -345,6 +346,8 @@ function getFilters() {
 		$("#report_type_string").val(JSON.stringify(report_options));
 		//alert(query_string);
 		$("#form").submit();
+	} else {
+		alert(error_list);
 	}
 
 };
