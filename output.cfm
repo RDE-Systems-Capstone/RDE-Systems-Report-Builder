@@ -210,7 +210,7 @@
 				</cfif>	
 
 				 <cfif #item["type"]# == "conditions">
-				 	<cfset  atype = "age">
+				 	<cfset  atype = "conditions">
 				 	<cfset qual = "=" /> 
 				 	<cfset spacer = " "/>
 					<cfset id= #item["id"]#>
