@@ -26,7 +26,7 @@
 		<!---Display user feedback--->		
 		<cfoutput>
 			<p>
-				Registered!
+				Registered! Click RDE Systems Above and Login!
 			</p>
 		</cfoutput>
 	</cfif>
@@ -105,7 +105,7 @@ li a {
 	<cfform name="RegisterForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
 		<section>
 			<h1>
-				User Registration
+				<bold>User Registration</bold>
 			</h1>
 			<p>
 				<center>First Name:
@@ -119,7 +119,7 @@ li a {
 			</p>
 			<p>
 				Username:&ensp; 
-				<cfinput type="text" name="User" id="User" required="true" placeholder="This Will Be Your Display Name"
+				<cfinput type="text" name="User" id="User" required="true" placeholder="       Display Name"
 				         validateat="onSubmit" message="Please provide a username"/>
 			</p>
 			<p>
