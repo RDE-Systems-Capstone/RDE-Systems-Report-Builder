@@ -23,9 +23,6 @@
 	<script src="js/drag.js"></script>
 	<script src="js/forms.js"></script>
 	<script src="js/bootstrap.min.js"></script>
-    <script src="jquery-2.1.4.min.js"></script>
-    <script src="Chart.js"></script>
-    <script src="https://cdnjs.com/libraries/Chart.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
   </head>
@@ -51,7 +48,7 @@
 	</nav>
 
 	<!-- left column code-->
-	<div class="col-lg-2">
+	<div class="col-lg-4">
 		<h1>Output</h1>
 		<div>
 			<h2>Debug info:</h2>
@@ -64,9 +61,18 @@
 			<cfoutput>#FORM.query_string#</cfoutput>
 
 			<h2>Graph options (struct) loop</h2>
+
 			<!--- This will loop through the table options array --->
 			<cfset TableOptions="#deserializeJSON(FORM.report_type_string)#">
 			<cfloop collection = #TableOptions# item="item">
+				<!--- Get the graph type --->
+				<cfif #item# EQ "type">
+					<cfset tableType = #TableOptions[item]#>
+				</cfif>
+				<cfif #item# EQ "group_by">
+					<!--- Get the group by options --->
+					<cfset tableGroupBy = #TableOptions[item]#>
+				</cfif>
 				<cfdump var="#item#">
 				<cfdump var="#TableOptions[item]#">
 				<br /> <!---add a break in between items for readability purposes --->
@@ -80,71 +86,39 @@
 				<cfoutput>#item["type"]#</cfoutput>
 				<cfdump var="#item#">
 			</cfloop>
-			<!---
-			<h2>CFDump of received report options:</h2>
-			<cfdump var="#deserializeJSON(FORM.report_type_string)#">
-			<h2>CFDump of received array:</h2>
-			<cfdump var="#deserializeJSON(FORM.query_string)#">
-		--->
+			</div>
 		</div>
-	</div>
-		<div class="col-lg-8 text-left">
-<cfset FiltersandBool="#deserializeJSON(FORM.query_string)#">
-<!---			<cfloop array = #FiltersandBool# item="item">
-<!---				<cfif #item["type"]# == "age">
-					<cfset age_min= #item["min"]#>
-					<cfset age_max= #item["max"]#>
-				</cfif>
-				<cfif #item["type"]# == "">--->
-					#FiltersandBool[i]#
-			</cfloop>--->
+		<div class="col-lg-6 text-left">
+			<cfset FiltersandBool="#deserializeJSON(FORM.query_string)#">
 
-<!---			<cfoutput> Age min: #age_min# </cfoutput>
-			<cfoutput> Age max: #age_max# </cfoutput>--->
-	<!-- Right column code-->
-<!---	 <cfset FilterBool = "#deserializeJSON (FORM.query_string)#">
-	 SELECT * from patients where 
-	 <cfloop array = #FilterBool# item="item" >
-	 	<cfif #item ["type"]# == "age">
-	 		<
-	 	<cfelseif #item["type"]# == "or" >
-	 	   OR 
-		<cfoutput> #item["type"]# IN (#ArrayToList(item["values"])#)</cfoutput>
-		</cfif>
-		</cfloop> --->
-		
-		<div class="col-lg-2">
-<cfset queries= ArrayNew(1)>
-<!---				<cfoutput >
-					#queries[1]#
-				</cfoutput>--->
-<cffunction name="dquery" access="public" returntype="string" >
-	<cfargument name="tableName"  type = "string"/> 
-	<cfset name = "select patient from #arguments.tableName# where" > 
-	<cfreturn name  />
-</cffunction>
+			<cfset queries= ArrayNew(1)>
+			<cffunction name="dquery" access="public" returntype="string" >
+				<cfargument name="tableName"  type = "string"/> 
+				<cfset name = "select patient from #arguments.tableName# where" > 
+				<cfreturn name  />
+			</cffunction>
+							
+
+			<cffunction name="aquery" access="public" returntype="string" >
+				<cfargument name="tableName"  type = "string"/> 
+				<cfset name = "select id from #arguments.tableName# where" > 
+				<cfreturn name  />
+			</cffunction>
+
+			<cffunction name="ageFunc" access="public" returntype="string" >
+
+				<cfargument name="min" type="integer" >
+				<cfargument name="max" type="integer" >
+				<cfset query= "select id from patients where #arguments.min# <= (FLOOR (DATEDIFF(DD,patients.BIRTHDATE, GETDATE())/365.25)) and  #arguments.max # >= (FLOOR (DATEDIFF(DD,patients.BIRTHDATE, GETDATE())/365.25))">
+				<cfreturn query />
+			</cffunction>
+			<cffunction name="patientFunc" access="public" retuntype = "string" >
+				<cfargument name = "atype" type="string">
+				<cfargument name="variable" type= "string" >
+				<cfset query = "select id from patients where #arguments.atype# = '#variable#'">
+				<cfreturn query />
 				
-
-<cffunction name="aquery" access="public" returntype="string" >
-	<cfargument name="tableName"  type = "string"/> 
-	<cfset name = "select id from #arguments.tableName# where" > 
-	<cfreturn name  />
-</cffunction>
-
-<cffunction name="ageFunc" access="public" returntype="string" >
-
-	<cfargument name="min" type="integer" >
-	<cfargument name="max" type="integer" >
-	<cfset query= "select id from patients where #arguments.min# <= (FLOOR (DATEDIFF(DD,patients.BIRTHDATE, GETDATE())/365.25)) and  #arguments.max # >= (FLOOR (DATEDIFF(DD,patients.BIRTHDATE, GETDATE())/365.25))">
-	<cfreturn query />
-</cffunction>
-<cffunction name="patientFunc" access="public" retuntype = "string" >
-	<cfargument name = "atype" type="string">
-	<cfargument name="variable" type= "string" >
-	<cfset query = "select id from patients where #arguments.atype# = '#variable#'">
-	<cfreturn query />
-	
-</cffunction>
+			</cffunction>
 			<cfset i = 1 />
 			<cfset FilterBool="#deserializeJSON(FORM.query_string)#">
 			<cfloop array = #FilterBool# item="item" >
@@ -154,6 +128,7 @@
 					<cfset age_min= #item["min"]#>
 					<cfset age_max= #item["max"]#>
 					 <cfset MEDICALDATA = ageFunc(min = #age_min#, max = #age_max# )/>
+
 					 <cfoutput >
 					 	<cfset queries[i]=  "( " & #MEDICALDATA# &" ) " > 
 					 </cfoutput>
@@ -333,112 +308,119 @@
 				</cfif>	
 				
 				<cfoutput>
-					#queries[i]#<br>
+					<!--- #queries[i]#<br> --->
 				</cfoutput>
 				<cfset i+=1 /> 
 			</cfloop>
-		<cfset bigQuery= "">
-	<cfloop array = #queries# index= "idx">
-		<cfset bigQuery = #bigQuery#  & #idx# > 
-	</cfloop>
-	<cfoutput >
-		<cfset var1= "race" />
-		<cfset bigQ = "select race, count(distinct id)as total from patients where id in ( " & #bigQuery# &") group by race with rollup" />
-		#bigQ#
-	</cfoutput>
-<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
-<cfset MEDICALDATA = QueryExecute(#bigQ#, [] ,qoptions)> 
-	<cfdump var="#MEDICALDATA#" >
-	
-	<cfset temp = MEDICALDATA.recordCount-1 > 
+		
+		<cfloop array = #tableGroupBy# index = "gb">
+		<div>
+			<h2> Graph for <cfoutput>#gb#</cfoutput> </h2>
+			<cfset bigQuery= "">
+			<cfloop array = #queries# index= "idx">
+				<cfset bigQuery = #bigQuery#  & #idx# > 
+			</cfloop>
+			<cfoutput >
+				<cfset var1= #gb# />
+				<cfset bigQ = "select #var1#, count(distinct id) as total from patients where id in ( #bigQuery#) group by #var1# with rollup" />
+				<!---#bigQ# --->
+			</cfoutput>
+				<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
+				<cfset MEDICALDATA = QueryExecute(#bigQ#, [] ,qoptions)> 
+					<!--- <cfdump var="#MEDICALDATA#" > --->
+					
+					<cfset temp = MEDICALDATA.recordCount-1 > 
 
-<cfscript>
-	for (i=1; i<= temp ; i++){
-		writeOutput (MEDICALDATA[#var1#][i]);
-		writeOutput (":");
-		writeOutput (MEDICALDATA["total"][i]);
-		writeOutput ("<br/>");				
-	}
-</cfscript>
+				<cfscript>
+					for (i=1; i<= temp ; i++){
+						writeOutput (MEDICALDATA[#var1#][i]);
+						writeOutput (":");
+						writeOutput (MEDICALDATA["total"][i]);
+						writeOutput ("<br/>");				
+					}
+				</cfscript>
 
-	<table id = "myTable"border=1>
-	<style>tr : {background-color:red} </style>
-    <cfloop from="0" to="#temp#" index="row">
-        <cfif row eq 0>
-            <tr>
-                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
-                    <th><cfoutput>#column#</cfoutput></th>  
-                </cfloop>
-            </tr>
-        <cfelse>
-            <tr>
-                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
-                    <td><cfoutput>#MEDICALDATA[column][row]#</cfoutput></td>
-                </cfloop>
-            </tr>
-    </cfif>
-    </cfloop>
-</table>
-<cfset var3 = "bar" />
-<cfset labels = ArrayNew(1)>
-<cfset values = ArrayNew(1)>
-<cfset colors = ArrayNew(1)>
-<cfif var3 eq "bar">
-	<cfloop index="i" from="1" to="#temp#">
-		<cfoutput>
-		<cfset labels[i]= MEDICALDATA[#var1#][i]>
-		<cfset values[i]= MEDICALDATA["total"][i]>
-		<CFSET color =FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16)>
-		<cfset colors[i] = #color#>
-}
-	<!---	<cfset values[i] = Round ((#VAL(temp2)#*360)/#Val(Sum_data)#)>--->
-		</cfoutput>
-	</cfloop>
-</cfif>		
-<canvas id="myChart" >
-<script type= "text/javascript" language="Javascript"> 
-	/*converting coldfusion array into javascript */	
-<cfoutput>
- var #ToScript(labels, "jsArray")#;
- var #ToScript(values, "jArray")#;
- var #ToScript (temp, "var1")#; 
- var #ToScript(var3, "typeGraph")#;
-/* var #ToScript(colors, "color")#;*/
- var tableArr= [];
-</cfoutput>
+			<table id = "myTable"border=1>
+			<style>tr : {background-color:red} </style>
+		    <cfloop from="0" to="#temp#" index="row">
+		        <cfif row eq 0>
+		            <tr>
+		                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+		                    <th><cfoutput>#column#</cfoutput></th>  
+		                </cfloop>
+		            </tr>
+		        <cfelse>
+		            <tr>
+		                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+		                    <td><cfoutput>#MEDICALDATA[column][row]#</cfoutput></td>
+		                </cfloop>
+		            </tr>
+		    </cfif>
+		    </cfloop>
+			</table>
+			<cfset var3 = #tableType# />
+			<cfset labels = ArrayNew(1)>
+			<cfset values = ArrayNew(1)>
+			<cfset colors = ArrayNew(1)>
+			<cfif var3 eq "bar">
+				<cfloop index="i" from="1" to="#temp#">
+					<cfoutput>
+					<cfset labels[i]= MEDICALDATA[#var1#][i]>
+					<cfset values[i]= MEDICALDATA["total"][i]>
+					<CFSET color =FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16)>
+					<cfset colors[i] = #color#>
 
-var table = document.getElementById("myTable");
-var tableLen = var1;
-var data = {labels: [], total:[], colors:[]}
-function getRandomColor() {
-  var letters = '0123456789ABCDEF';
-  var color = '#';
-  for (var i = 0; i < 6; i++) {
-    color += letters[Math.floor(Math.random() * 16)];
-  }
-  return color;
-}
+				<!---	<cfset values[i] = Round ((#VAL(temp2)#*360)/#Val(Sum_data)#)>--->
+					</cfoutput>
+				</cfloop>
+			</cfif>		
+				<canvas id="myChart<cfoutput>#var1#</cfoutput>">
+					<script type= "text/javascript" language="Javascript"> 
+						/*converting coldfusion array into javascript */	
+					<cfoutput>
+					 var #ToScript(labels, "jsArray")#;
+					 var #ToScript(values, "jArray")#;
+					 var #ToScript (temp, "var1")#; 
+					 var #ToScript(var3, "typeGraph")#;
+					/* var #ToScript(colors, "color")#;*/
+					 var tableArr= [];
+					</cfoutput>
 
-for (var i = 0; i < tableLen; i++) {
-  data.labels.push(jsArray[i])
-  data.total.push(jArray[i])
-  data.colors.push(getRandomColor())
-}
-var ctx = document.getElementById("myChart").getContext('2d');
-var myChart = new Chart(ctx, {
-  type: typeGraph,
-  data: {
-    labels:data.labels,
-    datasets: [{
-    	label: "Race ",
-    	data : data.total,
-    	backgroundColor: data.colors
-    }]
+					var table = document.getElementById("myTable");
+					var tableLen = var1;
+					var data = {labels: [], total:[], colors:[]}
+					function getRandomColor() {
+					  var letters = '0123456789ABCDEF';
+					  var color = '#';
+					  for (var i = 0; i < 6; i++) {
+					    color += letters[Math.floor(Math.random() * 16)];
+					  }
+					  return color;
+					}
 
-  }
-});
-		</script>
+					for (var i = 0; i < tableLen; i++) {
+					  data.labels.push(jsArray[i])
+					  data.total.push(jArray[i])
+					  data.colors.push(getRandomColor())
+					}
+					var ctx = document.getElementById("myChart<cfoutput>#var1#</cfoutput>").getContext('2d');
+					var myChart = new Chart(ctx, {
+					  type: typeGraph,
+					  data: {
+					    labels:data.labels,
+					    datasets: [{
+					    	label: "<cfoutput>#var1#</cfoutput>",
+					    	data : data.total,
+					    	backgroundColor: data.colors
+					    }]
+
+					  }
+					});
+				</script>
+			</canvas>
 		</div>
+		</cfloop>
+	</div>
 
   </body>
 </html>
