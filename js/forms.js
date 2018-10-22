@@ -46,8 +46,8 @@ $(document).ready(function() { 	//only run once page is ready
 	});
 });
 
-/* WORK IN PROGRESS - SHOW FILTER DATA IN CHOSEN FILTER TEXT
-The following function ageFilterUpdate will update the text of the filter button to refect the parameters set by the user
+/* WORK IN PROGRESS - SHOW FILTER DATA IN CHOSEN FILTER TEXT 
+The following function ageFilterUpdate will update the text of the filter button to refect the parameters set by the user */
 function ageFilterUpdate(filter_id) {
 	var buttons = $("#chosen_filters").find("[type='button']");
 	var age_options = $("#" + filter_id);
@@ -67,15 +67,59 @@ function genderFilterUpdate(filter_id) {
 	var options = $(gender_options).find("[name='gender']:checked");
 	for(i = 0; i < buttons.length; i++) {
 		if (buttons[i].value === filter_id) {
-			buttons[i].innerHTML = "Gender ";
+			buttons[i].innerHTML = "Gender: ";
 			options.each( function() {
-				buttons[i].append(this.value);
+				buttons[i].append(this.value + " ");
 			});
 			break;
 		}
 	}
 };
-*/
+
+function raceFilterUpdate(filter_id) {
+	var buttons = $("#chosen_filters").find("[type='button']");
+	var gender_options = $("#" + filter_id);
+	var options = $(gender_options).find("[name='race']:checked");
+	for(i = 0; i < buttons.length; i++) {
+		if (buttons[i].value === filter_id) {
+			buttons[i].innerHTML = "Race: ";
+			options.each( function() {
+				buttons[i].append(this.value + " ");
+			});
+			break;
+		}
+	}
+};
+
+function ethFilterUpdate(filter_id) {
+	var buttons = $("#chosen_filters").find("[type='button']");
+	var gender_options = $("#" + filter_id);
+	var options = $(gender_options).find("[name='ethnicity']:checked");
+	for(i = 0; i < buttons.length; i++) {
+		if (buttons[i].value === filter_id) {
+			buttons[i].innerHTML = "Ethnicity: ";
+			options.each( function() {
+				buttons[i].append(this.value + " ");
+			});
+			break;
+		}
+	}
+};
+
+function maritalFilterUpdate(filter_id) {
+	var buttons = $("#chosen_filters").find("[type='button']");
+	var gender_options = $("#" + filter_id);
+	var options = $(gender_options).find("[name='marital']:checked");
+	for(i = 0; i < buttons.length; i++) {
+		if (buttons[i].value === filter_id) {
+			buttons[i].innerHTML = "Marital Status: ";
+			options.each( function() {
+				buttons[i].append(this.value + " ");
+			});
+			break;
+		}
+	}
+};
 
 function getFilters() {
 	//store filter params in array

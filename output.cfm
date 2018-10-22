@@ -214,7 +214,7 @@
 				 	<cfset qual = "=" /> 
 				 	<cfset spacer = " "/>
 					<cfset id= #item["id"]#>
-					 <cfset MEDICALDATA = dquery(tableName = "patients")/> 
+					 <cfset MEDICALDATA = dquery(tableName = "conditions")/> 
 					 <cfset MEDICALDATA = "(select id from patients where id in (" & #MEDICALDATA# & #spacer# & "code" & #qual# & #id# & "))" > 
 					 <cfoutput >
 					 	<cfset queries[i]= #MEDICALDATA#>

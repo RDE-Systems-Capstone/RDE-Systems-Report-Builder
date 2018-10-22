@@ -17,9 +17,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfoutput><form class="form-inline collapse" id="#arguments.id#"></cfoutput>
 						<h2>Age filter</h2>
 						<label for="age_min">Between</label>
-						<input type="number" id="age_min" min="0" max="120" step="1" value="20" class="form-control" />
+						<input type="number" id="age_min" min="0" max="120" step="1" value="20" class="form-control" <cfoutput>onchange="ageFilterUpdate('#arguments.id#')"</cfoutput> />
 						<label for="age_max">and</label>
-						<input type="number" id="age_max" min="0" max="120" step="1" value="50" class="form-control" />
+						<input type="number" id="age_max" min="0" max="120" step="1" value="50" class="form-control" <cfoutput>onchange="ageFilterUpdate('#arguments.id#')"</cfoutput> />
 					</form>
 				</div>
 
@@ -28,8 +28,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div id="gender_filter">
 					<cfoutput><div id="#arguments.id#"  class="collapse checkbox"></cfoutput>
 						<h2>Gender filter</h2>
-						<label><input type="checkbox" name="gender" value="M" />Male</label>
-						<label><input type="checkbox" name="gender" value="F" />Female</label>
+						<label><input type="checkbox" name="gender" value="M" <cfoutput>onchange="genderFilterUpdate('#arguments.id#')"</cfoutput> />Male</label>
+						<label><input type="checkbox" name="gender" value="F" <cfoutput>onchange="genderFilterUpdate('#arguments.id#')"</cfoutput> />Female</label>
 					</div>
 				</div>
 			
@@ -38,10 +38,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div id="race_filter">
 					<cfoutput><div id="#arguments.id#"  class="collapse checkbox"></cfoutput>
 						<h2>Race filter</h2>
-						<label><input type="checkbox" name="race" value="white"/>White</label>
-						<label><input type="checkbox" name="race" value="black"/>Black</label>
-						<label><input type="checkbox" name="race" value="asian"/>Asian</label>
-						<label><input type="checkbox" name="race" value="hispanic"/>Hispanic</label>
+						<label><input type="checkbox" name="race" value="white" <cfoutput>onchange="raceFilterUpdate('#arguments.id#')"</cfoutput> />White</label>
+						<label><input type="checkbox" name="race" value="black" <cfoutput>onchange="raceFilterUpdate('#arguments.id#')"</cfoutput> />Black</label>
+						<label><input type="checkbox" name="race" value="asian" <cfoutput>onchange="raceFilterUpdate('#arguments.id#')"</cfoutput> />Asian</label>
+						<label><input type="checkbox" name="race" value="hispanic" <cfoutput>onchange="raceFilterUpdate('#arguments.id#')"</cfoutput> />Hispanic</label>
 					</div>
 				</div>
 			
@@ -50,7 +50,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div id="ethnicity_filter">
 					<cfoutput><div id="#arguments.id#"  class="collapse checkbox"></cfoutput>
 						<h2>Ethnicity filter</h2>
-						<cfinvoke component="app.builder.report" method="ethnicitiesList"></cfinvoke>
+						<cfinvoke component="app.builder.report" method="ethnicitiesList" id="#arguments.id#"></cfinvoke>
 					</div>
 				</div>
 			
@@ -59,8 +59,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div id="marital_filter">
 					<cfoutput><div id="#arguments.id#"  class="collapse checkbox"></cfoutput>
 						<h2>Marital Status filter</h2>
-						<label><input type="checkbox" name="marital" value="S"/>Single</label>
-						<label><input type="checkbox" name="marital" value="M"/>Married</label>
+						<label><input type="checkbox" name="marital" value="S" <cfoutput>onchange="maritalFilterUpdate('#arguments.id#')"</cfoutput> />Single</label>
+						<label><input type="checkbox" name="marital" value="M" <cfoutput>onchange="maritalFilterUpdate('#arguments.id#')"</cfoutput> />Married</label>
 					</div>
 				</div>
 			

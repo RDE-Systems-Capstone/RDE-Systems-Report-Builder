@@ -163,6 +163,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<!---Output ethnicities dropdown menu --->
 	<cffunction name="ethnicitiesList" returntype="void">
+		<cfargument name="id" type=numeric required="true">
 		<cfinvoke 	component="app.builder.report"
 		method="getEthnicities"
 		returnvariable="allEthnicities"></cfinvoke>
@@ -171,7 +172,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<cfset ethnicity_desc="#reReplace('#ETHNICITY#',"(^[a-z])","\U\1","ALL")#">
 				<cfset ethnicity_desc="#Replace('#ethnicity_desc#',"_"," ","all")#">
 				<cfoutput>
-					<label><cfinput type="checkbox" name="ethnicity" value="#ETHNICITY#">#ethnicity_desc#</label>
+					<label><cfinput type="checkbox" name="ethnicity" value="#ETHNICITY#" onchange="ethFilterUpdate('#id#')">#ethnicity_desc#</label>
 				</cfoutput>
 			</cfloop>
 		</cfform>
@@ -179,6 +180,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	
 	<!---Output immunizations dropdown menu --->
 	<cffunction name="immunizationsList" returntype="void">
+		<cfargument name="id" type=numeric required="true">
 		<cfinvoke 	component="app.builder.report"
 		method="getImmunizations"
 		returnvariable="allImmunizations"></cfinvoke>
