@@ -94,6 +94,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<!---Output conditions dropdown menu --->
 	<cffunction name="conditionsList" returntype="void">
+		<cfargument name="id" type=numeric required="true">
 		<cfinvoke 	component="app.builder.report"
 		method="getConditions"
 		returnvariable="allConditions"></cfinvoke>
@@ -106,7 +107,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				value="CODE"
 				display="DESCRIPTION"
 				message="Select a condition"
-				class="form-control">
+				class="form-control"
+				onchange="dropdownFilterUpdate('#id#', 'conditions', 'Conditions: ')">
 					<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
 		</cfform>
@@ -126,23 +128,28 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				value="CODE"
 				display="DESCRIPTION"
 				message="Select an observation"
-				class="form-control">
+				class="form-control"
+				onchange="observationsFilterUpdate('#id#')">
 					<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
 			<cfselect
 				name="value_options"
 				id="value_options"
-				class="form-control">
+				class="form-control"
+				onchange="observationsFilterUpdate('#id#')">
 					<option value="greater">></option>
 					<option value="less"><</option>
 					<option value="equal">=</option>
 			</cfselect>
-			<input id="value_num" type="number" class="form-control" />
+			<cfoutput>
+			<input id="value_num" class="form-control" onchange="observationsFilterUpdate('#id#')" onkeypress="if (event.keyCode == 13){return false;}" value=0 />
+			</cfoutput>
 		</cfform>
 	</cffunction>
 	
 	<!--- Output medications list --->
 	<cffunction name="medicationsList" returntype="void">
+		<cfargument name="id" type=numeric required="true">
 		<cfinvoke 	component="app.builder.report"
 		method="getMedications"
 		returnvariable="allMedications"></cfinvoke>
@@ -155,7 +162,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				value="CODE"
 				display="DESCRIPTION"
 				message="Select a condition"
-				class="form-control">
+				class="form-control"
+				onchange="dropdownFilterUpdate('#id#', 'medications', 'Medications: ')">
 					<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
 		</cfform>
@@ -172,7 +180,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<cfset ethnicity_desc="#reReplace('#ETHNICITY#',"(^[a-z])","\U\1","ALL")#">
 				<cfset ethnicity_desc="#Replace('#ethnicity_desc#',"_"," ","all")#">
 				<cfoutput>
-					<label><cfinput type="checkbox" name="ethnicity" value="#ETHNICITY#" onchange="ethFilterUpdate('#id#')">#ethnicity_desc#</label>
+					<label><cfinput type="checkbox" name="ethnicity" value="#ETHNICITY#" onchange="checkboxFilterUpdate('#id#', 'ethnicity', 'Ethnicity: ')">#ethnicity_desc#</label>
 				</cfoutput>
 			</cfloop>
 		</cfform>
@@ -193,7 +201,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				value="CODE"
 				display="DESCRIPTION"
 				message="Select an immunization"
-				class="form-control">
+				class="form-control"
+				onchange="dropdownFilterUpdate('#id#', 'immunizations', 'Immunizations: ')">
 					<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
 		</cfform>
@@ -201,6 +210,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	
 	<!---Output allergies dropdown menu --->
 	<cffunction name="allergiesList" returntype="void">
+		<cfargument name="id" type=numeric required="true">
 		<cfinvoke 	component="app.builder.report"
 		method="getAllergies"
 		returnvariable="allallergies"></cfinvoke>
@@ -213,7 +223,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				value="CODE"
 				display="DESCRIPTION"
 				message="Select an allergy"
-				class="form-control">
+				class="form-control"
+				onchange="dropdownFilterUpdate('#id#', 'allergies', 'Allergies: ')">
 					<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
 		</cfform>
@@ -221,6 +232,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	
 	<!---Output encounters dropdown menu --->
 	<cffunction name="encountersList" returntype="void">
+		<cfargument name="id" type=numeric required="true">
 		<cfinvoke 	component="app.builder.report"
 		method="getEncounters"
 		returnvariable="allEncounters"></cfinvoke>
@@ -233,7 +245,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				value="CODE"
 				display="DESCRIPTION"
 				message="Select an encounter"
-				class="form-control">
+				class="form-control"
+				onchange="dropdownFilterUpdate('#id#', 'encounters', 'Encounters: ')">
 					<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
 		</cfform>
@@ -241,6 +254,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	
 	<!---Output procedures dropdown menu --->
 	<cffunction name="proceduresList" returntype="void">
+		<cfargument name="id" type=numeric required="true">
 		<cfinvoke 	component="app.builder.report"
 		method="getProcedures"
 		returnvariable="allProcedures"></cfinvoke>
@@ -253,7 +267,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				value="CODE"
 				display="DESCRIPTION"
 				message="Select a procedure"
-				class="form-control">
+				class="form-control"
+				onchange="dropdownFilterUpdate('#id#', 'procedures', 'Procedures: ')">
 					<option selected="true" disabled="disabled"> -- select an option -- </option>
 			</cfselect>
 		</cfform>

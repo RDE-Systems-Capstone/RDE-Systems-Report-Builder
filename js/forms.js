@@ -61,65 +61,48 @@ function ageFilterUpdate(filter_id) {
 	}
 };
 
-function genderFilterUpdate(filter_id) {
-	var buttons = $("#chosen_filters").find("[type='button']");
-	var gender_options = $("#" + filter_id);
-	var options = $(gender_options).find("[name='gender']:checked");
-	for(i = 0; i < buttons.length; i++) {
-		if (buttons[i].value === filter_id) {
-			buttons[i].innerHTML = "Gender: ";
-			options.each( function() {
-				buttons[i].append(this.value + " ");
-			});
-			break;
-		}
-	}
+/* This function will update the text of the observations dropdown-type filter
+ where filter_id is the unique id of the added filter, filter_type is type of filter (ex. race) and filter_text is text to be prepended (ex. "Race: ") */
+function observationsFilterUpdate(filter_id) {
+	var button = $("#chosen_filters").find("[type='button'][value=" + filter_id + "]")[0];
+	var filter_options = $("#" + filter_id);
+	var options = $(filter_options).find("option:selected");
+	var value_num = $("#value_num").val();
+	var filter_text = "Observations: ";
+	
+	button.innerHTML = filter_text;
+	options.each( function() {
+		button.append($(this).text() + " ");
+	});
+	button.append(value_num);
 };
 
-function raceFilterUpdate(filter_id) {
-	var buttons = $("#chosen_filters").find("[type='button']");
-	var gender_options = $("#" + filter_id);
-	var options = $(gender_options).find("[name='race']:checked");
-	for(i = 0; i < buttons.length; i++) {
-		if (buttons[i].value === filter_id) {
-			buttons[i].innerHTML = "Race: ";
-			options.each( function() {
-				buttons[i].append(this.value + " ");
-			});
-			break;
-		}
-	}
+/* This function will update the text of any checkbox-type filter
+ where filter_id is the unique id of the added filter, filter_type is type of filter (ex. race) and filter_text is text to be prepended (ex. "Race: ") */
+function checkboxFilterUpdate(filter_id, filter_type, filter_text) {
+	var button = $("#chosen_filters").find("[type='button'][value=" + filter_id + "]")[0];
+	var filter_options = $("#" + filter_id);
+	var options = $(filter_options).find(":checked");
+	
+	button.innerHTML = filter_text;
+	options.each( function() {
+		button.append(this.value + " ");
+	});
 };
 
-function ethFilterUpdate(filter_id) {
-	var buttons = $("#chosen_filters").find("[type='button']");
-	var gender_options = $("#" + filter_id);
-	var options = $(gender_options).find("[name='ethnicity']:checked");
-	for(i = 0; i < buttons.length; i++) {
-		if (buttons[i].value === filter_id) {
-			buttons[i].innerHTML = "Ethnicity: ";
-			options.each( function() {
-				buttons[i].append(this.value + " ");
-			});
-			break;
-		}
-	}
+/* This function will update the text of any dropdown-type filter
+ where filter_id is the unique id of the added filter, filter_type is type of filter (ex. race) and filter_text is text to be prepended (ex. "Race: ") */
+function dropdownFilterUpdate(filter_id, filter_type, filter_text) {
+	var button = $("#chosen_filters").find("[type='button'][value=" + filter_id + "]")[0];
+	var filter_options = $("#" + filter_id);
+	var options = $(filter_options).find("option:selected");
+	
+	button.innerHTML = filter_text;
+	options.each( function() {
+		button.append($(this).text());
+	});
 };
 
-function maritalFilterUpdate(filter_id) {
-	var buttons = $("#chosen_filters").find("[type='button']");
-	var gender_options = $("#" + filter_id);
-	var options = $(gender_options).find("[name='marital']:checked");
-	for(i = 0; i < buttons.length; i++) {
-		if (buttons[i].value === filter_id) {
-			buttons[i].innerHTML = "Marital Status: ";
-			options.each( function() {
-				buttons[i].append(this.value + " ");
-			});
-			break;
-		}
-	}
-};
 
 function getFilters() {
 	//store filter params in array

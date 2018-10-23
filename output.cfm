@@ -1,7 +1,10 @@
-<!---<cfquery 
-	name="builder_query" datasource="MEDICALDATA">
-	#preserveSingleQuotes(FORM.query_string)#
-</cfquery>--->
+<!---
+Code for report output page
+Built using Bootstrap/ColdFusion
+
+RDE Systems Capstone Fall 2018
+Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
+--->
 
 <cfparam name="session.loggedin" default="false" />
 <cfif NOT session.loggedin>
@@ -123,6 +126,7 @@
 			<cfset FilterBool="#deserializeJSON(FORM.query_string)#">
 			<cfloop array = #FilterBool# item="item" >
 				<!--  checking paramters -->
+				<!--- Age, might be broken?? --->
 				 <cfif #item["type"]# == "age">
 				 	<cfset  atype = "age">
 					<cfset age_min= #item["min"]#>
@@ -130,9 +134,11 @@
 					 <cfset MEDICALDATA = ageFunc(min = #age_min#, max = #age_max# )/>
 
 					 <cfoutput >
-					 	<cfset queries[i]=  "( " & #MEDICALDATA# &" ) " > 
+					 	<cfset queries[i]=  "(  #MEDICALDATA#  ) " > 
 					 </cfoutput>
 				</cfif>  
+
+				<!--- Gender --->
 				<cfif #item["type"]# == "gender">
 				 	<cfset  atype = "gender">
 				     <cfset var= #item["values"]#>
@@ -143,16 +149,14 @@
 					
 					 <cfset MEDICALDATA = patientFunc(atype= #atype#, variable = #variable# )/>
 					 <cfoutput>
-					 	<cfset queries[i]=  "( " & #MEDICALDATA# &" ) " > 
+					 	<cfset queries[i]=  "(  #MEDICALDATA#  ) " > 
 					 </cfoutput>
 				</cfif>
 				
+				<!--- Race filter --->
 				<cfif #item["type"]# == "race">
 				 	<cfset  atype = "race">
 				 	<cfset MEDICALDATA = aquery(tableName = "patients")/>
-				 	<cfset spacer = " "/>
-				 	<cfset qual = "="/>
-				 	<cfset quote = '''' >
 					<cfset var= #item["values"]#>
 					<cfset  j = 1>
 					<cfloop array =#var# item = "value" index = "name">
@@ -160,19 +164,17 @@
 						<cfif j gt 1 >
 							<cfset #MEDICALDATA# &= " or">
 						</cfif>
-						<cfset MEDICALDATA = #MEDICALDATA# & #spacer# & #atype# & #qual# & #quote# & #value# & #quote#>
+						<cfset MEDICALDATA = "#MEDICALDATA# #atype#='#value#'">
 						<cfset j+=1 /> 
 					</cfloop>
 					
-					 	<cfset queries[i]=  "( " & #MEDICALDATA# &" ) " > 
+					 	<cfset queries[i]=  "(  #MEDICALDATA# ) " > 
 				</cfif>				
 
+				<!--- Ethnicity filter --->
 				<cfif #item["type"]# == "ethnicity">
 				 	<cfset  atype = "ethnicity">
 				 	<cfset MEDICALDATA = aquery(tableName = "patients")/>
-				 	<cfset spacer = " "/>
-				 	<cfset qual = "="/>
-				 	<cfset quote = '''' >
 					<cfset var= #item["values"]#>
 					<cfset  j = 1>
 					<cfloop array =#var# item = "value" index = "name">
@@ -180,22 +182,19 @@
 						<cfif j gt 1 >
 							<cfset #MEDICALDATA# &= " or">
 						</cfif>
-						<cfset MEDICALDATA = #MEDICALDATA# & #spacer# & #atype# & #qual# & #quote# & #value# & #quote#>
+						<cfset MEDICALDATA = "#MEDICALDATA# #atype#='#value#'">
 						<cfset j+=1 /> 
 					</cfloop>
 					
 					 <cfoutput>
-					 	<cfset queries[i]= "( " & #MEDICALDATA# &" ) " > 
+					 	<cfset queries[i]= "(  #MEDICALDATA#  ) " > 
 					 </cfoutput>
 				</cfif>					
 				
+				<!--- Marital status --->
 				<cfif #item["type"]# == "marital">
 				 	<cfset  atype = "marital">
 				 	<cfset MEDICALDATA = aquery(tableName = "patients")/>
-				 	<cfset spacer = " "/>
-				 	<cfset qual = "="/>
-				 	<cfset quote = '''' >
-				 	
 					<cfset var= #item["values"]#>
 					<cfset  j = 1>
 					<cfloop array =#var# item = "value" index = "name">
@@ -203,94 +202,94 @@
 						<cfif j gt 1 >
 							<cfset #MEDICALDATA# &= " or">
 						</cfif>
-						<cfset MEDICALDATA = #MEDICALDATA# & #spacer# & #atype# & #qual# & #quote# & #value# & #quote# >
+						<cfset MEDICALDATA = "#MEDICALDATA# #atype#='#value#'">
 						<cfset j+=1 /> 
 					</cfloop>
-					<cfset queries[i] = "( " & #MEDICALDATA# &" ) " > 
+					<cfset queries[i] = "(  #MEDICALDATA# ) " > 
 				</cfif>	
 
+				<!--- Conditions --->
 				 <cfif #item["type"]# == "conditions">
 				 	<cfset  atype = "conditions">
-				 	<cfset qual = "=" /> 
-				 	<cfset spacer = " "/>
 					<cfset id= #item["id"]#>
 					 <cfset MEDICALDATA = dquery(tableName = "conditions")/> 
-					 <cfset MEDICALDATA = "(select id from patients where id in (" & #MEDICALDATA# & #spacer# & "code" & #qual# & #id# & "))" > 
+					 <cfset MEDICALDATA = "(select id from patients where id in ( #MEDICALDATA# code=#id# ))" > 
 					 <cfoutput >
 					 	<cfset queries[i]= #MEDICALDATA#>
 					 </cfoutput>
 				</cfif> 				
 				
-				
+				<!--- Observations --->
 				 <cfif #item["type"]# == "observations">
 				 	<cfset  atype = "observations">
-				 	<cfset qual = "=" /> 
-				 	<cfset spacer = " "/>
 					<cfset id= #item["id"]#>
-					<cfset options= #item["options"]#>
+					<!--- Set operator based on builder output --->
+					<cfif #item["options"]# == "greater">
+						<cfset options= ">">
+					<cfelseif #item["options"]# == "equal">
+						<cfset options= "=">
+					<cfelseif #item["options"]# == "less">
+						<cfset options= "<">
+					</cfif>
 					<cfset type= #item["type"]#>
 					<cfset value= #item["value"]#>
 					 <cfset MEDICALDATA = dquery(tableName = "observations")/> 
-					 <cfset MEDICALDATA = "(select id from patients where id in (" & #MEDICALDATA# & #spacer# & "code" & #qual# & #id# & " and value" &" " & #options# & " " & #value# & "))" > 
+					 <cfset MEDICALDATA = "(select id from patients where id in (#MEDICALDATA# code='#id#' and value#options##value# ))" > 
 					 <cfoutput >
 					 	<cfset queries[i]= #MEDICALDATA#>
 					 </cfoutput>
 				</cfif> 
 
+				<!--- Medications --->
 				 <cfif #item["type"]# == "medications">
-				 	<cfset qual = "=" /> 
-				 	<cfset spacer = " "/>
 					<cfset id= #item["id"]#>
 					 <cfset MEDICALDATA = dquery(tableName = "medications")/> 
-					 <cfset MEDICALDATA = "(select id from patients where id in (" & #MEDICALDATA# & #spacer# & "code" & #qual# & #id# & "))" > 
+					 <cfset MEDICALDATA = "(select id from patients where id in ( #MEDICALDATA# code='#id#'))" > 
 					 <cfoutput >
 					 	<cfset queries[i]= #MEDICALDATA#>
 					 </cfoutput>
 				</cfif> 
 
+				<!--- Immunizations --->
 				 <cfif #item["type"]# == "immunizations">
-				 	<cfset qual = "=" /> 
-				 	<cfset spacer = " "/>
 					<cfset id= #item["id"]#>
 					 <cfset MEDICALDATA = dquery(tableName = "immunizations")/> 
-					 <cfset MEDICALDATA = "(select id from patients where id in (" & #MEDICALDATA# & #spacer# & "code" & #qual# & #id# & "))"> 
+					 <cfset MEDICALDATA = "(select id from patients where id in ( #MEDICALDATA# code=#id# ))" >  
 					 <cfoutput >
 					 	<cfset queries[i]= #MEDICALDATA#>
 					 </cfoutput>
 				</cfif> 
 
+				<!--- Allergies --->
 				 <cfif #item["type"]# == "allergies">
-				 	<cfset qual = "=" /> 
-				 	<cfset spacer = " "/>
 					<cfset id= #item["id"]#>
 					 <cfset MEDICALDATA = dquery(tableName = "allergies")/> 
-					 <cfset MEDICALDATA = "(select id from patients where id in (" & #MEDICALDATA# & #spacer# & "code" & #qual# & #id# & "))"> 
+					 <cfset MEDICALDATA = "(select id from patients where id in ( #MEDICALDATA# code=#id# ))" >  
 					 <cfoutput >
 					 	<cfset queries[i]= #MEDICALDATA#>
 					 </cfoutput>
 				</cfif> 
 
+				<!--- Encounters --->
 				 <cfif #item["type"]# == "encounters">
-				 	<cfset qual = "=" /> 
-				 	<cfset spacer = " "/>
 					<cfset id= #item["id"]#>
 					 <cfset MEDICALDATA = dquery(tableName = "encounters")/> 
-					 <cfset MEDICALDATA = "(select id from patients where id in (" & #MEDICALDATA# & #spacer# & "code" & #qual# & #id# & "))"> 
+					 <cfset MEDICALDATA = "(select id from patients where id in ( #MEDICALDATA# code=#id# ))" > 
 					 <cfoutput >
 					 	<cfset queries[i]= #MEDICALDATA#>
 					 </cfoutput>
-				</cfif> 
+				</cfif>
+				<!--- Procedures ---> 
 				 <cfif #item["type"]# == "procedures">
-				 	<cfset qual = "=" /> 
-				 	<cfset spacer = " "/>
 					<cfset id= #item["id"]#>
 					 <cfset MEDICALDATA = dquery(tableName = "procedures")/> 
-					 <cfset MEDICALDATA = "(select id from patients where id in (" & #MEDICALDATA# & #spacer# & "code" & #qual# & #id# & "))"> 
+					 <cfset MEDICALDATA = "(select id from patients where id in ( #MEDICALDATA# code=#id# ))" > 
 					 <cfoutput >
 					 	<cfset queries[i]= #MEDICALDATA#>
 					 </cfoutput>
 				</cfif> 
 				
+				<!--- Boolean logic --->
 				<cfif #item["type"]# == "and" >
 					<cfset queries[i] = " intersect " />
 				</cfif>
@@ -313,6 +312,7 @@
 				<cfset i+=1 /> 
 			</cfloop>
 		
+		<!--- Code for table and query output --->
 		<cfloop array = #tableGroupBy# index = "gb">
 		<div>
 			<h2> Graph for <cfoutput>#gb#</cfoutput> </h2>
@@ -320,6 +320,7 @@
 			<cfloop array = #queries# index= "idx">
 				<cfset bigQuery = #bigQuery#  & #idx# > 
 			</cfloop>
+			<cfoutput>#bigQuery#<br /></cfoutput>
 			<cfoutput >
 				<cfset var1= #gb# />
 				<cfset bigQ = "select #var1#, count(distinct id) as total from patients where id in ( #bigQuery#) group by #var1# with rollup" />
@@ -330,15 +331,6 @@
 					<!--- <cfdump var="#MEDICALDATA#" > --->
 					
 					<cfset temp = MEDICALDATA.recordCount-1 > 
-
-				<cfscript>
-					for (i=1; i<= temp ; i++){
-						writeOutput (MEDICALDATA[#var1#][i]);
-						writeOutput (":");
-						writeOutput (MEDICALDATA["total"][i]);
-						writeOutput ("<br/>");				
-					}
-				</cfscript>
 
 			<table id = "myTable"border=1>
 			<style>tr : {background-color:red} </style>
@@ -358,6 +350,9 @@
 		    </cfif>
 		    </cfloop>
 			</table>
+
+
+			<!--- code for charts --->
 			<cfset var3 = #tableType# />
 			<cfset labels = ArrayNew(1)>
 			<cfset values = ArrayNew(1)>

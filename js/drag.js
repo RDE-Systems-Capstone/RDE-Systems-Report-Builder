@@ -103,6 +103,10 @@ $(document).ready(function() { 	//only run once page is ready
 	    				}
     				}
     			});
+    			//Allow toggling of buttons when clicked
+    			clone.click( function(event, ui) {
+    				$(this).button('toggle');
+    			});
 			} 
         }
 	
