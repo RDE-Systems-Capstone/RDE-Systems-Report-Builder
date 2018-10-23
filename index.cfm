@@ -62,6 +62,7 @@
 				<h1>Visual Report Builder</h1>
 				<div class="well">
 				<h2>Please login:</h2>
+				<br />
 				<cfif structKeyExists(variables, 'aErrorMessages') AND NOT ArrayIsEmpty(aErrorMessages)>
 					<cfoutput>
 						<cfloop array="#aErrorMessages#" item="message">
@@ -82,6 +83,7 @@
 						<cfinput type="text" name="User" id="User" class="form-control" placeholder="Username" required="true"
 						         validateat="onSubmit" message="Please provide a username"/>
 					</div>
+					<br />
 					<!-- password -->
 					<div class="input-group">
 						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
