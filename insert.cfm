@@ -10,8 +10,8 @@
 			salt = '#rand#';
 			PBKDFalgorithm = "PBKDF2WithHmacSHA512";
 			PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
-			//writeOutput(PassKey); // checking password
-			writeOutput(salt); // checking salt
+			
+			
 		</cfscript>
 			
 		<cfset HashPass = PassKey/>
@@ -26,7 +26,7 @@
 		<!---Display user feedback--->		
 		<cfoutput>
 			<p>
-				Registered! Click RDE Systems Above and Login!
+				Registered!
 			</p>
 		</cfoutput>
 	</cfif>
@@ -62,8 +62,8 @@ li a {
 	section{
 	
 	border: 5px solid white;
-	border-radius: 6em;
-	padding: 6em;
+	border-radius: 5em;
+	padding: 5em;
 	position: absolute;
 	top: 50%;
 	left: 50%;
@@ -90,9 +90,6 @@ li a {
 	}
 </style>
 <body>
-	<title>Reigistration Page </title>
-		
-	</time>
 	<ul>
 			 <li><img src="images/rde_logo_white.png"  height="43" width="62"></li>
 			 <li><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/index.cfm'">RDE Systems</a></li>
@@ -105,21 +102,21 @@ li a {
 	<cfform name="RegisterForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
 		<section>
 			<h1>
-				<bold>User Registration</bold>
+				User Registration
 			</h1>
 			<p>
-				<center>First Name:
-				<cfinput type="text" name="First" id="First" required="true" 
+				First Name: 
+				<cfinput type="text" name="First" id="First" required="true"
 				         validateat="onSubmit" message="Please provide a first name"/>
 			</p>
 			<p>
-				Last Name:&nbsp 
+				Last Name:&nbsp
 				<cfinput type="text" name="Last" id="Last" required="true"
 				         validateat="onSubmit" message="Please provide a last name"/>
 			</p>
 			<p>
 				Username:&ensp; 
-				<cfinput type="text" name="User" id="User" required="true" placeholder="       Display Name"
+				<cfinput type="text" name="User" id="User" required="true"
 				         validateat="onSubmit" message="Please provide a username"/>
 			</p>
 			<p>
