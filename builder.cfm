@@ -30,7 +30,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 		<div class="navbar-header">
-		  <a class="navbar-brand" href="#">
+		  <a class="navbar-brand" href="https://www.rde.org/">
 			<img src="images/rde_logo_white.png" width="auto" height="100%" alt="">
 		  </a>
 		</div>
@@ -119,7 +119,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</div>
 		<br />
 		<div>
-		<button type="button" id= "submit" class="btn btn-primary" onclick="getFilters()">Submit</button>
+		<button type="button" id= "submit" class="btn btn-primary btn-space" onclick="getFilters()">Submit</button>
 		<form style="display: hidden" action="output.cfm" method="POST" id="form">
 			<input type="hidden" id="report_type_string" name="report_type_string" value=""/>
 			<input type="hidden" id="query_string" name="query_string" value=""/>
@@ -131,25 +131,25 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	 <div class="col-lg-2">
 		<div id="filters_list">
 			<h1>Available Filters</h1>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="age_button" value=0>Age</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="gender_button" value=0>Gender</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="race_button" value=0>Race</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="ethnicity_button" value=0>Ethnicity</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="marital_button" value=0>Marital Status</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="conditions_button" value=0>Conditions</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="observations_button" value=0>Observations</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="medications_button" value=0>Medications</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="immunizations_button" value=0>Immunizations</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="allergies_button" value=0>Allergies</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="encounters_button" value=0>Encounters</button>
-			<button type="button" class="btn btn-primary verticalButton filter" data-toggle="collapse" id="procedures_button" value=0>Procedures</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="age_button" value=0>Age</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="gender_button" value=0>Gender</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="race_button" value=0>Race</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="ethnicity_button" value=0>Ethnicity</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="marital_button" value=0>Marital Status</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="conditions_button" value=0>Conditions</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="observations_button" value=0>Observations</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="medications_button" value=0>Medications</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="immunizations_button" value=0>Immunizations</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="allergies_button" value=0>Allergies</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="encounters_button" value=0>Encounters</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton filter" data-toggle="collapse" id="procedures_button" value=0>Procedures</button>
 		</div>
 		<div id="filter_logic">
 			<h1>Boolean Logic</h1>
-			<button type="button" class="btn btn-primary verticalButton logic" id="l_paren" value=0>(</button>
-			<button type="button" class="btn btn-primary verticalButton logic" id="r_paren" value=0>)</button>
-			<button type="button" class="btn btn-primary verticalButton logic" id="and_box" value=0>AND</button>
-			<button type="button" class="btn btn-primary verticalButton logic" id="or_box" value=0>OR</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton logic" id="l_paren" value=0>(</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton logic" id="r_paren" value=0>)</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton logic" id="and_box" value=0>AND</button>
+			<button type="button" class="btn btn-primary btn-space verticalButton logic" id="or_box" value=0>OR</button>
 		</div>
 	 </div>
   </body>

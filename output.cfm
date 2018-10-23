@@ -34,7 +34,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 		<div class="navbar-header">
-		  <a class="navbar-brand" href="#">
+		  <a class="navbar-brand" href="https://www.rde.org/">
 			<img src="images/rde_logo_white.png" width="auto" height="100%" alt="">
 		  </a>
 		</div>
