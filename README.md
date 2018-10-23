@@ -13,12 +13,10 @@ The goal of this project is "to create a data analytics tool that will allow use
 This part of the project will be where filters and other options are chosen for reports. 
 
 ### To-do list:
- - Support for re-arranging filters
  - Granularity options for report outputs
- - Input validation
- - Graph outputs
+ - Input validation (done except for AND/OR in between filters...)
+ - Graph outputs (bar graph working)
  - Support for removing filters once added
- - Multiple select options for conditions/medications/observations
  - Age filter - between, >=, <= options
  - and more
  
