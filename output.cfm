@@ -397,7 +397,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</script>
 			</canvas>
 		</div>
-		</cfloop>
 			<table id = "myTable" class="table table-striped">
 			<style>tr : {background-color:red} </style>
 		    <cfloop from="0" to="#temp#" index="row">
@@ -416,6 +415,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		    </cfif>
 		    </cfloop>
 			</table>
+		</cfloop>
 	</div>
 
   </body>
