@@ -50,20 +50,20 @@
 		</ul>
 	</div>
 	</nav>
-		<p>
 						
 		<section>
-			<center><font size="10"><b>RDE Login </b> </font>
-					</p>
+			
 		
-			<div class="col-md-5">
+			<div class="col-lg-4">
 				<!-- left column -->
 			</div>
 			<!--- Login Form --->
 			<cfform name="LoginForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
-				<div class="form-group col-md-2">
+				<div class="form-group col-lg-4 text-center">
 					<!-- center column -->
-				
+				<h1>Visual Report Builder</h1>
+				<div class="well">
+				<h2>Please login:</h2>
 				<cfif structKeyExists(variables, 'aErrorMessages') AND NOT ArrayIsEmpty(aErrorMessages)>
 					<cfoutput>
 						<cfloop array="#aErrorMessages#" item="message">
@@ -78,30 +78,26 @@
 						The Username and or Password you entered was invalid. Please try again.
 					</p>
 				</cfif>
-					
-					
-					
-					<p>
-						<center>Username: <br>
-						<cfinput type="text" name="User" id="User" class="form-control" required="true"
-						         validateat="onSubmit" message="Please provide a username"/>
-					</p>
-					<p>
-						<center>Password: <br>
-						<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control"
-						         validateat="onSubmit" message="Please provide a password"/>
-					</p>
-
-					
-					<p id="p1">
-						
+						<!-- Username -->
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							<cfinput type="text" name="User" id="User" class="form-control" placeholder="Username" required="true"
+							         validateat="onSubmit" message="Please provide a username"/>
+						</div>
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+							<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control" placeholder="Password"
+							         validateat="onSubmit" message="Please provide a password"/>
+						</div>
+						<br />
+					<div>
 						<cfinput type="submit" name="submit" id="sumbit" value="Login" class="btn btn-primary mb-2"/>
+					</div>
 						
-					</p>
-					
+				</div>
 				</div>
 			</cfform>
-			<div class="col-md-5">
+			<div class="col-lg-4">
 				<!-- Right column -->
 			</div>
 		</section>
