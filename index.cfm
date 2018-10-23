@@ -35,25 +35,23 @@
 	
 	</head>
 	<body>
+		<!-- navbar code -->
 		<nav class="navbar navbar-default">
-		<div class="container-fluid">
-		<a class="navbar-brand" href="#">
-			 <img src="images/rde_logo_white.png" width="auto" height="100%" alt="">
-		</a>
-		<ul class="nav navbar-nav">
-			 <li class="active"><a href="#home">RDE Systems</a></li>
-			 <li><a href="#home" onclick="location.href='http://rde.org/'">Home </a></li>
-			 <li><a href="#contact">Support</a></li>
-		</ul>
-		 <ul class="nav navbar-nav navbar-right">
-			 <li style="float:right"><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/insert.cfm'">New Member?</a></li>
-		</ul>
-	</div>
-	</nav>
+			<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				 <img src="images/rde_logo_white.png" width="auto" height="100%" alt="">
+			</a>
+			<ul class="nav navbar-nav">
+				 <li class="active"><a href="#home">RDE Systems</a></li>
+				 <li><a href="#home" onclick="location.href='http://rde.org/'">Home </a></li>
+				 <li><a href="#contact">Support</a></li>
+			</ul>
+			 <ul class="nav navbar-nav navbar-right">
+				 <li style="float:right"><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/insert.cfm'">New Member?</a></li>
+			</ul>
+			</div>
+		</nav>
 						
-		<section>
-			
-		
 			<div class="col-lg-4">
 				<!-- left column -->
 			</div>
@@ -78,32 +76,28 @@
 						The Username and or Password you entered was invalid. Please try again.
 					</p>
 				</cfif>
-						<!-- Username -->
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-							<cfinput type="text" name="User" id="User" class="form-control" placeholder="Username" required="true"
-							         validateat="onSubmit" message="Please provide a username"/>
-						</div>
-						<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-							<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control" placeholder="Password"
-							         validateat="onSubmit" message="Please provide a password"/>
-						</div>
-						<br />
+					<!-- Username -->
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						<cfinput type="text" name="User" id="User" class="form-control" placeholder="Username" required="true"
+						         validateat="onSubmit" message="Please provide a username"/>
+					</div>
+					<!-- password -->
+					<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+						<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control" placeholder="Password"
+						         validateat="onSubmit" message="Please provide a password"/>
+					</div>
+					<br />
+					<!-- login button -->
 					<div>
 						<cfinput type="submit" name="submit" id="sumbit" value="Login" class="btn btn-primary mb-2"/>
-					</div>
-						
+					</div>			
 				</div>
 				</div>
 			</cfform>
 			<div class="col-lg-4">
 				<!-- Right column -->
 			</div>
-		</section>
-		
-		<p>
-			
-		</p>
 	</body>
 </html>
