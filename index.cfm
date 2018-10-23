@@ -18,90 +18,29 @@
 		
 	</cfif>
 </cfif>
-<style>
-	body,html {
-		height:100%;
-        background-image: url("images/background.jpg");
-        background-position: center;
-   		background-repeat: no-repeat;
-   		background-size: cover;
-        } 
-    ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
 
-li {
-    float: left;
-}
-
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-li a:hover:not(.active) {
-    background-color: #111;
-}
-
-.active {
-    background-color: #4CAF50;
-}
-	section{
-	border-radius: 1em;
-	padding: 1em;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-right: -50%;
-	transform: translate(-50%, -50%)
-	}
-	
-	.button {
-    background-color: #4CAF50;
-    border: none;
-    color: white;
-    padding: 15px 32px;
-    text-align: center;
-    text-decoration: none;
-    display: inline-block;
-    font-size: 16px;
-    margin: 4px 2px;
-    cursor: pointer;
-}
-	h1{
-	text-align: center;
-	}
-	#p1{
-	text-align: center;
-	}
-	dl{
-	text-align:center;
-	}
-	cfinput{
-	text-align:center;
-	}
-	#submit{
-	text-align:center;
-	}
-</style>
 <html>
-	<title>RDE Login Page</title>
+	<head>
+		<link rel="stylesheet" href="css/bootstrap.css">
+		<title>RDE Login Page</title>
 	
+	</head>
 	<body>
-		<ul>
-			 <li><img src="images/rde_logo_white.png" height="43" width="62"></li>
-			 <li><a href="#home">RDE Systems</a></li>
+		<nav class="navbar navbar-default">
+		<div class="container-fluid">
+		<a class="navbar-brand" href="#">
+			 <img src="images/rde_logo_white.png" width="auto" height="100%" alt="">
+		</a>
+		<ul class="nav navbar-nav">
+			 <li class="active"><a href="#home">RDE Systems</a></li>
 			 <li><a href="#home" onclick="location.href='http://rde.org/'">Home </a></li>
 			 <li><a href="#contact">Support</a></li>
+		</ul>
+		 <ul class="nav navbar-nav navbar-right">
 			 <li style="float:right"><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/insert.cfm'">New Member?</a></li>
-</ul>
+		</ul>
+	</div>
+	</nav>
 		<p>
 						
 		<section>
@@ -109,8 +48,10 @@ li a:hover:not(.active) {
 					</p>
 		
 			<!--- Login Form --->
-			
+			<div class="col-md-5">
+			</div>
 			<cfform name="LoginForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
+				<div class="form-group col-md-2">
 				
 				<cfif structKeyExists(variables, 'aErrorMessages') AND NOT ArrayIsEmpty(aErrorMessages)>
 					<cfoutput>
@@ -131,24 +72,26 @@ li a:hover:not(.active) {
 					
 					<p>
 						<center>Username: <br>
-						<cfinput type="text" name="User" id="User" required="true"
+						<cfinput type="text" name="User" id="User" class="form-control" required="true"
 						         validateat="onSubmit" message="Please provide a username"/>
 					</p>
 					<p>
 						<center>Password: <br>
-						<cfinput type="password" name="Pass" id="Pass" required="true"
+						<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control"
 						         validateat="onSubmit" message="Please provide a password"/>
 					</p>
 
 					
 					<p id="p1">
 						
-						<cfinput type="submit" name="submit" id="sumbit" value="Login" />
+						<cfinput type="submit" name="submit" id="sumbit" value="Login" class="btn btn-primary mb-2"/>
 						
 					</p>
 					
-				
+				</div>
 			</cfform>
+			<div class="col-md-5">
+			</div>
 		</section>
 		
 		<p>
