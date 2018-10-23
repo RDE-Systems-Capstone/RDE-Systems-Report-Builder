@@ -332,24 +332,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					
 					<cfset temp = MEDICALDATA.recordCount-1 > 
 
-			<table id = "myTable"border=1>
-			<style>tr : {background-color:red} </style>
-		    <cfloop from="0" to="#temp#" index="row">
-		        <cfif row eq 0>
-		            <tr>
-		                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
-		                    <th><cfoutput>#column#</cfoutput></th>  
-		                </cfloop>
-		            </tr>
-		        <cfelse>
-		            <tr>
-		                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
-		                    <td><cfoutput>#MEDICALDATA[column][row]#</cfoutput></td>
-		                </cfloop>
-		            </tr>
-		    </cfif>
-		    </cfloop>
-			</table>
+
 
 
 			<!--- code for charts --->
@@ -415,6 +398,24 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			</canvas>
 		</div>
 		</cfloop>
+			<table id = "myTable" class="table table-striped">
+			<style>tr : {background-color:red} </style>
+		    <cfloop from="0" to="#temp#" index="row">
+		        <cfif row eq 0>
+		            <tr>
+		                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+		                    <th><cfoutput>#column#</cfoutput></th>  
+		                </cfloop>
+		            </tr>
+		        <cfelse>
+		            <tr>
+		                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+		                    <td><cfoutput>#MEDICALDATA[column][row]#</cfoutput></td>
+		                </cfloop>
+		            </tr>
+		    </cfif>
+		    </cfloop>
+			</table>
 	</div>
 
   </body>
