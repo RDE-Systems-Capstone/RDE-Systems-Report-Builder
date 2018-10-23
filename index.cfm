@@ -23,6 +23,15 @@
 	<head>
 		<link rel="stylesheet" href="css/bootstrap.css">
 		<title>RDE Login Page</title>
+		<style>
+			body {
+				height:100%;
+       			background-image: url("images/background.jpg");
+        		background-position: center;
+   				background-repeat: no-repeat;
+   				background-size: cover;
+			}
+		</style>
 	
 	</head>
 	<body>
@@ -47,11 +56,13 @@
 			<center><font size="10"><b>RDE Login </b> </font>
 					</p>
 		
-			<!--- Login Form --->
 			<div class="col-md-5">
+				<!-- left column -->
 			</div>
+			<!--- Login Form --->
 			<cfform name="LoginForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
 				<div class="form-group col-md-2">
+					<!-- center column -->
 				
 				<cfif structKeyExists(variables, 'aErrorMessages') AND NOT ArrayIsEmpty(aErrorMessages)>
 					<cfoutput>
@@ -91,6 +102,7 @@
 				</div>
 			</cfform>
 			<div class="col-md-5">
+				<!-- Right column -->
 			</div>
 		</section>
 		
