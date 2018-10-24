@@ -20,7 +20,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<title>Report Builder</title>
     <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
-	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/bootstrap.min.css">
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="js/drag.js"></script>
@@ -31,7 +31,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
   </head>
 <body>
 <!-- Navbar code-->
-	<nav class="navbar navbar-default">
+	<nav class="navbar navbar-inverse">
 	  <div class="container-fluid">
 		<div class="navbar-header">
 		  <a class="navbar-brand" href="https://www.rde.org/">
@@ -322,8 +322,23 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			</cfloop>
 			<cfoutput>#bigQuery#<br /></cfoutput>
 			<cfoutput >
+				
 				<cfset var1= #gb# />
+				<cfif var1 eq "age">
+				<cfset a = "WITH ages AS(SELECT id, (FLOOR (DATEDIFF(DD,patients.BIRTHDATE, GETDATE())/365.25)) as age FROM patients )"/>
+				<cfset b= "(SELECT"/>
+				<cfset c = "case when  age between 0 and 10 then '0-10' when  age between 11 and 20 then '11-20' when  age between 21 and 30 then '21-30' when  age between 31 and 40 then '31-40' when  age between 41 and 50 then '41-50' when  age between 51 and 60 then '51-60' when  age between 61 and 70 then '61-70' when  age between 71 and 80 then '71-80' when  age between 81 and 90 then '81-90' when  age between 91 and 100 then '91-100' when  age >= 100 then 'More than 100' end"/>
+				<cfset d = "as age_category"/>
+				<cfset e = ",count(*) as total FROM ages where id in  (#bigQuery#) group by #c#)"/>  
+
+				<cfset bigQ = "#a# #b# #c# #d# #e#" />
+				<cfoutput> 
+					#bigQ#
+				</cfoutput>
+				<cfset var1 = "age_category"/>
+				<cfelse>
 				<cfset bigQ = "select #var1#, count(distinct id) as total from patients where id in ( #bigQuery#) group by #var1# with rollup" />
+				</cfif>
 				<!---#bigQ# --->
 			</cfoutput>
 				<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
@@ -382,6 +397,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					  data.colors.push(getRandomColor())
 					}
 					var ctx = document.getElementById("myChart<cfoutput>#var1#</cfoutput>").getContext('2d');
+					
 					var myChart = new Chart(ctx, {
 					  type: typeGraph,
 					  data: {
@@ -392,11 +408,22 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					    	backgroundColor: data.colors
 					    }]
 
-					  }
+					  },
+        options: {
+            scales: {
+                yAxes: [{
+                    ticks: {
+                        min: 0,
+                        beginAtZero: true
+                    }
+                }]
+            }
+        }
 					});
 				</script>
 			</canvas>
 		</div>
+		</cfloop>
 			<table id = "myTable" class="table table-striped">
 			<style>tr : {background-color:red} </style>
 		    <cfloop from="0" to="#temp#" index="row">
@@ -415,7 +442,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		    </cfif>
 		    </cfloop>
 			</table>
-		</cfloop>
 	</div>
 
   </body>
