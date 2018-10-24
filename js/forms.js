@@ -111,7 +111,7 @@ function getFilters() {
 
 	//keep track of errors
 	var errors = 0;
-	var error_list = "Errors detected: \n";
+	var error_list = "<strong>Errors detected:</strong><br />";
 	
 	//first let's get the report type and associated parameters
 	var report_options = {};
@@ -132,7 +132,7 @@ function getFilters() {
 			bar_array.push(this.value);
 		});
 		if ( bar_array.length == 0 ) {
-			error_list += "Output: Bar graph is missing options\n";
+			error_list += "Output: Bar graph is missing options<br />";
 			errors++;
 		}
 		report_options["group_by"] = bar_array;
@@ -144,7 +144,7 @@ function getFilters() {
 			pie_array.push(this.value);
 		});
 		if ( pie_array.length == 0 ) {
-			error_list += "Output: Pie graph is missing options\n";
+			error_list += "Output: Pie graph is missing options<br />";
 			errors++;
 		}
 		report_options["group_by"] = pie_array;
@@ -156,7 +156,7 @@ function getFilters() {
 			doughnut_array.push(this.value);
 		});
 		if ( doughnut_array.length == 0 ) {
-			error_list += "Output: Doughnut graph is missing options\n";
+			error_list += "Output: Doughnut graph is missing options<br />";
 			errors++;
 		}
 		report_options["columns"] = doughnut_array;
@@ -168,20 +168,20 @@ function getFilters() {
 			data_array.push(this.value);
 		});
 		if ( data_array.length == 0 ) {
-			error_list += "Output: Data table is missing options\n";
+			error_list += "Output: Data table is missing options<br />";
 			errors++;
 		}
 		report_options["group_by"] = data_array;
 	} 
 	else if ( $("#report_type").val() == null ) {
-		error_list += "Report Type: Graph option can't be empty\n";
+		error_list += "Report Type: Graph option can't be empty<br />";
 		errors++;
 	}
 	
 	//alert(JSON.stringify(report_options));
 	var chosen_filters = $("#chosen_filters").children();
 	if (chosen_filters.length == 0) {
-		error_list += "Filters: No filters selected\n";
+		error_list += "Filters: No filters selected<br />";
 		errors++;
 	} else {
 		chosen_filters.each(function() {
@@ -215,7 +215,7 @@ function getFilters() {
 					}
 				});
 				if ( gender_array["values"].length == 0) {
-					error_list += "Filters: Gender filter is missing options\n";
+					error_list += "Filters: Gender filter is missing options<br />";
 					errors++;
 				}
 				filters_array.push(gender_array);
@@ -227,7 +227,7 @@ function getFilters() {
 					race_array["values"].push(this.value)
 				});
 				if ( race_array["values"].length == 0) {
-					error_list += "Filters: Race filter is missing options\n";
+					error_list += "Filters: Race filter is missing options<br />";
 					errors++;
 				}
 				filters_array.push(race_array);
@@ -239,7 +239,7 @@ function getFilters() {
 					eth_array["values"].push(this.value)
 				});
 				if ( eth_array["values"].length == 0) {
-					error_list += "Filters: Ethnicity filter is missing options\n";
+					error_list += "Filters: Ethnicity filter is missing options<br />";
 					errors++;
 				}
 				filters_array.push(eth_array);
@@ -251,7 +251,7 @@ function getFilters() {
 					marital_array["values"].push(this.value)
 				});
 				if ( marital_array["values"].length == 0) {
-					error_list +="Filters: Marital status filter is missing options\n";
+					error_list +="Filters: Marital status filter is missing options<br />";
 					errors++;
 				}
 				filters_array.push(marital_array);
@@ -267,7 +267,7 @@ function getFilters() {
 				var observations_array = {"type":"observations"}
 				var options = $("#" + this.value).find("[name='observations_opt']").each(function() {
 					if ( $(this).val() == null ) {
-						error_list += "Filters: Observations filter is missing options\n";
+						error_list += "Filters: Observations filter is missing options<br />";
 						errors++;
 					}
 					observations_array["id"] = this.value;
@@ -308,7 +308,7 @@ function getFilters() {
 				var allergy_array = {"type":"allergies"}
 				var options = $("#" + this.value).find("[name='allergy']").each(function() {
 					if ( $(this).val() == null ) {
-						error_list += "Filters: Allergy filter is missing options!\n";
+						error_list += "Filters: Allergy filter is missing options!<br />";
 						errors++;
 					}
 					allergy_array["id"] = this.value;
@@ -319,7 +319,7 @@ function getFilters() {
 				var encounters_array = {"type":"encounters"}
 				var options = $("#" + this.value).find("[name='encounter']").each(function() {
 					if ( $(this).val() == null ) {
-						error_list += "Filters: Encounters filter is missing options\n";
+						error_list += "Filters: Encounters filter is missing options<br />";
 						errors++;
 					}
 					encounters_array["id"] = this.value;
@@ -330,7 +330,7 @@ function getFilters() {
 				var procedures_array = {"type":"procedures"}
 				var options = $("#" + this.value).find("[name='procedure']").each(function() {
 					if ( $(this).val() == null ) {
-						error_list += "Filters: Procedures filter is missing options!";
+						error_list += "Filters: Procedures filter is missing options!<br />";
 						errors++;
 					}
 					procedures_array["id"] = this.value;
@@ -374,7 +374,8 @@ function getFilters() {
 		//alert(query_string);
 		$("#form").submit();
 	} else {
-		alert(error_list);
+		$("#error_alert_text").html(error_list);
+		$("#error_alert").show();
 	}
 
 };

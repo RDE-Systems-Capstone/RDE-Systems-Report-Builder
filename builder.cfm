@@ -49,6 +49,12 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<!-- left column code-->
 	<div class="col-lg-10">
 		<h1>Report Builder</h1>
+		
+		<!-- Alert box to display errors -->
+		  <div hidden class="alert alert-danger alert-dismissible fade in" id="error_alert">
+			<a href="#" class="close" onclick="$('#error_alert').hide();" aria-label="close">&times;</a>
+			<div id="error_alert_text"></div>
+		  </div>
 		<div class="row">
 			<div class="form-group col-sm-4">
 				<cfform name="report_type_form">

@@ -32,6 +32,9 @@
    				background-size: cover;
 			}
 		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
 	
 	</head>
 	<body>
@@ -61,6 +64,12 @@
 					<!-- center column -->
 				<h1>Visual Report Builder</h1>
 				<div class="well">
+				<cfif structKeyExists(variables, 'isUserLoggedIn') AND isUserLoggedIn EQ false>
+						  <div class="alert alert-danger alert-dismissible fade in">
+							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+							<strong>Error!</strong> The Username and/or Password you entered was invalid. Please try again. 
+						  </div>
+				</cfif>
 				<h2>Please login:</h2>
 				<br />
 				<cfif structKeyExists(variables, 'aErrorMessages') AND NOT ArrayIsEmpty(aErrorMessages)>
@@ -71,11 +80,6 @@
 							</p>
 						</cfloop>
 					</cfoutput>
-				</cfif>
-				<cfif structKeyExists(variables, 'isUserLoggedIn') AND isUserLoggedIn EQ false>
-					<p class="errorMessage">
-						The Username and or Password you entered was invalid. Please try again.
-					</p>
 				</cfif>
 					<!-- Username -->
 					<div class="input-group">
