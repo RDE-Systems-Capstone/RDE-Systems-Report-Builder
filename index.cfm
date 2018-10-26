@@ -39,71 +39,60 @@
 	</head>
 	<body>
 		<!-- navbar code -->
-		<nav class="navbar navbar-default">
-			<div class="container-fluid">
-			<a class="navbar-brand" href="#">
-				 <img src="images/rde_logo_white.png" width="auto" height="100%" alt="">
-			</a>
-			<ul class="nav navbar-nav">
-				 <li class="active"><a href="#home">RDE Systems</a></li>
-				 <li><a href="#home" onclick="location.href='http://rde.org/'">Home </a></li>
-				 <li><a href="#contact">Support</a></li>
-			</ul>
-			 <ul class="nav navbar-nav navbar-right">
-				 <li style="float:right"><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/insert.cfm'">New Member?</a></li>
-			</ul>
-			</div>
-		</nav>
-						
-			<div class="col-lg-4">
-				<!-- left column -->
-			</div>
-			<!--- Login Form --->
-			<cfform name="LoginForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
+		<cfinvoke component="app.elements" method="outputHeader" pageType="login" activePage="login"></cfinvoke>
+			<div class="row">		
+				<div class="col-lg-4">
+					<!-- left column -->
+				</div>
+				<!--- Login Form --->
 				<div class="form-group col-lg-4 text-center">
-					<!-- center column -->
-				<h1>Visual Report Builder</h1>
-				<div class="well">
-				<cfif structKeyExists(variables, 'isUserLoggedIn') AND isUserLoggedIn EQ false>
-						  <div class="alert alert-danger alert-dismissible fade in">
-							<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
-							<strong>Error!</strong> The Username and/or Password you entered was invalid. Please try again. 
-						  </div>
-				</cfif>
-				<h2>Please login:</h2>
-				<br />
-				<cfif structKeyExists(variables, 'aErrorMessages') AND NOT ArrayIsEmpty(aErrorMessages)>
-					<cfoutput>
-						<cfloop array="#aErrorMessages#" item="message">
-							<p class="errorMessage">
-								#message#
-							</p>
-						</cfloop>
-					</cfoutput>
-				</cfif>
-					<!-- Username -->
-					<div class="input-group">
-						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-						<cfinput type="text" name="User" id="User" class="form-control" placeholder="Username" required="true"
-						         validateat="onSubmit" message="Please provide a username"/>
-					</div>
+				<cfform name="LoginForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
+						<!-- center column -->
+					<h1>Visual Report Builder</h1>
+					<div class="well">
+					<cfif structKeyExists(variables, 'isUserLoggedIn') AND isUserLoggedIn EQ false>
+							  <div class="alert alert-danger alert-dismissible fade in">
+								<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+								<strong>Error!</strong> The Username and/or Password you entered was invalid. Please try again. 
+							  </div>
+					</cfif>
+					<h2>Please login:</h2>
 					<br />
-					<!-- password -->
-					<div class="input-group">
-						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-						<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control" placeholder="Password"
-						         validateat="onSubmit" message="Please provide a password"/>
+					<cfif structKeyExists(variables, 'aErrorMessages') AND NOT ArrayIsEmpty(aErrorMessages)>
+						<cfoutput>
+							<cfloop array="#aErrorMessages#" item="message">
+								<p class="errorMessage">
+									#message#
+								</p>
+							</cfloop>
+						</cfoutput>
+					</cfif>
+						<!-- Username -->
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+							<cfinput type="text" name="User" id="User" class="form-control" placeholder="Username" required="true"
+							         validateat="onSubmit" message="Please provide a username"/>
+						</div>
+						<br />
+						<!-- password -->
+						<div class="input-group">
+							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+							<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control" placeholder="Password"
+							         validateat="onSubmit" message="Please provide a password"/>
+						</div>
+						<br />
+						<!-- login button -->
+						<div>
+							<cfinput type="submit" name="submit" id="sumbit" value="Login" class="btn btn-primary mb-2"/>
+						</div>			
 					</div>
-					<br />
-					<!-- login button -->
-					<div>
-						<cfinput type="submit" name="submit" id="sumbit" value="Login" class="btn btn-primary mb-2"/>
-					</div>			
+				</cfform>
 				</div>
+				<div class="col-lg-4">
+					<!-- Right column -->
 				</div>
-			</cfform>
-			<div class="col-lg-4">
-				<!-- Right column -->
 			</div>
+			<!--- Footer --->
+			<cfinvoke component="app.elements" method="outputFooter"></cfinvoke>
 	</body>
 </html>
