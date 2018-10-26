@@ -311,7 +311,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfif var1 eq "age">
 					<cfset a = "WITH ages AS(SELECT id, (FLOOR (DATEDIFF(DD,patients.BIRTHDATE, GETDATE())/365.25)) as age FROM patients )"/>
 					<cfset b= "(SELECT"/>
-					<cfset c = "case when  age between 0 and 10 then '0-10' when  age between 11 and 20 then '11-20' when  age between 21 and 30 then '21-30' when  age between 31 and 40 then '31-40' when  age between 41 and 50 then '41-50' when  age between 51 and 60 then '51-60' when  age between 61 and 70 then '61-70' when  age between 71 and 80 then '71-80' when  age between 81 and 90 then '81-90' when  age between 91 and 100 then '91-100' when  age >= 100 then 'More than 100' end"/>
+					<cfset c = "case when  age between 0 and 9 then '0-9' when  age between 10 and 19 then '10-19' when  age between 20 and 29 then '20-29' when  age between 30 and 39 then '30-39' when  age between 40 and 49 then '40-49' when  age between 50 and 59 then '50-59' when  age between 60 and 69 then '60-69' when  age between 70 and 79 then '70-79' when  age between 80 and 89 then '80-89' when  age between 90 and 99 then '90-99' when  age >= 100 then 'More than 100' end"/>
 					<cfset d = "as age_category"/>
 					<cfset e = ",count(*) as total FROM ages where id in  (#bigQuery#) group by #c#)"/>  
 
@@ -328,10 +328,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
 					<cfset MEDICALDATA = QueryExecute(#bigQ#, [] ,qoptions)> 
 						<!--- <cfdump var="#MEDICALDATA#" > --->
-						
+						<cfif var1 eq "age_category">
+						<cfset temp = MEDICALDATA.recordCount > 
+						<cfelse>
 						<cfset temp = MEDICALDATA.recordCount-1 > 
-
-
+						</cfif>
 
 
 				<!--- code for charts --->
