@@ -25,9 +25,11 @@
 	
 		<!---Display user feedback--->		
 		<cfoutput>
-			<p>
-				Registered!
-			</p>
+			
+			<div class="alert alert-success">
+  				<strong>Successfully Registered!</strong>
+  			
+			</div>
 		</cfoutput>
 	</cfif>
 </cfif>
