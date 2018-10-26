@@ -30,7 +30,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cfinvoke component="app.elements" method="outputHeader" pageType="builder" activePage="builder"></cfinvoke>
 
 	<!-- left column code-->
-	<div class="row">
+	<div class="row-fluid">
 		<div class="container-fluid">
 			<div class="col-lg-10">
 				<h1>Report Builder</h1>

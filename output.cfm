@@ -33,7 +33,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<!-- Navbar code-->
 	<cfinvoke component="app.elements" method="outputHeader" pageType="builder" activePage="output"></cfinvoke>
 
-	<div class="row">
+	<div class="row-fluid">
 		<!-- left column code-->
 		<div class="col-lg-4">
 			<h1>Output</h1>

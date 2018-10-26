@@ -55,7 +55,7 @@
 	
 	<!-- Navbar code-->
 	<cfinvoke component="app.elements" method="outputHeader" pageType="login" activePage="insert"></cfinvoke>
-	<div class="row">					
+	<div class="row-fluid">					
 		<div class="col-lg-4">
 			<!-- left column -->
 		</div>
