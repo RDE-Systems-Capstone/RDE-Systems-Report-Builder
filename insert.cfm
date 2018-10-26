@@ -31,105 +31,100 @@
 		</cfoutput>
 	</cfif>
 </cfif>
-<style>
-	body,html {
-		height:100%;
-        background-image: url("images/background.jpg");
-        background-position: center;
-   		background-repeat: no-repeat;
-   		background-size: cover;
-        } 
-    ul {
-    list-style-type: none;
-    margin: 0;
-    padding: 0;
-    overflow: hidden;
-    background-color: #333;
-}
-
-li {
-    float: left;
-}
-
-li a {
-    display: block;
-    color: white;
-    text-align: center;
-    padding: 14px 16px;
-    text-decoration: none;
-}
-
-	section{
+<html>
+<head>
 	
-	border: 5px solid white;
-	border-radius: 5em;
-	padding: 5em;
-	position: absolute;
-	top: 50%;
-	left: 50%;
-	margin-right: -50%;
-	transform: translate(-50%, -50%)
-	}
-	body{
-	
-	}
-	h1{
-	text-align: center;
-	}
-	#p1{
-	text-align: center;
-	}
-	dl{
-	text-align:center;
-	}
-	cfinput{
-	text-align:center;
-	}
-	#submit{
-	text-align:center;
-	}
-</style>
+<link rel="stylesheet" href="css/bootstrap.css">
+		<title>User Registration</title>
+		<style>
+			body {
+				height:100%;
+       			background-image: url("images/background.jpg");
+        		background-position: center;
+   				background-repeat: no-repeat;
+   				background-size: cover;
+			}
+		</style>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+		<script src="js/bootstrap.min.js"></script>
+</head>
 <body>
-	<ul>
-			 <li><img src="images/rde_logo_white.png"  height="43" width="62"></li>
-			 <li><a href="#home" onclick ="location.href='http://127.0.0.1:8500/rde/index.cfm'">RDE Systems</a></li>
-			 <li><a href="#contact">Support</a></li>
-</ul>
-		
-</body>
-<cfoutput>
+	
+	<!-- navbar code -->
+		<nav class="navbar navbar-default">
+			<div class="container-fluid">
+			<a class="navbar-brand" href="#">
+				 <img src="images/rde_logo_white.png" width="auto" height="100%" alt="">
+			</a>
+			<ul class="nav navbar-nav">
+				 <li class="active"><a href="index.cfm#home">RDE Systems</a></li>
+				 <li><a href="#home" onclick="location.href='http://rde.org/'">Home </a></li>
+				 <li><a href="#contact">Support</a></li>
+			</ul>
+			 
+			</div>
+		</nav>
+						
+			<div class="col-lg-4">
+				<!-- left column -->
+			</div>
+	<cfoutput>
 	<!---Registration form--->
 	<cfform name="RegisterForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
-		<section>
+		<div class="form-group col-lg-4 text-center">
 			<h1>
 				User Registration
 			</h1>
+			<div class="well">
+				<h2>
+					Please Enter the Following:
+				</h2>
+				<br />
 			<p>
-				First Name: 
-				<cfinput type="text" name="First" id="First" required="true"
+				<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				
+				<cfinput type="text" name="First" id="First" required="true" class="form-control" placeholder="First Name"
 				         validateat="onSubmit" message="Please provide a first name"/>
+				</div>
 			</p>
 			<p>
-				Last Name:&nbsp
-				<cfinput type="text" name="Last" id="Last" required="true"
+				<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				
+				<cfinput type="text" name="Last" id="Last" required="true" class="form-control" placeholder="Last Name"
 				         validateat="onSubmit" message="Please provide a last name"/>
+				</div>
 			</p>
 			<p>
-				Username:&ensp; 
-				<cfinput type="text" name="User" id="User" required="true"
-				         validateat="onSubmit" message="Please provide a username"/>
+				<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+				 
+				<cfinput type="text" name="User" id="User" class="form-control" placeholder="Username" required="true"
+						         validateat="onSubmit" message="Please provide a username"/>
+				</div>
 			</p>
 			<p>
-				Password:&ensp; 
-				<cfinput type="password" name="Pass" id="Pass" required="true"
-				         validateat="onSubmit" message="Please provide a password"/>
+				<div class="input-group">
+						<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+				
+				<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control" placeholder="Password"
+						         validateat="onSubmit" message="Please provide a password"/>
+				</div>
 			</p>
 			<p id="p1">
 				<cfinput type="submit" name="submit" id="sumbit" value="Register"/>
 			</p>
-		</section>
+			</div>
+		</div>
 	</cfform>
-</cfoutput>
+</cfoutput>	
+<div class="col-lg-4">
+				<!-- Right column -->
+			</div>
+</body>
+</html>
 
 <!---generates random secure string--->
 <cffunction name="generateSecureRandomString" output="false">
