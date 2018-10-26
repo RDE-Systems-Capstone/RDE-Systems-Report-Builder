@@ -113,8 +113,9 @@
 						         validateat="onSubmit" message="Please provide a password"/>
 				</div>
 			</p>
+			<br/>
 			<p id="p1">
-				<cfinput type="submit" name="submit" id="sumbit" value="Register"/>
+				<cfinput type="submit" name="submit" id="sumbit" value="Register" class="btn btn-primary mb-2"/>
 			</p>
 			</div>
 		</div>
