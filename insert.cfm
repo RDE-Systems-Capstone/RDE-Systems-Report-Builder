@@ -1,38 +1,4 @@
-<cfif structKeyExists(form, 'submit')>
-
-	<!---serverside validation--->
-	<cfif len(trim(form.First)) NEQ "" AND len(trim(form.Last)) NEQ "" AND len(trim(form.User)) NEQ "" 
-	      AND len(trim(form.Pass)) NEQ "">
-	      
-	      <cfset rand = generateSecureRandomString(length=64) />
-	      
-	      <cfscript>
-			salt = '#rand#';
-			PBKDFalgorithm = "PBKDF2WithHmacSHA512";
-			PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
-			
-			
-		</cfscript>
-			
-		<cfset HashPass = PassKey/>
-		<cfset UserSalt = salt/>
-	
-		<!---Inserting Data into DB--->
-		<cfquery name="insert" datasource="MEDICALDATA">
-			INSERT INTO users(firstName, lastname, username, password, salt, role)
-			VALUES ('#form.First#', '#form.Last#', '#form.User#', '#HashPass#', '#UserSalt#', '1');
-		</cfquery>
-	
-		<!---Display user feedback--->		
-		<cfoutput>
-			
-			<div class="alert alert-success">
-  				<strong>Successfully Registered!</strong>
-  			
-			</div>
-		</cfoutput>
-	</cfif>
-</cfif>
+<!DOCTYPE html>
 <html>
 <head>
 	
@@ -67,6 +33,40 @@
 					User Registration
 				</h1>
 				<div class="well">
+					<!--- alert user if registration was successful--->
+					<cfif structKeyExists(form, 'submit')>
+						<!---serverside validation--->
+						<cfif len(trim(form.First)) NEQ "" AND len(trim(form.Last)) NEQ "" AND len(trim(form.User)) NEQ "" 
+						      AND len(trim(form.Pass)) NEQ "">
+						      
+						      <cfset rand = generateSecureRandomString(length=64) />
+						      
+						      <cfscript>
+								salt = '#rand#';
+								PBKDFalgorithm = "PBKDF2WithHmacSHA512";
+								PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
+								
+								
+							</cfscript>
+								
+							<cfset HashPass = PassKey/>
+							<cfset UserSalt = salt/>
+						
+							<!---Inserting Data into DB--->
+							<cfquery name="insert" datasource="MEDICALDATA">
+								INSERT INTO users(firstName, lastname, username, password, salt, role)
+								VALUES ('#form.First#', '#form.Last#', '#form.User#', '#HashPass#', '#UserSalt#', '1');
+							</cfquery>
+						
+							<!---Display user feedback--->		
+							<cfoutput>
+								
+								<div class="alert alert-success">
+					  				<strong>Successfully Registered!</strong>
+								</div>
+							</cfoutput>
+						</cfif>
+					</cfif>
 					<h2>
 						Please Enter the Following:
 					</h2>
