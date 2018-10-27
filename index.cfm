@@ -1,3 +1,11 @@
+<!--
+Code for report builder LOGIN page
+Built using Bootstrap/ColdFusion
+
+RDE Systems Capstone Fall 2018
+Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
+-->
+
 <!---Logout--->
 <!-- gives session undefined error when redirecting back to this page-->
 <cfif structKeyExists(URL, 'logout')>

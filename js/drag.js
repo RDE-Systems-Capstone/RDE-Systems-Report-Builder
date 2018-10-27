@@ -80,7 +80,6 @@ $(document).ready(function() { 	//only run once page is ready
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=procedures&id=" + filter_id));
 				}
 				$(ui.draggable).attr('value', filter_id);
-				$(ui.draggable).attr('data-target', "#" + filter_id);
 				var clone = $(ui.draggable).clone().appendTo("#chosen_filters");
 
 				//make the new filter button added draggable as well
@@ -104,8 +103,18 @@ $(document).ready(function() { 	//only run once page is ready
     				}
     			});
     			//Allow toggling of buttons when clicked
+    			//also trigger the collapse attribute of the filter's options so that the user can configure them
     			clone.click( function(event, ui) {
-    				$(this).button('toggle');
+    				if ( $(this).hasClass("filter") ) {
+    					//remove the active class from all buttons
+    					$(".filter").removeClass('active');
+    					//toggle the filter clicked and make it active
+	    				$(this).button('toggle');
+	    				//collapse all filter options
+	    				$(".filter-collapse").collapse("hide");
+	    				//show only the filter options for the one clicked
+	    				$("#" + $(this).val() ).collapse("show");	
+    				}
     			});
 			} 
         }

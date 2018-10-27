@@ -1,3 +1,11 @@
+<!--
+Code for registration page
+Built using Bootstrap/ColdFusion
+
+RDE Systems Capstone Fall 2018
+Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
+-->
+
 <!DOCTYPE html>
 <html>
 <head>

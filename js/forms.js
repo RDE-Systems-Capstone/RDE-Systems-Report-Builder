@@ -7,41 +7,23 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 //graph options
 $(document).ready(function() { 	//only run once page is ready
 	//Load output section based on report chosen
+	//We do this by making the corresponding div unhidden
 	$("#report_type").change(function() {
+		$(".output_div").attr('hidden', true);
 		if ($("#report_type").val() === "trend") {
 			$("#trend_output_div").removeAttr('hidden');
-			$("#pie_output_div").attr('hidden', true);
-			$("#bar_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
-			$("#doughnut_output_div").attr('hidden', true);
 		}
 		else if ($("#report_type").val() === "pie") {
-			$("#trend_output_div").attr('hidden', true);
 			$("#pie_output_div").removeAttr('hidden');
-			$("#bar_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
-			$("#doughnut_output_div").attr('hidden', true);
 		}
 		else if ($("#report_type").val() === "doughnut") {
-			$("#trend_output_div").attr('hidden', true);
 			$("#doughnut_output_div").removeAttr('hidden');
-			$("#bar_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
-			$("#pie_output_div").attr('hidden', true);
 		}
 		else if ($("#report_type").val() === "bar") {
-			$("#trend_output_div").attr('hidden', true);
 			$("#bar_output_div").removeAttr('hidden');
-			$("#pie_output_div").attr('hidden', true);
-			$("#data_output_div").attr('hidden', true);
-			$("#doughnut_output_div").attr('hidden', true);
 		}
 		else if ($("#report_type").val() === "data") {
-			$("#trend_output_div").attr('hidden', true);
 			$("#data_output_div").removeAttr('hidden');
-			$("#pie_output_div").attr('hidden', true);
-			$("#bar_output_div").attr('hidden', true);
-			$("#doughnut_output_div").attr('hidden', true);
 		}
 	});
 });

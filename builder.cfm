@@ -73,34 +73,35 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				
 				<h1>Output</h1>
 				<div id="output" style="width: 50%">
+					<!-- graph output options will be displayed here -->
 					<p>Choose a graph type to configure this section</p>
-					<div hidden id="trend_output_div">
+					<div hidden id="trend_output_div" class="output_div">
 						<h3>Trend Graph</h3>
 						<p>Select value to graph over time</p>
 						<cfinvoke component="app.builder.report" method="trendOptions"></cfinvoke>
 					</div>
-					<div hidden id="pie_output_div">
+					<div hidden id="pie_output_div" class="output_div">
 						<h3>Pie Chart</h3>
 						<p>Select field to group by:</p>
 						<div class="checkbox">
 							<cfinvoke component="app.builder.report" method="pieOptions"></cfinvoke>
 						</div>
 					</div>
-					<div hidden id="bar_output_div">
+					<div hidden id="bar_output_div" class="output_div">
 						<h3>Bar Chart</h3>
 						<p>Select field to group by:</p>
 						<div class="checkbox">
 							<cfinvoke component="app.builder.report" method="barOptions"></cfinvoke>
 						</div>
 					</div>
-					<div hidden id="doughnut_output_div">
+					<div hidden id="doughnut_output_div" class="output_div">
 						<h3>Doughnut Chart</h3>
 						<p>Select field to group by:</p>
 						<div class="checkbox">
 							<cfinvoke component="app.builder.report" method="doughnutOptions"></cfinvoke>
 						</div>
 					</div>
-					<div hidden id="data_output_div">
+					<div hidden id="data_output_div" class="output_div">
 						<h3>Data Table</h3>
 						<p>Select columns to include</p>
 						<div class="checkbox">
