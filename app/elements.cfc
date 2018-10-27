@@ -71,13 +71,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<!--- Code for a footer --->
 	<cffunction name="outputFooter">
-		<nav class="navbar navbar-inverse navbar-fixed-bottom">
-  		<div class="container-fluid">
-    		<span class="navbar-text">
-    		  Copyright &copy; 2018 RDE Systems, LLC. All rights reserved.
-    		</span>
-  		  </ul>
-		  </div>
-		</nav> 	 
+		<footer class="container-fluid">
+		<hr>
+		<div class="row-fluid">
+        	<div class="span12"><div class="pull-left">Copyright &copy; 2018 <img alt="RDE Systems Logo" src="images/tinylogorde.png" width="25" height="18"> RDE Systems, LLC. All rights reserved.</div></div>
+        </div>
+      </footer>
 	</cffunction>
 </cfcomponent>
