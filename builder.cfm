@@ -24,6 +24,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<style>
 		.ui-slider-range { background: #729fcf; }
 		.ui-slider-handle { border-color: #729fcf; }
+		.verticalButton { cursor: move; }
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
@@ -144,10 +145,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</div>
 				<div id="filter_logic">
 					<h1>Boolean Logic</h1>
-					<button type="button" class="btn btn-primary btn-space verticalButton logic" id="l_paren" value=0>(</button>
-					<button type="button" class="btn btn-primary btn-space verticalButton logic" id="r_paren" value=0>)</button>
-					<button type="button" class="btn btn-primary btn-space verticalButton logic" id="and_box" value=0>AND</button>
-					<button type="button" class="btn btn-primary btn-space verticalButton logic" id="or_box" value=0>OR</button>
+					<button type="button" class="btn btn-primary btn-space verticalButton logic" data-toggle="collapse" id="l_paren" value=0>(</button>
+					<button type="button" class="btn btn-primary btn-space verticalButton logic" data-toggle="collapse" id="r_paren" value=0>)</button>
+					<button type="button" class="btn btn-primary btn-space verticalButton logic" data-toggle="collapse" id="and_box" value=0>AND</button>
+					<button type="button" class="btn btn-primary btn-space verticalButton logic" data-toggle="collapse" id="or_box" value=0>OR</button>
 				</div>
 			 </div>
 			</div>

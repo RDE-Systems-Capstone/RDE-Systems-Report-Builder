@@ -180,7 +180,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<cfset ethnicity_desc = Replace(ETHNICITY, "_", " ", "ALL")  />
 			<cfset ethnicity_desc = ReReplace(ethnicity_desc ,"\b(\w)","\u\1","ALL") />
 				<cfoutput>
-					<label><cfinput type="checkbox" data-label="#ethnicity_desc#" name="ethnicity" value="#ETHNICITY#" onchange="checkboxFilterUpdate('#id#', 'ethnicity', 'Ethnicity: ')">#ethnicity_desc#</label>
+					<div class="checkbox"><label><cfinput type="checkbox" data-label="#ethnicity_desc#" name="ethnicity" value="#ETHNICITY#" onchange="checkboxFilterUpdate('#id#', 'ethnicity', 'Ethnicity: ')">#ethnicity_desc#</label></div>
 				</cfoutput>
 			</cfloop>
 		</cfform>

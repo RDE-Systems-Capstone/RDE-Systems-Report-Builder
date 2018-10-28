@@ -75,6 +75,15 @@ function dropdownFilterUpdate(filter_id, filter_type, filter_text) {
 	});
 };
 
+//Function that will delete the filter, its filter button and all associated forms and options
+function deleteFilter(filter_id) {
+	//delete the button added to the chosen filters
+	var button = $("#chosen_filters").find("[type='button'][value=" + filter_id + "]")[0];
+	$(button).remove();
+	//delete the associated options for the filter
+	var filter_options = $("#" + filter_id);
+	$(filter_options).parent().remove();
+}
 
 function getFilters() {
 	//store filter params in array
