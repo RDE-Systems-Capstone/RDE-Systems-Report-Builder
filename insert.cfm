@@ -29,98 +29,100 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	
 	<!-- Navbar code-->
 	<cfinvoke component="app.elements" method="outputHeader" pageType="login" activePage="insert"></cfinvoke>
-	<div class="row-fluid">					
-		<div class="col-lg-4">
-			<!-- left column -->
-		</div>
-		<cfoutput>
-		<!---Registration form--->
-		<cfform name="RegisterForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
-			<div class="form-group col-lg-4 text-center">
-				<h1>
-					User Registration
-				</h1>
-				<div class="well">
-					<!--- alert user if registration was successful--->
-					<cfif structKeyExists(form, 'submit')>
-						<!---serverside validation--->
-						<cfif len(trim(form.First)) NEQ "" AND len(trim(form.Last)) NEQ "" AND len(trim(form.User)) NEQ "" 
-						      AND len(trim(form.Pass)) NEQ "">
-						      
-						      <cfset rand = generateSecureRandomString(length=64) />
-						      
-						      <cfscript>
-								salt = '#rand#';
-								PBKDFalgorithm = "PBKDF2WithHmacSHA512";
-								PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
-								
-								
-							</cfscript>
-								
-							<cfset HashPass = PassKey/>
-							<cfset UserSalt = salt/>
-						
-							<!---Inserting Data into DB--->
-							<cfquery name="insert" datasource="MEDICALDATA">
-								INSERT INTO users(firstName, lastname, username, password, salt, role)
-								VALUES ('#form.First#', '#form.Last#', '#form.User#', '#HashPass#', '#UserSalt#', '1');
-							</cfquery>
-						
-							<!---Display user feedback--->		
-							<cfoutput>
-								
-								<div class="alert alert-success">
-					  				<strong>Successfully Registered!</strong>
-								</div>
-							</cfoutput>
-						</cfif>
-					</cfif>
-					<h2>
-						Please Enter the Following:
-					</h2>
-					<br />
-				<p>
-					<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					
-					<cfinput type="text" name="First" id="First" required="true" class="form-control" placeholder="First Name"
-					         validateat="onSubmit" message="Please provide a first name"/>
-					</div>
-				</p>
-				<p>
-					<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					
-					<cfinput type="text" name="Last" id="Last" required="true" class="form-control" placeholder="Last Name"
-					         validateat="onSubmit" message="Please provide a last name"/>
-					</div>
-				</p>
-				<p>
-					<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-					 
-					<cfinput type="text" name="User" id="User" class="form-control" placeholder="Username" required="true"
-							         validateat="onSubmit" message="Please provide a username"/>
-					</div>
-				</p>
-				<p>
-					<div class="input-group">
-							<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
-					
-					<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control" placeholder="Password"
-							         validateat="onSubmit" message="Please provide a password"/>
-					</div>
-				</p>
-				<br/>
-				<p id="p1">
-					<cfinput type="submit" name="submit" id="sumbit" value="Register" class="btn btn-primary mb-2"/>
-				</p>
-				</div>
+	<div class="row-fluid">		
+		<div class="container-fluid">			
+			<div class="col-lg-4">
+				<!-- left column -->
 			</div>
-		</cfform>
-		</cfoutput>	
-		<div class="col-lg-4">
-					<!-- Right column -->
+			<cfoutput>
+			<!---Registration form--->
+			<cfform name="RegisterForm" action="#CGI.script_name#?#CGI.query_string#" method="Post">
+				<div class="form-group col-lg-4 text-center">
+					<h1>
+						User Registration
+					</h1>
+					<div class="well">
+						<!--- alert user if registration was successful--->
+						<cfif structKeyExists(form, 'submit')>
+							<!---serverside validation--->
+							<cfif len(trim(form.First)) NEQ "" AND len(trim(form.Last)) NEQ "" AND len(trim(form.User)) NEQ "" 
+							      AND len(trim(form.Pass)) NEQ "">
+							      
+							      <cfset rand = generateSecureRandomString(length=64) />
+							      
+							      <cfscript>
+									salt = '#rand#';
+									PBKDFalgorithm = "PBKDF2WithHmacSHA512";
+									PassKey = GeneratePBKDFKey(PBKDFalgorithm, Trim(form.Pass), salt, 4096, 128);
+									
+									
+								</cfscript>
+									
+								<cfset HashPass = PassKey/>
+								<cfset UserSalt = salt/>
+							
+								<!---Inserting Data into DB--->
+								<cfquery name="insert" datasource="MEDICALDATA">
+									INSERT INTO users(firstName, lastname, username, password, salt, role)
+									VALUES ('#form.First#', '#form.Last#', '#form.User#', '#HashPass#', '#UserSalt#', '1');
+								</cfquery>
+							
+								<!---Display user feedback--->		
+								<cfoutput>
+									
+									<div class="alert alert-success">
+						  				<strong>Successfully Registered!</strong>
+									</div>
+								</cfoutput>
+							</cfif>
+						</cfif>
+						<h2>
+							Please Enter the Following:
+						</h2>
+						<br />
+					<p>
+						<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						
+						<cfinput type="text" name="First" id="First" required="true" class="form-control" placeholder="First Name"
+						         validateat="onSubmit" message="Please provide a first name"/>
+						</div>
+					</p>
+					<p>
+						<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						
+						<cfinput type="text" name="Last" id="Last" required="true" class="form-control" placeholder="Last Name"
+						         validateat="onSubmit" message="Please provide a last name"/>
+						</div>
+					</p>
+					<p>
+						<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+						 
+						<cfinput type="text" name="User" id="User" class="form-control" placeholder="Username" required="true"
+								         validateat="onSubmit" message="Please provide a username"/>
+						</div>
+					</p>
+					<p>
+						<div class="input-group">
+								<span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+						
+						<cfinput type="password" name="Pass" id="Pass" required="true" class="form-control" placeholder="Password"
+								         validateat="onSubmit" message="Please provide a password"/>
+						</div>
+					</p>
+					<br/>
+					<p id="p1">
+						<cfinput type="submit" name="submit" id="sumbit" value="Register" class="btn btn-primary mb-2"/>
+					</p>
+					</div>
+				</div>
+			</cfform>
+			</cfoutput>	
+			<div class="col-lg-4">
+						<!-- Right column -->
+			</div>
 		</div>
 	</div>
 	<cfinvoke component="app.elements" method="outputFooter"></cfinvoke>
