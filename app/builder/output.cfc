@@ -1,6 +1,14 @@
+<!---
+Code for report output page - Functions
+Built using Bootstrap/ColdFusion
+
+RDE Systems Capstone Fall 2018
+Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
+--->
+
 <cfcomponent displayname="report_builder">
 	<!--- Function generateSQLQuery takes in the JSON array from the report builder page and generates an array of queries to obtain the data required --->
-	<cffunction name="generateSQLQuery" returntype="array">
+	<cffunction name="generateSQLQuery" returntype="string">
 		<cfargument name="FilterBool" type="array" required="true"/>
 		<!--- New array to store the queries generated --->
 		<cfset queries= ArrayNew(1)>
@@ -192,7 +200,63 @@
 			</cfoutput>
 			<cfset i+=1 /> 
 		</cfloop>
-		<cfreturn queries />
+		<!--- construct the final query --->
+		<cfset bigQuery= "">
+		<cfloop array = #queries# index= "idx">
+			<cfset bigQuery = #bigQuery#  & #idx# > 
+		</cfloop>
+		<cfreturn bigQuery />
+	</cffunction>
+
+	<cffunction name="generateAgeQuery" returntype="string">
+		<cfargument name="age_min" required="false" />
+		<cfargument name="age_max" required="false" />
+		<cfargument name="bigQuery" required="true" />
+		<cfset countvar = age_min />
+		<cfset cvar = age_min+9 />
+		<cfif cvar+9 greater than age_max >
+			<cfset diff =  #age_max# - #countvar# />
+			<cfset cvar = countvar+diff />
+		</cfif>
+		<cfset caseString=""/>
+		<cfloop condition="cvar less than or equal to age_max ">
+			<cfset caseString &= "when  age between #countvar# and #cvar# then '#countvar#-#cvar#'"/>
+			<cfset countvar = (cvar+1) />
+			<cfif cvar+10 greater than age_max >
+				<cfset diff =  #age_max# - #cvar# />
+				<cfif diff eq 0 >
+					<cfbreak>
+				<cfelse>
+					<cfset cvar= cvar + diff />
+				</cfif>
+			<cfelse>
+				<cfset cvar += 10 />
+			</cfif>
+		</cfloop>
+		<cfset a = "WITH ages AS(SELECT id, (FLOOR (DATEDIFF(DD,patients.BIRTHDATE, GETDATE())/365.25)) as age FROM patients )"/>
+		<cfset b= "(SELECT"/>
+		<cfset c = "case #caseString# end"/>
+		<cfset d = "as age_category"/>
+		<cfset e = ",count(*) as total FROM ages where id in  (#bigQuery#) group by #c#)"/>  
+
+		<cfset bigQ = "#a# #b# #c# #d# #e#" />
+		<cfreturn bigQ />
+	</cffunction>
+
+	<cffunction name="getAgeParameters" returntype="array">
+		<cfargument name="FilterBool" type="array" required="true"/>
+			<cfset age_range=ArrayNew(1)>
+			<cfset age_min="0">
+			<cfset age_max="120">
+			<cfloop array = #FilterBool# item="item" >
+				<cfif #item["type"]# == "age">
+					<cfset age_min= #item["min"]#>
+					<cfset age_max= #item["max"]#>
+				</cfif>
+				<cfset age_range[1] = "#age_min#">
+				<cfset age_range[2] = "#age_max#">
+			</cfloop>
+			<cfreturn age_range>
 	</cffunction>
 
 	<cffunction name="dquery" access="public" returntype="string" >
