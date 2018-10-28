@@ -35,20 +35,13 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<div class="row-fluid">
 		<div class="container-fluid">
-			<!-- left column code-->
 			<div class="col-lg-4">
-				<h1>Output</h1>
-				<div>
-					<h2>Debug info:</h2>
+			</div>
+			<div class="col-lg-4">
 					<!--- POSTed information is obtained from the superglobal variable FORM. 
 						Information is sent in the following manner:
 						report_type_string={json_object}
 						query_string=[json_array] --->
-					<!--- The two lines below just dump the data we got --->
-					<cfoutput>#FORM.report_type_string#</cfoutput>
-					<cfoutput>#FORM.query_string#</cfoutput>
-
-					<h2>Graph options (struct) loop</h2>
 
 					<!--- This will loop through the table options array --->
 					<cfset TableOptions="#deserializeJSON(FORM.report_type_string)#">
@@ -61,23 +54,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 							<!--- Get the group by options --->
 							<cfset tableGroupBy = #TableOptions[item]#>
 						</cfif>
-						<cfdump var="#item#">
-						<cfdump var="#TableOptions[item]#">
 						<br /> <!---add a break in between items for readability purposes --->
 					</cfloop>
-					<h2>Filter Options (array) loop</h2>
 
 					<!--- And this code will loop through the array with the filters and boolean options 
 						Each filter will have different options, but the one attribute they will all have in common is the "type". We can get the type using #item["type"]# and run code based on the type we get back.--->
-					<cfset FilterBool="#deserializeJSON(FORM.query_string)#">
-					<cfloop array = #FilterBool# item="item">
-						<cfoutput>#item["type"]#</cfoutput>
-						<cfdump var="#item#">
-					</cfloop>
-					</div>
-				</div>
-				<div class="col-lg-6 text-left">
-					<cfset FiltersandBool="#deserializeJSON(FORM.query_string)#">
 
 					<cfset queries= ArrayNew(1)>
 					<cffunction name="dquery" access="public" returntype="string" >
@@ -121,6 +102,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 							 <cfoutput >
 							 	<cfset queries[i]=  "(  #MEDICALDATA#  ) " > 
 							 </cfoutput>
+						<cfelse>
+							<cfset age_min= "0">
+							<cfset age_max= "120">
 						</cfif>  
 
 						<!--- Gender --->
@@ -338,7 +322,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfset e = ",count(*) as total FROM ages where id in  (#bigQuery#) group by #c#)"/>  
 
 					<cfset bigQ = "#a# #b# #c# #d# #e#" />
-					#bigQ#
+					<!--- #bigQ# --->
 					<cfset var1 = "age_category"/>
 					<cfelse>
 					<cfset bigQ = "select #var1#, count(distinct id) as total from patients where id in ( #bigQuery#) group by #var1# with rollup" />
@@ -378,7 +362,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 							<cfoutput>
 							 var #ToScript(labels, "jsArray")#;
 							 var #ToScript(values, "jArray")#;
-							 var #ToScript (temp, "var1")#; 
+							 var #ToScript(temp, "var1")#; 
 							 var #ToScript(var3, "typeGraph")#;
 							/* var #ToScript(colors, "color")#;*/
 							 var tableArr= [];
@@ -447,6 +431,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				    </cfloop>
 					</table>
 				</cfloop>
+			</div>
+			<div class="col-lg-4">
 			</div>
 		</div>
 	</div>
