@@ -212,12 +212,19 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfargument name="age_min" required="false" />
 		<cfargument name="age_max" required="false" />
 		<cfargument name="bigQuery" required="true" />
-		<cfset countvar = age_min />
-		<cfset cvar = age_min+9 />
-		<cfif cvar+9 greater than age_max >
-			<cfset diff =  #age_max# - #countvar# />
-			<cfset cvar = countvar+diff />
-		</cfif>
+		<cfif isDefined ("age_min")>
+			<cfset countvar = age_min />
+			<cfset cvar = age_min+9 />
+			<cfif cvar+9 greater than age_max >
+				<cfset diff =  #age_max# - #countvar# />
+				<cfset cvar = countvar+diff />
+			</cfif>
+		<cfelse>
+			<Cfset age_min = 0/>
+			<cfset countvar = age_min />
+			<cfset cvar = age_min+9 />
+			<cfset age_max = 150 />
+		</cfif> 
 		<cfset caseString=""/>
 		<cfloop condition="cvar less than or equal to age_max ">
 			<cfset caseString &= "when  age between #countvar# and #cvar# then '#countvar#-#cvar#'"/>
