@@ -168,6 +168,13 @@ function getFilters() {
 	} else {
 		chosen_filters.each(function() {
 			filter_string += $(this).text() + " ";
+			//input validation for and/or
+			if ($(this).hasClass("filter")) {
+				if ( $(this).prev().hasClass("filter") ) {
+					error_list += "Filters: AND/OR is missing<br />";
+					errors++;	
+				}
+			}
 			//for age filter
 			if (this.id == "age_button") {
 				//get the filter id
