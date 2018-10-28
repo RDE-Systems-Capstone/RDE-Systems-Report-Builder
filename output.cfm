@@ -73,7 +73,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<cfset age_min="#age_range[1]#">
 						<cfset age_max="#age_range[2]#">
 						<cfinvoke component="app.builder.output" method="generateAgeQuery" age_min="#age_min#" age_max="#age_max#" bigQuery="#bigQuery#" returnvariable="bigQ"></cfinvoke>
-						<cfset var1 = "age_category"/>
+						<cfset var1 = "AGE_CATEGORY"/>
 					<cfelse>
 						<!-- Anything other than age, a simpler query will suffice --->
 						<cfset bigQ = "select #var1#, count(distinct id) as total from patients where id in ( #bigQuery#) group by #var1# with rollup" />
@@ -82,7 +82,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
 					<cfset MEDICALDATA = QueryExecute(#bigQ#, [] ,qoptions)> 
 
-					<cfif var1 eq "age_category">
+					<cfif var1 eq "AGE_CATEGORY">
 						<cfset temp = MEDICALDATA.recordCount > 
 					<cfelse>
 						<cfset temp = MEDICALDATA.recordCount-1 > 
@@ -97,7 +97,12 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfif var3 eq "bar">
 						<cfloop index="i" from="1" to="#temp#">
 							<cfoutput>
-								<cfset labels[i]= MEDICALDATA[#var1#][i]>
+								
+								    <cfset mystring = MEDICALDATA[#var1#][i]/>
+									<cfset a = Replace(mystring, "_", " ", "ALL")  />
+								
+								
+								<cfset labels[i]= ReReplace(a ,"\b(\w)","\u\1","ALL")>
 								<cfset values[i]= MEDICALDATA["total"][i]>
 								<CFSET color =FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16)>
 								<cfset colors[i] = #color#>
@@ -165,13 +170,16 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					        <cfif row eq 0>
 					            <tr>
 					                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+					                	
 					                    <th><cfoutput>#column#</cfoutput></th>  
 					                </cfloop>
 					            </tr>
 					        <cfelse>
 					            <tr>
 					                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
-					                    <td><cfoutput>#MEDICALDATA[column][row]#</cfoutput></td>
+					                	 <cfset mystring = #MEDICALDATA[column][row]#/>
+										<cfset a = Replace(mystring, "_", " ", "ALL")  />
+					                    <td><cfoutput>#ReReplace(a ,"\b(\w)","\u\1","ALL")#</cfoutput></td>
 					                </cfloop>
 					            </tr>
 					    	</cfif>
