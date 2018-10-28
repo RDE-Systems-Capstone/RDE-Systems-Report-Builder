@@ -89,6 +89,7 @@ function getFilters() {
 	//store filter params in array
 	var filters_array = [];
 	var tokens = [];
+	var filter_string = "";
 
 	//keep track of errors
 	var errors = 0;
@@ -140,7 +141,7 @@ function getFilters() {
 			error_list += "Output: Doughnut graph is missing options<br />";
 			errors++;
 		}
-		report_options["columns"] = doughnut_array;
+		report_options["group_by"] = doughnut_array;
 	}
 	//for data table
 	else if ( $("#report_type").val() === "data" ) {
@@ -166,6 +167,7 @@ function getFilters() {
 		errors++;
 	} else {
 		chosen_filters.each(function() {
+			filter_string += $(this).text() + " ";
 			//for age filter
 			if (this.id == "age_button") {
 				//get the filter id
@@ -240,6 +242,7 @@ function getFilters() {
 				var conditions_array = {"type":"conditions"}
 				var options = $("#" + this.value).find("[name='condition']").each(function() {
 					conditions_array["id"] = this.value;
+
 				});
 				filters_array.push(conditions_array);
 			}
@@ -340,14 +343,16 @@ function getFilters() {
 			}
 		});
 	}
-	//alert(JSON.stringify(filters_array));
+
+	//generate a string of the chosen filters for the output page
+	var report_filter_string = {"type":"filter_string", "string": filter_string};
+	filters_array.push(report_filter_string);
 
 	//Verify that the parentheses match
 	if (tokens.length != 0) {
 		error_list +="Filters: Missing parentheses\n";
 		errors++;
 	} 
-	
 	if (errors == 0) {
 		$("#query_string").val(JSON.stringify(filters_array));
 		$("#report_type_string").val(JSON.stringify(report_options));

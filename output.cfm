@@ -36,7 +36,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<div class="row-fluid">
 		<div class="container-fluid">
 			<h1>Output:</h1>
-			<div class="col-lg-2">
+			<div class="col-lg-4">
+				<!--- print detailed report info --->
+				<cfinvoke component="app.builder.output" method="reportDetails" FilterBool="#deserializeJSON(FORM.query_string)#" GraphOptions="#deserializeJSON(FORM.report_type_string)#"></cfinvoke>
 			</div>
 			<div class="col-lg-8">
 				<!--- POSTed information is obtained from the superglobal variable FORM. 
@@ -55,140 +57,143 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<!--- Get the group by options --->
 						<cfset tableGroupBy = #TableOptions[item]#>
 					</cfif>
-					<br /> <!---add a break in between items for readability purposes --->
 				</cfloop>
 
 				<!--- Call the function that will generate SQL Query based on filters --->
 				<cfinvoke component="app.builder.output" method="generateSQLQuery" FilterBool="#deserializeJSON(FORM.query_string)#" returnvariable="bigQuery"></cfinvoke>
 			
 				<!--- Code for table and query output --->
-				<cfloop array = #tableGroupBy# index ="gb">
-					<div>
-						<h2> Graph for <cfoutput>#gb#</cfoutput> </h2>
-					
-					<cfset var1="#gb#"/>
-					<!--- Group by age options --->
-					<cfif var1 eq "age">
-						<cfinvoke component="app.builder.output" method="getAgeParameters" FilterBool="#deserializeJSON(FORM.query_string)#" returnvariable="age_range"></cfinvoke>
-						<cfset age_min="#age_range[1]#">
-						<cfset age_max="#age_range[2]#">
-						<cfinvoke component="app.builder.output" method="generateAgeQuery" age_min="#age_min#" age_max="#age_max#" bigQuery="#bigQuery#" returnvariable="bigQ"></cfinvoke>
-						<cfset var1 = "AGE_CATEGORY"/>
-					<cfelse>
-						<!-- Anything other than age, a simpler query will suffice --->
-						<cfset bigQ = "select #var1#, count(distinct id) as total from patients where id in ( #bigQuery#) group by #var1# with rollup" />
-					</cfif>
-					
-					<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
-					<cfset MEDICALDATA = QueryExecute(#bigQ#, [] ,qoptions)> 
+				<!--- check if type is bar.... we don't support other types of graphs yet --->
+				<cfif #TableOptions["type"]# eq "bar">
+					<cfloop array = #tableGroupBy# index ="gb">
+						<div>
+							<h2> Graph for <cfoutput>#gb#</cfoutput> </h2>
+						
+						<cfset var1="#gb#"/>
+						<!--- Group by age options --->
+						<cfif var1 eq "age">
+							<cfinvoke component="app.builder.output" method="getAgeParameters" FilterBool="#deserializeJSON(FORM.query_string)#" returnvariable="age_range"></cfinvoke>
+							<cfset age_min="#age_range[1]#">
+							<cfset age_max="#age_range[2]#">
+							<cfinvoke component="app.builder.output" method="generateAgeQuery" age_min="#age_min#" age_max="#age_max#" bigQuery="#bigQuery#" returnvariable="bigQ"></cfinvoke>
+							<cfset var1 = "AGE_CATEGORY"/>
+						<cfelse>
+							<!-- Anything other than age, a simpler query will suffice --->
+							<cfset bigQ = "select #var1#, count(distinct id) as total from patients where id in ( #bigQuery#) group by #var1# with rollup" />
+						</cfif>
+						
+						<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
+						<cfset MEDICALDATA = QueryExecute(#bigQ#, [] ,qoptions)> 
 
-					<cfif var1 eq "AGE_CATEGORY">
-						<cfset temp = MEDICALDATA.recordCount > 
-					<cfelse>
-						<cfset temp = MEDICALDATA.recordCount-1 > 
-					</cfif>
+						<cfif var1 eq "AGE_CATEGORY">
+							<cfset temp = MEDICALDATA.recordCount > 
+						<cfelse>
+							<cfset temp = MEDICALDATA.recordCount-1 > 
+						</cfif>
 
 
-					<!--- code for charts --->
-					<cfset var3 = #tableType# />
-					<cfset labels = ArrayNew(1)>
-					<cfset values = ArrayNew(1)>
-					<cfset colors = ArrayNew(1)>
-					<cfif var3 eq "bar">
-						<cfloop index="i" from="1" to="#temp#">
-							<cfoutput>
-								
-								    <cfset mystring = MEDICALDATA[#var1#][i]/>
-									<cfset a = Replace(mystring, "_", " ", "ALL")  />
-								
-								
-								<cfset labels[i]= ReReplace(a ,"\b(\w)","\u\1","ALL")>
-								<cfset values[i]= MEDICALDATA["total"][i]>
-								<CFSET color =FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16)>
-								<cfset colors[i] = #color#>
-							</cfoutput>
-						</cfloop>
-					</cfif>		
-					<canvas id="myChart<cfoutput>#var1#</cfoutput>">
-						<script type= "text/javascript" language="Javascript"> 
-							/*converting coldfusion array into javascript */	
-							<cfoutput>
-							 var #ToScript(labels, "jsArray")#;
-							 var #ToScript(values, "jArray")#;
-							 var #ToScript(temp, "var1")#; 
-							 var #ToScript(var3, "typeGraph")#;
-							/* var #ToScript(colors, "color")#;*/
-							 var tableArr= [];
-							</cfoutput>
-
-							var table = document.getElementById("myTable");
-							var tableLen = var1;
-							var data = {labels: [], total:[], colors:[]}
-							function getRandomColor() {
-							  var letters = '0123456789ABCDEF';
-							  var color = '#';
-							  for (var i = 0; i < 6; i++) {
-							    color += letters[Math.floor(Math.random() * 16)];
-							  }
-							  return color;
-							}
-
-							for (var i = 0; i < tableLen; i++) {
-							  data.labels.push(jsArray[i])
-							  data.total.push(jArray[i])
-							  data.colors.push(getRandomColor())
-							}
-							var ctx = document.getElementById("myChart<cfoutput>#var1#</cfoutput>").getContext('2d');
-							
-							var myChart = new Chart(ctx, {
-							  type: typeGraph,
-							  data: {
-							    labels:data.labels,
-							    datasets: [{
-							    	label: "<cfoutput>#var1#</cfoutput>",
-							    	data : data.total,
-							    	backgroundColor: data.colors
-							    }]
-
-							  },
-						        options: {
-						            scales: {
-						                yAxes: [{
-						                    ticks: {
-						                        min: 0,
-						                        beginAtZero: true
-						                    }
-						                }]
-						            }
-						        }
-							});
-						</script>
-					</canvas>
-					<table id = "myTable" class="table table-striped">
-						<style>tr : {background-color:red} </style>
-					    <cfloop from="0" to="#temp#" index="row">
-					        <cfif row eq 0>
-					            <tr>
-					                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
-					                	
-					                    <th><cfoutput>#column#</cfoutput></th>  
-					                </cfloop>
-					            </tr>
-					        <cfelse>
-					            <tr>
-					                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
-					                	 <cfset mystring = #MEDICALDATA[column][row]#/>
+						<!--- code for charts --->
+						<cfset var3 = #tableType# />
+						<cfset labels = ArrayNew(1)>
+						<cfset values = ArrayNew(1)>
+						<cfset colors = ArrayNew(1)>
+						<cfif var3 eq "bar">
+							<cfloop index="i" from="1" to="#temp#">
+								<cfoutput>
+									
+									    <cfset mystring = MEDICALDATA[#var1#][i]/>
 										<cfset a = Replace(mystring, "_", " ", "ALL")  />
-					                    <td><cfoutput>#ReReplace(a ,"\b(\w)","\u\1","ALL")#</cfoutput></td>
-					                </cfloop>
-					            </tr>
-					    	</cfif>
-					    </cfloop>
-					</table>
-				</div>
-			</cfloop>
-		</div>
-		<div class="col-lg-2">
+									
+									
+									<cfset labels[i]= ReReplace(a ,"\b(\w)","\u\1","ALL")>
+									<cfset values[i]= MEDICALDATA["total"][i]>
+									<CFSET color =FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16)>
+									<cfset colors[i] = #color#>
+								</cfoutput>
+							</cfloop>
+						</cfif>		
+						<canvas id="myChart<cfoutput>#var1#</cfoutput>">
+							<script type= "text/javascript" language="Javascript"> 
+								/*converting coldfusion array into javascript */	
+								<cfoutput>
+								 var #ToScript(labels, "jsArray")#;
+								 var #ToScript(values, "jArray")#;
+								 var #ToScript(temp, "var1")#; 
+								 var #ToScript(var3, "typeGraph")#;
+								/* var #ToScript(colors, "color")#;*/
+								 var tableArr= [];
+								</cfoutput>
+
+								var table = document.getElementById("myTable");
+								var tableLen = var1;
+								var data = {labels: [], total:[], colors:[]}
+								function getRandomColor() {
+								  var letters = '0123456789ABCDEF';
+								  var color = '#';
+								  for (var i = 0; i < 6; i++) {
+								    color += letters[Math.floor(Math.random() * 16)];
+								  }
+								  return color;
+								}
+
+								for (var i = 0; i < tableLen; i++) {
+								  data.labels.push(jsArray[i])
+								  data.total.push(jArray[i])
+								  data.colors.push(getRandomColor())
+								}
+								var ctx = document.getElementById("myChart<cfoutput>#var1#</cfoutput>").getContext('2d');
+								
+								var myChart = new Chart(ctx, {
+								  type: typeGraph,
+								  data: {
+								    labels:data.labels,
+								    datasets: [{
+								    	label: "<cfoutput>#var1#</cfoutput>",
+								    	data : data.total,
+								    	backgroundColor: data.colors
+								    }]
+
+								  },
+							        options: {
+							            scales: {
+							                yAxes: [{
+							                    ticks: {
+							                        min: 0,
+							                        beginAtZero: true
+							                    }
+							                }]
+							            }
+							        }
+								});
+							</script>
+						</canvas>
+						<table id = "myTable" class="table table-striped">
+							<style>tr : {background-color:red} </style>
+						    <cfloop from="0" to="#temp#" index="row">
+						        <cfif row eq 0>
+						            <tr>
+						                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+						                	
+						                    <th><cfoutput>#column#</cfoutput></th>  
+						                </cfloop>
+						            </tr>
+						        <cfelse>
+						            <tr>
+						                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+						                	 <cfset mystring = #MEDICALDATA[column][row]#/>
+											<cfset a = Replace(mystring, "_", " ", "ALL")  />
+						                    <td><cfoutput>#ReReplace(a ,"\b(\w)","\u\1","ALL")#</cfoutput></td>
+						                </cfloop>
+						            </tr>
+						    	</cfif>
+						    </cfloop>
+						</table>
+					</div>
+				</cfloop>
+			<!---output a message for any other graph not supported --->
+			<cfelse>
+				<h1>Support for this graph type is not avaiable yet and will be added in a future release.</h1>
+			</cfif>
 		</div>
 		</div>
 	</div>

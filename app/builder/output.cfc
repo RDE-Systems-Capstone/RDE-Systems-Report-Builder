@@ -285,10 +285,68 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfreturn query />
 	</cffunction>
 
-	<cffunction name="patientFunc" access="public" retuntype = "string" >
+	<cffunction name="patientFunc" access="public" returntype = "string" >
 		<cfargument name = "atype" type="string">
 		<cfargument name="variable" type= "string" >
 		<cfset query = "select id from patients where #arguments.atype# = '#variable#'">
 		<cfreturn query />
+	</cffunction>
+
+	<!--- function reportDetails will print out the report type and the filters chosen --->
+	<cffunction name="reportDetails" returntype="void">
+		<cfargument name="FilterBool" type="array" required="true">
+		<cfargument name="GraphOptions" type="struct" required="true">
+		<!--- output filters selected --->
+		<ul class="list-group">
+		<li class="list-group-item active">Filters selected:</li>
+		<cfloop array="#FilterBool#" item="opt">
+			<cfif #opt["type"]# eq "filter_string">
+				<cfoutput><li class="list-group-item">#opt["string"]#</li></cfoutput>
+			</cfif>
+		</cfloop>
+		</ul>
+
+		<!--- output graph options --->
+		<ul class="list-group">
+		<li class="list-group-item active">Graph options:</li>
+		<cfif #GraphOptions["type"]# eq "bar">
+			<cfoutput><li class="list-group-item">Bar Chart</li>
+			<li class="list-group-item">Group by: 
+				<cfscript>
+					WriteOutput(ArrayToList(#GraphOptions["group_by"]#))
+				</cfscript>
+			</li>
+			</cfoutput>
+		<cfelseif #GraphOptions["type"]# eq "pie">
+			<cfoutput><li class="list-group-item">Pie Chart</li>
+				<li class="list-group-item">Group by: 
+				<cfscript>
+					WriteOutput(ArrayToList(#GraphOptions["group_by"]#))
+				</cfscript>
+			</li>
+			</cfoutput>
+		<cfelseif #GraphOptions["type"]# eq "doughnut">
+			<cfoutput><li class="list-group-item">Doughnut Chart</li>
+			<li class="list-group-item">Group by: 
+				<cfscript>
+					WriteOutput(ArrayToList(#GraphOptions["group_by"]#))
+				</cfscript>
+			</li>
+			</cfoutput>
+		<cfelseif #GraphOptions["type"]# eq "data">
+			<cfoutput><li class="list-group-item">Data Table</li>
+			<li class="list-group-item">Group by: 
+				<cfscript>
+					WriteOutput(ArrayToList(#GraphOptions["group_by"]#))
+				</cfscript>
+			</li>
+			</cfoutput>
+		<cfelseif #GraphOptions["type"]# eq "trend">
+			<cfoutput><li class="list-group-item">Trend Graph</li></cfoutput>
+			<cfoutput><li class="list-group-item">Start Date: #GraphOptions["start_date"]#</li></cfoutput>
+			<cfoutput><li class="list-group-item">End Date: #GraphOptions["end_date"]#</li></cfoutput>
+			<cfoutput><li class="list-group-item">Total values: #GraphOptions["options"]#</li></cfoutput>
+		</cfif>
+		</ul>
 	</cffunction>
 </cfcomponent>
