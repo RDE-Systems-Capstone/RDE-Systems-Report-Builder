@@ -17,6 +17,31 @@ jQuery.fn.swap = function(b){
     return this; 
 };
 
+//Generate range silders for the age filter
+function createAgeFilter(option, filter_id) {
+	if (option === "between") {
+		//Generate a range slider with two drag handles
+		$( "#slider" + filter_id ).slider({
+			range: true,
+		    min: 0,
+		    max: 120,
+		    values: [ 20, 50 ],
+		    slide: function( event, ui ) {
+		    	//update label for range filter on slide
+	        	$( "#amount" + filter_id ).text( "Between: " + ui.values[ 0 ] + " and " + ui.values[ 1 ] );
+	        	//Also update the filter button text as well. Moved from ageFilterUpdate function
+	        	var button = $("#chosen_filters").find("[type='button'][value=" + filter_id + "]")[0];
+				button.innerHTML = "Age BETWEEN " + ui.values[ 0 ] + ", " + ui.values[ 1 ];
+	     	}
+		});
+		//initially add text to range slider label
+		$( "#amount" + filter_id ).text( "Between: " + $( "#slider" + filter_id ).slider( "values", 0 ) + " and " + $( "#slider" + filter_id ).slider( "values", 1 ) );
+		//Also update the filter button text as well on init. Moved from ageFilterUpdate function
+		var button = $("#chosen_filters").find("[type='button'][value=" + filter_id + "]")[0];
+		button.innerHTML = "Age BETWEEN " + $( "#slider" + filter_id ).slider( "values", 0 ) + ", " + $( "#slider" + filter_id ).slider( "values", 1 );
+	}
+};
+
 //Allow drag and drop of filters to filter area
 $(document).ready(function() { 	//only run once page is ready
 	var sourceElement;
@@ -44,7 +69,9 @@ $(document).ready(function() { 	//only run once page is ready
 				//Check if the added element is a filter or boolean logic
 				//if it's a filter use AJAX to pull a form to configure filter attributes
 				if ($(ui.draggable).attr('id') === "age_button") {
-					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=age&id=" + filter_id));
+					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=age&id=" + filter_id, function() {
+						createAgeFilter("between", filter_id);
+					}));
 				} 
 				else if ($(ui.draggable).attr('id') === "gender_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=gender&id=" + filter_id));

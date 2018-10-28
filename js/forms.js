@@ -29,19 +29,7 @@ $(document).ready(function() { 	//only run once page is ready
 });
 
 /* WORK IN PROGRESS - SHOW FILTER DATA IN CHOSEN FILTER TEXT 
-The following function ageFilterUpdate will update the text of the filter button to refect the parameters set by the user */
-function ageFilterUpdate(filter_id) {
-	var buttons = $("#chosen_filters").find("[type='button']");
-	var age_options = $("#" + filter_id);
-	var age_min = $(age_options).find("#age_min");
-	var age_max = $(age_options).find("#age_max");
-	for(i = 0; i < buttons.length; i++) {
-		if (buttons[i].value === filter_id) {
-			buttons[i].innerHTML = "Age BETWEEN " + age_min.val() + ", " + age_max.val();
-			break;
-		}
-	}
-};
+function ageFilterUpdate has been moved. See drag.js:createAgeFilter function */
 
 /* This function will update the text of the observations dropdown-type filter
  where filter_id is the unique id of the added filter, filter_type is type of filter (ex. race) and filter_text is text to be prepended (ex. "Race: ") */
@@ -65,11 +53,13 @@ function checkboxFilterUpdate(filter_id, filter_type, filter_text) {
 	var button = $("#chosen_filters").find("[type='button'][value=" + filter_id + "]")[0];
 	var filter_options = $("#" + filter_id);
 	var options = $(filter_options).find(":checked");
+	var values = [];
 	
 	button.innerHTML = filter_text;
 	options.each( function() {
-		button.append(this.value + " ");
+		values.push($(this).attr("data-label"));
 	});
+	button.append(values.join(', '));
 };
 
 /* This function will update the text of any dropdown-type filter
@@ -169,17 +159,16 @@ function getFilters() {
 		chosen_filters.each(function() {
 			//for age filter
 			if (this.id == "age_button") {
+				//get the filter id
+				filter_id = this.value;
 				var age_array = {}
 				age_array["type"] = "age";
-				$("#" + this.value).children().each(function() {
+				var slider = $("#" + this.value).find(".ui-slider").each(function() {
 					//define filter type and params
 					age_array['format'] = "between";
-					if(this.id == "age_min") {
-						age_array["min"] = this.value;
-					}
-					if(this.id == "age_max") {
-						age_array["max"] = this.value;
-					}
+					//get the max and min age from slider
+					age_array["min"] = $( "#slider" + filter_id ).slider( "values", 0 );
+					age_array["max"] = $( "#slider" + filter_id ).slider( "values", 1 );
 				});
 				//alert(JSON.stringify(age_array));
 				filters_array.push(age_array);

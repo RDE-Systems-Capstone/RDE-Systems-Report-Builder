@@ -14,13 +14,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<!--- Age --->
 			<cfif arguments.filter eq "age">
 				<div id="age_filter">
-					<cfoutput><form class="form-inline collapse filter-collapse" id="#arguments.id#">
-						<h2>Age filter</h2>
-						<label for="age_min">Between</label>
-						<input type="number" id="age_min" min="0" max="120" step="1" value="20" class="form-control" onchange="ageFilterUpdate('#arguments.id#')" />
-						<label for="age_max">and</label>
-						<input type="number" id="age_max" min="0" max="120" step="1" value="50" class="form-control" onchange="ageFilterUpdate('#arguments.id#')" />
-					</form></cfoutput>
+					<cfoutput><div class="collapse filter-collapse" id="#arguments.id#">
+					<h2>Age filter</h2>
+					<label for="slider#arguments.id#" id="amount#arguments.id#"></label>
+					<div id="slider#arguments.id#" style="width: 40%"></div>
+					</div></cfoutput>
 				</div>
 
 			<!--- Gender --->
@@ -28,8 +26,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div id="gender_filter">
 					<cfoutput><div id="#arguments.id#"  class="collapse filter-collapse checkbox">
 						<h2>Gender filter</h2>
-						<label><input type="checkbox" name="gender" value="M" onchange="checkboxFilterUpdate('#arguments.id#', 'gender', 'Gender: ')" />Male</label>
-						<label><input type="checkbox" name="gender" value="F" onchange="checkboxFilterUpdate('#arguments.id#', 'gender', 'Gender: ')" />Female</label>
+						<label><input type="checkbox" name="gender" value="M" data-label="Male" onchange="checkboxFilterUpdate('#arguments.id#', 'gender', 'Gender: ')" />Male</label>
+						<label><input type="checkbox" name="gender" value="F" data-label="Female" onchange="checkboxFilterUpdate('#arguments.id#', 'gender', 'Gender: ')" />Female</label>
 					</div></cfoutput>
 				</div>
 			
@@ -38,10 +36,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div id="race_filter">
 					<cfoutput><div id="#arguments.id#"  class="collapse filter-collapse checkbox">
 						<h2>Race filter</h2>
-						<label><input type="checkbox" name="race" value="white" onchange="checkboxFilterUpdate('#arguments.id#', 'race', 'Race: ')" />White</label>
-						<label><input type="checkbox" name="race" value="black" onchange="checkboxFilterUpdate('#arguments.id#', 'race', 'Race: ')" />Black</label>
-						<label><input type="checkbox" name="race" value="asian" onchange="checkboxFilterUpdate('#arguments.id#', 'race', 'Race: ')" />Asian</label>
-						<label><input type="checkbox" name="race" value="hispanic" onchange="checkboxFilterUpdate('#arguments.id#', 'race', 'Race: ')" />Hispanic</label>
+						<label><input type="checkbox" name="race" data-label="White" value="white" onchange="checkboxFilterUpdate('#arguments.id#', 'race', 'Race: ')" />White</label>
+						<label><input type="checkbox" name="race" data-label="Black" value="black" onchange="checkboxFilterUpdate('#arguments.id#', 'race', 'Race: ')" />Black</label>
+						<label><input type="checkbox" name="race" data-label="Asian" value="asian" onchange="checkboxFilterUpdate('#arguments.id#', 'race', 'Race: ')" />Asian</label>
+						<label><input type="checkbox" name="race" data-label="Hispanic" value="hispanic" onchange="checkboxFilterUpdate('#arguments.id#', 'race', 'Race: ')" />Hispanic</label>
 					</div></cfoutput>
 				</div>
 			
@@ -59,8 +57,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<div id="marital_filter">
 					<cfoutput><div id="#arguments.id#"  class="collapse filter-collapse checkbox">
 						<h2>Marital Status filter</h2>
-						<label><input type="checkbox" name="marital" value="S" onchange="checkboxFilterUpdate('#arguments.id#', 'marital', 'Marital Status: ')" />Single</label>
-						<label><input type="checkbox" name="marital" value="M" onchange="checkboxFilterUpdate('#arguments.id#', 'marital', 'Marital Status: ')" />Married</label>
+						<label><input type="checkbox" name="marital" value="S" data-label="Single" onchange="checkboxFilterUpdate('#arguments.id#', 'marital', 'Marital Status: ')" />Single</label>
+						<label><input type="checkbox" name="marital" value="M" data-label="Married" onchange="checkboxFilterUpdate('#arguments.id#', 'marital', 'Marital Status: ')" />Married</label>
 					</div></cfoutput>
 				</div>
 			

@@ -19,6 +19,12 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
     <meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="css/bootstrap.css">
+	<link rel="stylesheet" href="css/jquery-ui.css">
+	<!-- Styling for range filters (age), makes it easier to see -->
+	<style>
+		.ui-slider-range { background: #729fcf; }
+		.ui-slider-handle { border-color: #729fcf; }
+	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="js/drag.js"></script>

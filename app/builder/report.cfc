@@ -177,10 +177,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		returnvariable="allEthnicities"></cfinvoke>
 		<cfform name="ethnicity_filter_form">
 			<cfloop query="allEthnicities">
-				<cfset ethnicity_desc="#reReplace('#ETHNICITY#',"(^[a-z])","\U\1","ALL")#">
-				<cfset ethnicity_desc="#Replace('#ethnicity_desc#',"_"," ","all")#">
+				<cfset ethnicity_desc="#reReplace('#ETHNICITY#',"_"," ","all")#">
+				<cfset ethnicity_desc="#reReplace('#ethnicity_desc#',"(^[a-z])","\U\1","ALL")#">
 				<cfoutput>
-					<label><cfinput type="checkbox" name="ethnicity" value="#ETHNICITY#" onchange="checkboxFilterUpdate('#id#', 'ethnicity', 'Ethnicity: ')">#ethnicity_desc#</label>
+					<label><cfinput type="checkbox" data-label="#ethnicity_desc#" name="ethnicity" value="#ETHNICITY#" onchange="checkboxFilterUpdate('#id#', 'ethnicity', 'Ethnicity: ')">#ethnicity_desc#</label>
 				</cfoutput>
 			</cfloop>
 		</cfform>
