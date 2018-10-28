@@ -24,7 +24,7 @@ function createAgeFilter(option, filter_id) {
 		$( "#slider" + filter_id ).slider({
 			range: true,
 		    min: 0,
-		    max: 120,
+		    max: 150,
 		    values: [ 20, 50 ],
 		    slide: function( event, ui ) {
 		    	//update label for range filter on slide
