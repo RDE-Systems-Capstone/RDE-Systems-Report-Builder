@@ -101,7 +101,7 @@ $(document).ready(function() { 	//only run once page is ready
 				var clone = $(ui.draggable).clone().appendTo("#chosen_filters");
 
 				//display the area that will show the filters added
-				$("#filter_zone").removeAttr('hidden');
+				$("#filter_zone").collapse("show");
 
 				//allow sorting of buttons
 				$("#chosen_filters").sortable({

@@ -72,10 +72,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				as we add filters, JS code will make the filters unhidden-->
 				<h1>Filters</h1>
 				<div class="filter_drop well">
-					<p>Drag and drop filters here to add them.</p>
+					<strong>Drag and drop filters here to add them.</strong>
 				</div>
-				<div class="well" id="filter_zone" hidden>
+				<div class="well collapse" id="filter_zone">
 					<p>Click on a filter below to configure its options.</p>
+					<p>Drag the filters around to re-arrange them.</p>
 					<div id="chosen_filters"></div>
 					<div id="filter_forms"></div>
 				</div>
