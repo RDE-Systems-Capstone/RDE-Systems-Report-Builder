@@ -5,6 +5,18 @@ RDE Capstone Fall 2018
 Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
 */
 
+//This function allows swapping of elements using drag and drop
+jQuery.fn.swap = function(b){ 
+    // method from: http://blog.pengoworks.com/index.cfm/2008/9/24/A-quick-and-dirty-swap-method-for-jQuery
+    b = jQuery(b)[0]; 
+    var a = this[0]; 
+    var t = a.parentNode.insertBefore(document.createTextNode(''), a); 
+    b.parentNode.insertBefore(a, b); 
+    t.parentNode.insertBefore(b, t); 
+    t.parentNode.removeChild(t); 
+    return this; 
+};
+
 //Generate range silders for the age filter
 function createAgeFilter(option, filter_id) {
 	if (option === "between") {
@@ -104,14 +116,26 @@ $(document).ready(function() { 	//only run once page is ready
 				$(ui.draggable).attr('value', filter_id);
 				var clone = $(ui.draggable).clone().appendTo("#chosen_filters");
 
-				//display the area that will show the filters added
-				$("#filter_zone").collapse("show");
-
-				//allow sorting of buttons
-				$("#chosen_filters").sortable({
-					helper : 'clone',
-					cancel: ''
+				//make the new filter button added draggable as well
+				clone.draggable({
+					cancel: false,
+					connectToSortable: '.container',
+					containment: 'document',
+					helper: 'clone',
+					start: function (event, ui) {
+						sourceElement = $(this).closest('div').attr('id');
+					}
 				});
+				//Add droppable functionality to the filters added, also allow swapping of elements
+				clone.droppable({
+    				drop: function (event, ui) {
+	    				var draggable = ui.draggable, droppable = $(this), dragPos = draggable.position(), dropPos = droppable.position();
+	    				//only allow element swapping within the chosen_filters div
+	    				if (sourceElement == "chosen_filters") {
+	    					draggable.swap(droppable);
+	    				}
+    				}
+    			});
     			//Allow toggling of buttons when clicked
     			//also trigger the collapse attribute of the filter's options so that the user can configure them
     			clone.click( function(event, ui) {
