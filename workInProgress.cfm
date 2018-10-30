@@ -27,7 +27,7 @@
 </body>
 <br>
 <br>
-<center><img src="images/construction.jpg" alt="Construction" width="500" height="333">
+<center><img src="images/construction.jpg" alt="Construction" width="350" height="333">
 
 <cfinvoke component="app.elements" method="outputFooter"></cfinvoke>
 
