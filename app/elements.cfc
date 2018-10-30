@@ -15,7 +15,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<nav class="navbar navbar-default">
 			  <div class="container-fluid">
 				<div class="navbar-header">
-				  <a class="navbar-brand" href="https://www.rde.org/">
+				  <a class="navbar-brand" href="#">
 					<img src="images/rde_logo_white.png" width="auto" height="100%" alt="">
 				  </a>
 				</div>
@@ -40,7 +40,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<cfelse>
 							<li>
 						</cfif>
-						<a href="#">Saved Reports</a></li>
+						<a href="workInProgress.cfm">Saved Reports</a></li>
 					<cfelseif pageType eq "login">
 						<!--- Login page --->
 						<cfif activePage eq "login">
@@ -49,6 +49,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 							<li>
 						</cfif><a href="index.cfm">Report Builder</a></li>
 						<li><a href="workInProgress.cfm">Support</a></li>
+					<cfelseif pageType eq "wip">
+						<!--- WIP page --->
+						<li><a href="#" onclick="window.history.back();">Go Back</a></li>
 					</cfif>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">

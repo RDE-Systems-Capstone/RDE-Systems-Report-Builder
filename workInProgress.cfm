@@ -15,14 +15,20 @@
     cursor: pointer;
 }
 </style>
+<link rel="stylesheet" href="css/bootstrap.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+<script src="js/bootstrap.min.js"></script>
 <title>Under Construction</title>
 </head>
 <body>
+<cfinvoke component="app.elements" method="outputHeader" pageType="wip" activePage="wip"></cfinvoke>
 <h2><center>This page is under construction. Please come back soon!</h2>
-<center><button class="button" onclick="window.location.href='http://127.0.0.1:8500/rde/index.cfm'">Back</button>
 </body>
 <br>
 <br>
-<img src="images/construction.jpg" alt="Construction" width="500" height="333">
+<center><img src="images/construction.jpg" alt="Construction" width="500" height="333">
+
+<cfinvoke component="app.elements" method="outputFooter"></cfinvoke>
 
 </html>
