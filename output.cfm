@@ -64,7 +64,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			
 				<!--- Code for table and query output --->
 				<!--- check if type is bar.... we don't support other types of graphs yet --->
-				<cfif #TableOptions["type"]# eq "bar">
+				<cfif #TableOptions["type"]# eq "bar" or  #TableOptions["type"]# eq "doughnut" or #TableOptions["type"]# eq "pie" >
 					<cfloop array = #tableGroupBy# index ="gb">
 						<div>
 							<h2> Graph for <cfoutput>#gb#</cfoutput> </h2>
@@ -111,7 +111,39 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 									<cfset colors[i] = #color#>
 								</cfoutput>
 							</cfloop>
-						</cfif>		
+						</cfif>	
+
+						<cfif var3 eq "doughnut">
+							<cfloop index="i" from="1" to="#temp#">
+								<cfoutput>
+									
+									    <cfset mystring = MEDICALDATA[#var1#][i]/>
+										<cfset a = Replace(mystring, "_", " ", "ALL")  />
+									
+									
+									<cfset labels[i]= ReReplace(a ,"\b(\w)","\u\1","ALL")>
+									<cfset values[i]= MEDICALDATA["total"][i]>
+									<CFSET color =FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16)>
+									<cfset colors[i] = #color#>
+								</cfoutput>
+							</cfloop>
+						</cfif>	
+						
+						<cfif var3 eq "pie">
+							<cfloop index="i" from="1" to="#temp#">
+								<cfoutput>
+									
+									    <cfset mystring = MEDICALDATA[#var1#][i]/>
+										<cfset a = Replace(mystring, "_", " ", "ALL")  />
+									
+									
+									<cfset labels[i]= ReReplace(a ,"\b(\w)","\u\1","ALL")>
+									<cfset values[i]= MEDICALDATA["total"][i]>
+									<CFSET color =FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16)>
+									<cfset colors[i] = #color#>
+								</cfoutput>
+							</cfloop>
+						</cfif>	
 						<canvas id="myChart<cfoutput>#var1#</cfoutput>">
 							<script type= "text/javascript" language="Javascript"> 
 								/*converting coldfusion array into javascript */	
