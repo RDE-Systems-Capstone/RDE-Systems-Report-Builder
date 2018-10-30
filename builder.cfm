@@ -25,6 +25,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		.ui-slider-range { background: #729fcf; }
 		.ui-slider-handle { border-color: #729fcf; }
 		.verticalButton { cursor: move; }
+		.div-focus {
+			box-shadow: 0 0 20px #66afe9;
+		}
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>

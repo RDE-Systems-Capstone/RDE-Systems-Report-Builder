@@ -42,6 +42,10 @@ $(document).ready(function() { 	//only run once page is ready
         helper: 'clone',
 		start: function (event, ui) {
 			sourceElement = $(this).closest('div').attr('id');
+			$('.filter_drop').addClass("div-focus");
+		},
+		stop: function(event, ui) {
+			$('.filter_drop').removeClass("div-focus");
 		}
     });
 	//display filters to the page depending on filters 
