@@ -48,7 +48,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<cfelse>
 							<li>
 						</cfif><a href="index.cfm">Report Builder</a></li>
-						<li><a href="#contact">Support</a></li>
+						<li><a href="workInProgress.cfm">Support</a></li>
 					</cfif>
 				</ul>
 				<ul class="nav navbar-nav navbar-right">
