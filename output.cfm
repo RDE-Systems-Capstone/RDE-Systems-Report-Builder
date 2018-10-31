@@ -224,7 +224,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</cfloop>
 			<!---output a message for any other graph not supported --->
 			<cfelse>
-				<h1>Support for this graph type is not avaiable yet and will be added in a future release.</h1>
+				<h1>Support for this graph type is not available yet and will be added in a future release.</h1>
 			</cfif>
 		</div>
 		</div>
