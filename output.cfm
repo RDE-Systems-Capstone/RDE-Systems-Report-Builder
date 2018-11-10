@@ -169,7 +169,12 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 								}
 
 								for (var i = 0; i < tableLen; i++) {
-								  data.labels.push(jsArray[i])
+								  if (jsArray[i] == ""){
+								  	data.labels.push("Undefined")
+								  }
+								  else{
+								  	data.labels.push(jsArray[i])
+								  }
 								  data.total.push(jArray[i])
 								  data.colors.push(getRandomColor())
 								}
@@ -191,7 +196,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 							                yAxes: [{
 							                    ticks: {
 							                        min: 0,
-							                        beginAtZero: true
+							                        beginAtZero: true,
+							                        callback: function(value, index, values) {
+                        							return '$' + value;
+                    									}
 							                    }
 							                }]
 							            }
@@ -205,7 +213,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						        <cfif row eq 0>
 						            <tr>
 						                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
-						                	
 						                    <th><cfoutput>#column#</cfoutput></th>  
 						                </cfloop>
 						            </tr>
@@ -214,7 +221,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
 						                	 <cfset mystring = #MEDICALDATA[column][row]#/>
 											<cfset a = Replace(mystring, "_", " ", "ALL")  />
-						                    <td><cfoutput>#ReReplace(a ,"\b(\w)","\u\1","ALL")#</cfoutput></td>
+											<cfset b = ReReplace(a ,"\b(\w)","\u\1","ALL") />
+											<cfif b eq ""> 
+												<cfset b = "Undefined"/>
+											</cfif>
+						                    <td><cfoutput>#b#</cfoutput></td>
 						                </cfloop>
 						            </tr>
 						    	</cfif>
