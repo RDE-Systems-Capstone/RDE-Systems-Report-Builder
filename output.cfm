@@ -64,7 +64,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			
 				<!--- Code for table and query output --->
 				<!--- check if type is bar.... we don't support other types of graphs yet --->
-				<cfif #TableOptions["type"]# eq "bar" or  #TableOptions["type"]# eq "doughnut" or #TableOptions["type"]# eq "pie" >
+				
+				
+				<cfif #TableOptions["type"]# eq "bar" or  #TableOptions["type"]# eq "doughnut" or #TableOptions["type"]# eq "pie"  >
 					<cfloop array = #tableGroupBy# index ="gb">
 						<div>
 							<h2> Graph for <cfoutput>#gb#</cfoutput> </h2>
@@ -78,13 +80,18 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 							<cfinvoke component="app.builder.output" method="generateAgeQuery" age_min="#age_min#" age_max="#age_max#" bigQuery="#bigQuery#" returnvariable="bigQ"></cfinvoke>
 							<cfset var1 = "AGE_CATEGORY"/>
 						<cfelse>
+						
 							<!-- Anything other than age, a simpler query will suffice --->
 							<cfset bigQ = "select #var1#, count(distinct id) as total from patients where id in ( #bigQuery#) group by #var1# with rollup" />
 						</cfif>
 						
 						<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
-						<cfset MEDICALDATA = QueryExecute(#bigQ#, [] ,qoptions)> 
+						<cfset MEDICALDATA = QueryExecute(#bigQ#, [] ,qoptions)>
+						
 
+<!---						<cfquery name = "MEDICALDATA" datasource="MEDICALDATA" >
+							#Evaluate(BigQ)#
+						</cfquery>--->
 						<cfif var1 eq "AGE_CATEGORY">
 							<cfset temp = MEDICALDATA.recordCount > 
 						<cfelse>
@@ -233,6 +240,61 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						</table>
 					</div>
 				</cfloop>
+				
+				<!--WE NEED TO HANDLE THIS USING view then inner join  -->
+			<cfelseif #TableOptions["type"]# eq "Data"  >
+			
+				<cfquery name = "query" datasource="MEDICALDATA" >
+					Drop view  if exists dbo.temp
+				</cfquery>
+				<cfset optionString = ""/>
+				<cfset bigQ = "create view temp as ( #bigQuery#)" />
+				<cfset  i = 0 />
+				
+				<cfloop array = #tableGroupBy# index ="gb">
+					<cfif i eq 0 >
+						<cfset temp1 = #gb#/>
+						<cfset optionString &= "patients.#gb#"/>
+					<cfelse>
+						<cfset optionString &= ",patients.#gb#"/>	
+					</cfif>
+					<cfset i= 1/>
+				</cfloop>
+				
+				<cfset joinString = "select #optionString# from patients inner join temp on patients.#temp1# = temp.#temp1#"/>
+				
+				<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
+				<cfset temp = QueryExecute(#bigQ#, [] ,qoptions)>
+				
+				<cfset MEDICALDATA = QueryExecute(#joinString#, [] ,qoptions)>
+				
+				<cfset temp = MEDICALDATA.recordCount > 
+				<table id = "myTable" class="table table-striped">
+					<style>tr : {background-color:red} </style>
+				    <cfloop from="0" to="#temp#" index="row">
+				        <cfif row eq 0>
+				            <tr>
+				                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+				                    <th><cfoutput>#column#</cfoutput></th>  
+				                </cfloop>
+				            </tr>
+				        <cfelse>
+				            <tr>
+				                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+				                	 <cfset mystring = #MEDICALDATA[column][row]#/>
+									<cfset a = Replace(mystring, "_", " ", "ALL")  />
+									<cfset b = ReReplace(a ,"\b(\w)","\u\1","ALL") />
+									<cfif b eq ""> 
+										<cfset b = "Undefined"/>
+									</cfif>
+				                    <td><cfoutput>#b#</cfoutput></td>
+				                </cfloop>
+				            </tr>
+				    	</cfif>
+				    </cfloop>
+				</table>
+				
+								
 			<!---output a message for any other graph not supported --->
 			<cfelse>
 				<h1>Support for this graph type is not available yet and will be added in a future release.</h1>
