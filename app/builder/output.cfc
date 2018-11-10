@@ -10,6 +10,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<!--- Function generateSQLQuery takes in the JSON array from the report builder page and generates an array of queries to obtain the data required --->
 	<cffunction name="generateSQLQuery" returntype="string">
 		<cfargument name="FilterBool" type="array" required="true"/>
+	
 		<!--- New array to store the queries generated --->
 		<cfset queries= ArrayNew(1)>
 		<cfset i = 1 />
@@ -104,7 +105,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			 	<cfset  atype = "conditions">
 				<cfset id= #item["id"]#>
 				 <cfset MEDICALDATA = dquery(tableName = "conditions")/> 
-				 <cfset MEDICALDATA = "(select id from patients where id in ( #MEDICALDATA# code='#id#' ))" > 
+				 <cfset MEDICALDATA = "(select * from patients where id in ( #MEDICALDATA# code='#id#' ))" > 
 				 <cfoutput >
 				 	<cfset queries[i]= #MEDICALDATA#>
 				 </cfoutput>
@@ -207,6 +208,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfloop array = #queries# index= "idx">
 			<cfset bigQuery = #bigQuery#  & #idx# > 
 		</cfloop>
+			<!---<cfoutput>#BigQuery#</cfoutput>>--->
 		<cfreturn bigQuery />
 	</cffunction>
 
