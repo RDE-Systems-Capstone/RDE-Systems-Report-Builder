@@ -40,7 +40,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<cfelse>
 							<li>
 						</cfif>
-						<a href="workInProgress.cfm">Saved Reports</a></li>
+						<a href="savedReports.cfm">Saved Reports</a></li>
 					<cfelseif pageType eq "login">
 						<!--- Login page --->
 						<cfif activePage eq "login">
