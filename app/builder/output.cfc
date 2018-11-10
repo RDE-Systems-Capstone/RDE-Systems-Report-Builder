@@ -29,17 +29,19 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 			<!--- Gender --->
 			<cfif #item["type"]# == "gender">
-			 	<cfset  atype = "gender">
-			     <cfset var= #item["values"]#>
-
+			 	<cfset  atype = "marital">
+			 	<cfset MEDICALDATA = aquery(tableName = "patients")/>
+				<cfset var= #item["values"]#>
+				<cfset  j = 1>
 				<cfloop array =#var# item = "value" index = "name">
 					<cfset variable = #value#>
+					<cfif j gt 1 >
+						<cfset #MEDICALDATA# &= " or">
+					</cfif>
+					<cfset MEDICALDATA = "#MEDICALDATA# #atype#='#value#'">
+					<cfset j+=1 /> 
 				</cfloop>
-				
-				 <cfset MEDICALDATA = patientFunc(atype= #atype#, variable = #variable# )/>
-				 <cfoutput>
-				 	<cfset queries[i]=  "(  #MEDICALDATA#  ) " > 
-				 </cfoutput>
+				<cfset queries[i] = "(  #MEDICALDATA# ) " > 
 			</cfif>
 			
 			<!--- Race filter --->
