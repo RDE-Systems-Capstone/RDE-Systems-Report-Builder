@@ -306,9 +306,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<cfset i+=1 />
 					</cfloop>
 					<!-- end date,start start, sum or avg, trend, code -->
-					<cfdump var = #trendArray# />
+					<!---<cfdump var = #trendArray# />--->
 					<cfif #trendArray[3]# eq "sum">
-						<cfset trendQuery = "select * from observations inner join temp on observations.PATIENT = temp.id where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#' "/>				
+						<cfset trendQuery = "select date,patient,encounter, code, description, value from observations inner join temp on observations.PATIENT = temp.id where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#' order by value asc "/>				
 					</cfif>
 					
 					<cfquery name = "query" datasource="MEDICALDATA" >
