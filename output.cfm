@@ -308,7 +308,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<!-- end date,start start, sum or avg, trend, code -->
 					<!---<cfdump var = #trendArray# />--->
 					<cfif #trendArray[3]# eq "sum">
-						<cfset trendQuery = "select date,patient,encounter, code, description, value from observations inner join temp on observations.PATIENT = temp.id where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#' order by value asc "/>				
+						<cfset trendQuery = "select date,patient,encounter, code, description, value from observations inner join temp on observations.PATIENT = temp.id where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#' order by date desc "/>				
+					<cfelseif #trendArray[3]# eq "average">
+						<cfset trendQuery = "select datepart(month from date) as month, (avg (cast(value as float))) as Average from observations where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#' group by datepart(month from date) order by month "/>				
 					</cfif>
 					
 					<cfquery name = "query" datasource="MEDICALDATA" >
@@ -347,7 +349,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</table>
 					
 				</cfoutput>
-				<h1>Support for this graph type is not available yet and will be added in a future release.</h1>
 			</cfif>
 		</div>
 		</div>
