@@ -296,7 +296,57 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				
 								
 			<!---output a message for any other graph not supported --->
-			<cfelse>
+			<Cfelseif #TableOptions["type"]# eq "Trend">
+				<cfoutput>
+					<cfset bigQ = "create view temp as #BigQuery#"/>
+					<cfset trendArray = arraynew(1)>
+					<cfset i = 1 />
+					<cfloop collection="#TableOptions#" item="item" >
+						<cfset trendArray[i]= #TableOptions[item]# /> 
+						<cfset i+=1 />
+					</cfloop>
+					<!-- end date,start start, sum or avg, trend, code -->
+					<cfdump var = #trendArray# />
+					<cfif #trendArray[3]# eq "sum">
+						<cfset trendQuery = "select * from observations inner join temp on observations.PATIENT = temp.id where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#' "/>				
+					</cfif>
+					
+					<cfquery name = "query" datasource="MEDICALDATA" >
+						Drop view  if exists dbo.temp
+					</cfquery>					
+						
+					<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
+					<cfset temp = QueryExecute(#bigQ#, [] ,qoptions)>
+					
+					<cfset MEDICALDATA = QueryExecute(#trendQuery#, [] ,qoptions)>
+					
+					<cfset temp = MEDICALDATA.recordCount >
+				<table id = "myTable" class="table table-striped">
+					<style>tr : {background-color:red} </style>
+				    <cfloop from="0" to="#temp#" index="row">
+				        <cfif row eq 0>
+				            <tr>
+				                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+				                    <th><cfoutput>#column#</cfoutput></th>  
+				                </cfloop>
+				            </tr>
+				        <cfelse>
+				            <tr>
+				                <cfloop list="#MEDICALDATA.ColumnList#" index="column" delimiters=",">
+				                	 <cfset mystring = #MEDICALDATA[column][row]#/>
+									<cfset a = Replace(mystring, "_", " ", "ALL")  />
+									<cfset b = ReReplace(a ,"\b(\w)","\u\1","ALL") />
+									<cfif b eq ""> 
+										<cfset b = "Undefined"/>
+									</cfif>
+				                    <td><cfoutput>#b#</cfoutput></td>
+				                </cfloop>
+				            </tr>
+				    	</cfif>
+				    </cfloop>
+				</table>
+					
+				</cfoutput>
 				<h1>Support for this graph type is not available yet and will be added in a future release.</h1>
 			</cfif>
 		</div>
