@@ -101,12 +101,16 @@ $(document).ready(function() { 	//only run once page is ready
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=logic&id=" + filter_id));
 				}
 				$(ui.draggable).attr('value', filter_id);
+				$(ui.draggable).removeClass("verticalButton");
 				var clone = $(ui.draggable).clone().appendTo("#chosen_filters");
 
 				//allow sorting of buttons
 				$("#chosen_filters").sortable({
-					helper : 'clone',
-					cancel: ''
+					cancel: '',
+					helper: "clone",
+					start: function (event, ui) {
+						sourceElement = $(this).closest('div').attr('id');
+					}
 				});
 
     			//Allow toggling of buttons when clicked
