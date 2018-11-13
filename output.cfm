@@ -327,7 +327,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						
 					<cfquery name = "query" datasource="MEDICALDATA" >
 						Drop view  if exists dbo.temp1
-					</cfquery>					
+					</cfquery>
 						
 					<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
 					<cfset temporary = QueryExecute(#bigQ#, [] ,qoptions)>
