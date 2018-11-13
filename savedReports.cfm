@@ -1,3 +1,7 @@
+<cfquery name="test_query" datasource="MEDICALDATA">
+	SELECT * FROM saved_reports
+</cfquery>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -29,9 +33,10 @@
 	<script src="js/forms.js">
 
 	</script>
-	<script src="js/bootstrap.min.js">
+	<script src="js/bootstrap.min.js"></script>
+	<script src="js/reports.js"></script>
 
-	</script>
+	
 </head>
 <body>
 	<!-- Navbar code-->
@@ -39,17 +44,31 @@
 	</cfinvoke>
 	<div class="row-fluid">
 		<div class="container-fluid">
-			<div class="col-lg-4">
+			<div class="col-lg-8">
 			
 				<!--- add page output here --->
 				
-					<cfoutput >
-						<h1>
-							Temporary Page Output
-						</h1>
+			<h1>Saved Reports</h1>
+			<table id="users" class="table table-striped">
+				<tr><th>ID</th><th>Name</th><th>Query</th><th>Report Type</th><th>User</th><th>Run Report</th></tr>
+					<cfoutput query="test_query">
+					<tr>
+						<td>#test_query.id#</td> 
+						<td>#test_query.name#</td>
+						<td>#test_query.query_string#</td>
+						<td>#test_query.report_type_string#</td>
+						<td>#test_query.username#</td>
+						<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#test_query.id#' onclick="runSavedReport(#test_query.id#)">Run</button></td>
+					</tr>
 					</cfoutput>
+			</table>
+
+			<form style="display: hidden" action="output.cfm" method="POST" id="form">
+				<input type="hidden" id="report_type_string" name="report_type_string" value=""/>
+				<input type="hidden" id="query_string" name="query_string" value=""/>
+			</form>
 				
-				<!--- end page output here --->
+			<!--- end page output here --->
 				
 			</div>
 		</div>

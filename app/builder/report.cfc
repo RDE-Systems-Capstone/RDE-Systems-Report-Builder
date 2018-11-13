@@ -371,4 +371,21 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</cfform>
 	</cffunction>
 
+	<!---Output Data table options --->
+	<cffunction name="getreportQuery" returntype="void" access="remote">
+		<cfargument name="id" type=numeric required="true">
+		<cfquery name="report_data" datasource="MEDICALDATA">
+			SELECT query_string FROM saved_reports WHERE id=#arguments.id#
+		</cfquery>
+		<cfoutput>#report_data.query_string#</cfoutput>
+	</cffunction>
+
+	<cffunction name="getreportType" returntype="void" access="remote">
+		<cfargument name="id" type=numeric required="true">
+		<cfquery name="report_data" datasource="MEDICALDATA">
+			SELECT report_type_string FROM saved_reports WHERE id=#arguments.id#
+		</cfquery>
+		<cfoutput>#report_data.report_type_string#</cfoutput>
+	</cffunction>
+
 </cfcomponent>
