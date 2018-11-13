@@ -205,7 +205,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 							                        min: 0,
 							                        beginAtZero: true,
 							                        callback: function(value, index, values) {
-                        							return '$' + value;
+                        							return value;
                     									}
 							                    }
 							                }]
