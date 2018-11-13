@@ -27,7 +27,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<script src="js/forms.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
-	
 
   </head>
 <body>
@@ -39,20 +38,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<h1>Output:</h1>
 			<div class="col-lg-4">
 				<!--- print detailed report info --->
-				<!--- Also has all the saved report information --->
 				<cfinvoke component="app.builder.output" method="reportDetails" FilterBool="#deserializeJSON(FORM.query_string)#" GraphOptions="#deserializeJSON(FORM.report_type_string)#"></cfinvoke>
-			<button class="btn btn-primary" data-toggle="collapse" data-target="#displaying">Save Report</button>
-					<div class="collapse" id="displaying">
-						<label for="usr">Name:</label>
-  						<input type="text" class="form-control" id="usr">
-						<label for="comment">Description:</label>
- 						<textarea class="form-control" rows="5" id="comment"></textarea>
- 						<br>
- 						<input class="btn btn-primary" type="submit" value="Submit Save">
-					</div>
-							
 			</div>
-			
 			<div class="col-lg-8">
 				<!--- POSTed information is obtained from the superglobal variable FORM. 
 					Information is sent in the following manner:
@@ -74,14 +61,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 				<!--- Call the function that will generate SQL Query based on filters --->
 				<cfinvoke component="app.builder.output" method="generateSQLQuery" FilterBool="#deserializeJSON(FORM.query_string)#" returnvariable="bigQuery"></cfinvoke>
-				
-				<!--- This is where the save button and input fields are --->
 			
-  	
-
-					
-				
-								<!--- Code for table and query output --->
+				<!--- Code for table and query output --->
 				<!--- check if type is bar.... we don't support other types of graphs yet --->
 				
 				
@@ -196,7 +177,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 								for (var i = 0; i < tableLen; i++) {
 								  if (jsArray[i] == ""){
-								  	data.labels.push("Undefined")
+								  	data.labels.push("Misisng")
 								  }
 								  else{
 								  	data.labels.push(jsArray[i])
@@ -224,7 +205,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 							                        min: 0,
 							                        beginAtZero: true,
 							                        callback: function(value, index, values) {
-                        							return value;
+                        							return '$' + value;
                     									}
 							                    }
 							                }]
@@ -249,7 +230,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 											<cfset a = Replace(mystring, "_", " ", "ALL")  />
 											<cfset b = ReReplace(a ,"\b(\w)","\u\1","ALL") />
 											<cfif b eq ""> 
-												<cfset b = "Undefined"/>
+												<cfset b = "Missing"/>
 											</cfif>
 						                    <td><cfoutput>#b#</cfoutput></td>
 						                </cfloop>
@@ -409,7 +390,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 								for (var i = 0; i < tableLen; i++) {
 								  if (jsArray[i] == ""){
-								  	data.labels.push("Undefined")
+								  	data.labels.push("Missing")
 								  }
 								  else{
 								  	data.labels.push(jsArray[i])
@@ -467,7 +448,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 									<cfset a = Replace(mystring, "_", " ", "ALL")  />
 									<cfset b = ReReplace(a ,"\b(\w)","\u\1","ALL") />
 									<cfif b eq ""> 
-										<cfset b = "Undefined"/>
+										<cfset b = "Missing"/>
 									</cfif>
 				                    <td><cfoutput>#b#</cfoutput></td>
 				                </cfloop>
