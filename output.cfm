@@ -307,22 +307,131 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					</cfloop>
 					<!-- end date,start start, sum or avg, trend, code -->
 					<!---<cfdump var = #trendArray# />--->
-					<cfif #trendArray[3]# eq "sum">
-						<cfset trendQuery = "select date,patient,encounter, code, description, value from observations inner join temp on observations.PATIENT = temp.id where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#' order by date desc "/>				
-					<cfelseif #trendArray[3]# eq "average">
-						<cfset trendQuery = "select datepart(month from date) as month, (avg (cast(value as float))) as Average from observations where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#' group by datepart(month from date) order by month "/>				
-					</cfif>
 					
+					<cfset trendQuery = "create view temp1 as select date,patient,encounter, code, description, value from observations inner join temp on observations.PATIENT = temp.id where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#'"/>
+					<cfset code = #trendArray[5]# />
+					<cfif #code# eq '363406005'>
+						<h1>Support for this graph type is not available yet and will be added in a future release.</h1>
+					<cfelse>
+						<cfif #trendArray[3]# eq "sum">
+							<cfset perfectQuery= "select datepart(month from date )as Month, datepart(year from date) as Year, (sum (cast(value as float))) as Sum from temp1 group by datepart(month from date ), datepart(year from date) order by datepart(month from date ), datepart(year from date) "/>
+							<cfset var3 = "Sum" />	
+						<cfelseif #trendArray[3]# eq "average">
+							<cfset perfectQuery = "select datepart(month from date )as Month, datepart(year from date) as Year, (avg(cast(value as float))) as Average from temp1 group by datepart(month from date ), datepart(year from date) order by datepart(month from date ), datepart(year from date)  "/>
+							<cfset var3 = "Average" />					
+						</cfif>
+					</cfif>
 					<cfquery name = "query" datasource="MEDICALDATA" >
 						Drop view  if exists dbo.temp
 					</cfquery>					
 						
+					<cfquery name = "query" datasource="MEDICALDATA" >
+						Drop view  if exists dbo.temp1
+					</cfquery>					
+						
 					<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
-					<cfset temp = QueryExecute(#bigQ#, [] ,qoptions)>
+					<cfset temporary = QueryExecute(#bigQ#, [] ,qoptions)>
 					
-					<cfset MEDICALDATA = QueryExecute(#trendQuery#, [] ,qoptions)>
+					<cfset temporary1= QueryExecute(#trendQuery#, [] ,qoptions)>
+					
+					<cfset MEDICALDATA= QueryExecute(#perfectQuery#, [] ,qoptions)>
 					
 					<cfset temp = MEDICALDATA.recordCount >
+				<!---Right here in table is followed by month year and sum or avg columns 
+				based on that we have to create threee variables which can help us to convert rows into
+				arrrays for chart.js  
+				 --->
+				 	<cfset var1 = "Month" />
+				 	<cfset var2 = "Year"/>
+				 	<!---Since var3 is dynamic, so we setup above when query has been created.  --->
+					<cfset labels = ArrayNew(1)>
+					<cfset values = ArrayNew(1)>
+					<cfset colors = ArrayNew(1)>
+						<cfloop index="i" from="1" to="#temp#">
+							<cfoutput>
+								
+							    <cfset mystring1 = MEDICALDATA[#var1#][i]/>
+							    <cfset mystring2 = MEDICALDATA[#var2#][i]/>
+								<cfset a = #mystring1# &"/" & #mystring2# />
+								
+								<!---This is for captializing 1st letter of each word --->
+								<cfset labels[i]= #a#>
+								<cfset values[i]= MEDICALDATA[#var3#][i]>
+								<CFSET color =FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16) & FormatBaseN(RandRange(0,255), 16)>
+								<cfset colors[i] = #color#>
+							</cfoutput>
+						</cfloop>	
+					<cfset var4 = "line" />
+				</cfoutput>
+				
+				<canvas id="myChart">
+							<script type= "text/javascript" language="Javascript"> 
+								/*converting coldfusion array into javascript */	
+								<cfoutput>
+								 var #ToScript(labels, "jsArray")#;
+								 var #ToScript(values, "jArray")#;
+								 var #ToScript(temp, "var1")#; 
+								 var #ToScript(var4, "typeGraph")#;
+								/* var #ToScript(colors, "color")#;*/
+								 var tableArr= [];
+								</cfoutput>
+
+								var table = document.getElementById("myTable");
+								var tableLen = var1;
+								var data = {labels: [], total:[], colors:[]}
+								function getRandomColor() {
+								  var letters = '0123456789ABCDEF';
+								  var color = '#';
+								  for (var i = 0; i < 6; i++) {
+								    color += letters[Math.floor(Math.random() * 16)];
+								  }
+								  return color;
+								}
+
+								for (var i = 0; i < tableLen; i++) {
+								  if (jsArray[i] == ""){
+								  	data.labels.push("Undefined")
+								  }
+								  else{
+								  	data.labels.push(jsArray[i])
+								  }
+								  data.total.push(jArray[i])
+								  data.colors.push(getRandomColor())
+								}
+								var ctx = document.getElementById("myChart").getContext('2d');
+								
+								var myChart = new Chart(ctx, {
+								  type: typeGraph,
+								  data: {
+								    labels:data.labels,
+								    datasets: [{
+								    	label: '# of something',
+								    	data : data.total,
+								    	backgroundColor: data.colors
+								    }]
+
+								  },
+							        options: {
+							            scales: {
+							                yAxes: [{
+							                    ticks: {
+							                        min: 0,
+							                        beginAtZero: true,
+							                        callback: function(value, index, values) {
+                        							return '$' + value;							                       
+                    									}
+							                    }
+							                }]
+							            },
+							            elements: {
+							            	line:{
+							            		fill:false
+							            	}
+							            }
+							        }
+								});
+							</script>
+						</canvas>
 				<table id = "myTable" class="table table-striped">
 					<style>tr : {background-color:red} </style>
 				    <cfloop from="0" to="#temp#" index="row">
@@ -347,8 +456,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				    	</cfif>
 				    </cfloop>
 				</table>
-					
-				</cfoutput>
 			</cfif>
 		</div>
 		</div>
