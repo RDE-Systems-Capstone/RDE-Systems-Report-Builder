@@ -30,7 +30,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 			<!--- Gender --->
 			<cfif #item["type"]# == "gender">
-			 	<cfset  atype = "marital">
+			 	<cfset  atype = "gender">
 			 	<cfset MEDICALDATA = aquery(tableName = "patients")/>
 				<cfset var= #item["values"]#>
 				<cfset  j = 1>
