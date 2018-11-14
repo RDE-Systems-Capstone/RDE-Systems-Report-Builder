@@ -14,6 +14,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cflocation url="builder.cfm" addtoken="false">
 </cfif>
 
+
+
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -37,8 +39,49 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<div class="container-fluid">
 			<h1>Output:</h1>
 			<div class="col-lg-4">
+				
 				<!--- print detailed report info --->
-				<cfinvoke component="app.builder.output" method="reportDetails" FilterBool="#deserializeJSON(FORM.query_string)#" GraphOptions="#deserializeJSON(FORM.report_type_string)#"></cfinvoke>
+				
+				<cfinvoke component="app.builder.output" method="reportDetails" FilterBool="#deserializeJSON(FORM.query_string)#" GraphOptions="#deserializeJSON(FORM.report_type_string)#"></cfinvoke>				
+				
+					<button class="btn btn-primary" data-toggle="collapse" data-target="#displaying">Save Report</button>
+					<!-- <p> tag for spacing purposes -->
+					<p>
+					</p>
+					<!--- cfform to insert data to database --->
+					<!-- Super global FORM variable is conflicting with this form variable
+						clicking as a "submit" type" instead of "button" type sends user back to builder page -->
+												
+						<cfform name="saveForm" action="save_status.cfm" method="Post">
+							
+							<cfif structKeyExists(form, 'submit')>
+								<cfquery name="save_data" datasource="MEDICALDATA">
+									INSERT INTO test(report_name, comment, JSON)
+									VALUES ('#form.report_name#', '#form.comment#', '#form.JSON#');
+								</cfquery>
+							</cfif>
+							
+							<cfset JSON = '#FORM.query_string#'>
+
+							<div class="collapse" id="displaying">
+								<label for="usr">Name:</label>
+  								<cfinput type="text" class="form-control" id="report_name" name="report_name" placeholder="Name of Report">
+								<label for="comment">Description:</label>
+ 								<cftextarea class="form-control" rows="5" id="comment" name="comment" placeholder="Description or Comments"/>
+ 								<div style="display:none;">
+ 									<cfinput type="text" name="JSON" value="#JSON#">
+ 								</div>
+ 								<br>
+ 								<!-- clicking this as a "submit" type instead of a "button" type sends user back to builder page -->
+ 								<cfinput type="submit" name="save" id="save" value="Submit Save" class="btn btn-primary mb-2" onclick="savedata()">
+							</div>
+							<br>							
+							<!--- testing response/output --->
+							<p id="response">
+								
+							</p>
+							
+						</cfform>
 			</div>
 			<div class="col-lg-8">
 				<!--- POSTed information is obtained from the superglobal variable FORM. 
@@ -463,3 +506,16 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cfinvoke component="app.elements" method="outputFooter"></cfinvoke>
   </body>
 </html>
+
+<script >
+function savedata(){
+	var name = document.getElementById("report_name").value;
+	var comm = document.getElementById("comment").value;
+	var JSON = '<cfoutput >#FORM.query_string#</cfoutput>';
+	
+	document.getElementById("response").innerHTML=name + " " + comm + " " + JSON;
+	
+	
+}
+</script>
+
