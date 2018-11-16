@@ -21,6 +21,16 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfreturn observations_list>
 	</cffunction>
 
+	<cffunction name="getObservationsTrend" returntype="query">
+		<cfquery 
+			name="observations_list"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
+			SELECT DISTINCT DESCRIPTION, CODE, UNITS FROM observations where isnumeric(value) = 1 ORDER BY DESCRIPTION
+		</cfquery>
+		<cfreturn observations_list>
+	</cffunction>
+
+
 	<!--- Function to get list of ethnicities --->
 	<cffunction name="getEthnicities" returntype="query">
 		<cfquery name="ethnicity_list"
@@ -277,7 +287,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<!---Output trend graph options --->
 	<cffunction name="trendOptions" returntype="void">
 		<cfinvoke 	component="app.builder.report"
-		method="getObservations"
+		method="getObservationsTrend"
 		returnvariable="observations_list"></cfinvoke>
 		<div class="row">
 			<cfform name="trend_output">
