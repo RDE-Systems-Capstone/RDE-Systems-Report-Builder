@@ -408,7 +408,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cftry>
 			<cfquery name="report_data" datasource="MEDICALDATA">
 				INSERT INTO saved_reports(name, description, query_string, report_type_string, username)
-				VALUES ('#arguments.name#', '#decodefromUrl(arguments.description)#', '#decodefromUrl(arguments.query_string)#', '#decodefromUrl(arguments.report_type_string)#', '#session.username#' )
+				VALUES ('#decodefromUrl(arguments.name)#', '#decodefromUrl(arguments.description)#', '#decodefromUrl(arguments.query_string)#', '#decodefromUrl(arguments.report_type_string)#', '#session.username#' )
 			</cfquery>
 			<cfoutput>true</cfoutput>
 		<cfcatch>

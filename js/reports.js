@@ -36,7 +36,7 @@ function saveReport() {
 	}
 	$.post( "app/builder/report.cfc", { 
 		method: "saveReport",
-		name: $("#report_name").val(), 
+		name: encodeURIComponent($("#report_name").val()), 
 		description: encodeURIComponent($("#report_comment").val()),
 		query_string: encodeURIComponent($("#query_string").val()),
 		report_type_string: encodeURIComponent($("#report_type_string").val())
