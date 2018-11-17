@@ -27,6 +27,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="js/drag.js"></script>
 	<script src="js/forms.js"></script>
+	<script src="js/reports.js"></script>
 	<script src="js/bootstrap.min.js"></script>
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.1.4/Chart.min.js"></script>
 
@@ -48,40 +49,26 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<!-- <p> tag for spacing purposes -->
 					<p>
 					</p>
-					<!--- cfform to insert data to database --->
-					<!-- Super global FORM variable is conflicting with this form variable
-						clicking as a "submit" type" instead of "button" type sends user back to builder page -->
-												
-						<cfform name="saveForm" action="save_status.cfm" method="Post">
-							
-							<cfif structKeyExists(form, 'submit')>
-								<cfquery name="save_data" datasource="MEDICALDATA">
-									INSERT INTO test(report_name, comment, JSON)
-									VALUES ('#form.report_name#', '#form.comment#', '#form.JSON#');
-								</cfquery>
-							</cfif>
-							
-							<cfset JSON = '#FORM.query_string#'>
-
+					<!--- form to insert data to database --->					
+						<form name="saveForm" method="post">
+							<cfoutput>
 							<div class="collapse" id="displaying">
 								<label for="usr">Name:</label>
-  								<cfinput type="text" class="form-control" id="report_name" name="report_name" placeholder="Name of Report">
+  								<input type="text" class="form-control" id="report_name" placeholder="Name of Report">
 								<label for="comment">Description:</label>
- 								<cftextarea class="form-control" rows="5" id="comment" name="comment" placeholder="Description or Comments"/>
- 								<div style="display:none;">
- 									<cfinput type="text" name="JSON" value="#JSON#">
- 								</div>
+ 								<textarea class="form-control" rows="5" id="report_comment" placeholder="Description or Comments"></textarea>
+ 								<input type="hidden" id="report_type_string" name="report_type_string" value='#FORM.report_type_string#'/>
+								<input type="hidden" id="query_string" name="query_string" value='#FORM.query_string#'/>
  								<br>
- 								<!-- clicking this as a "submit" type instead of a "button" type sends user back to builder page -->
- 								<cfinput type="submit" name="save" id="save" value="Submit Save" class="btn btn-primary mb-2" onclick="savedata()">
+ 								<!-- submit button will call JS function that uses AJAX to save report -->
+ 								<button type="button" id="save" class="btn btn-primary mb-2" onclick="saveReport ()">Save</button>
 							</div>
-							<br>							
-							<!--- testing response/output --->
-							<p id="response">
-								
-							</p>
-							
-						</cfform>
+							</cfoutput>
+						</form>
+				<div hidden class="alert alert-dismissible fade in" id="error_alert">
+					<a href="#" class="close" onclick="$('#error_alert').hide();" aria-label="close">&times;</a>
+					<div id="error_alert_text"></div>
+				</div>
 			</div>
 			<div class="col-lg-8">
 				<!--- POSTed information is obtained from the superglobal variable FORM. 
@@ -248,7 +235,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 							                        min: 0,
 							                        beginAtZero: true,
 							                        callback: function(value, index, values) {
-                        							return '$' + value;
+                        							return value;
                     									}
 							                    }
 							                }]
@@ -495,17 +482,3 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cfinvoke component="app.elements" method="outputFooter"></cfinvoke>
   </body>
 </html>
-
-
-<script >
-function savedata(){
-	var name = document.getElementById("report_name").value;
-	var comm = document.getElementById("comment").value;
-	var JSON = '<cfoutput >#FORM.query_string#</cfoutput>';
-	
-	document.getElementById("response").innerHTML=name + " " + comm + " " + JSON;
-	
-	
-}
-</script>
-

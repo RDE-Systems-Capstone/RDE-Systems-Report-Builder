@@ -1,5 +1,5 @@
 <cfquery name="test_query" datasource="MEDICALDATA">
-	SELECT * FROM saved_reports
+	SELECT * FROM saved_reports WHERE username = '#session.username#'
 </cfquery>
 
 <!DOCTYPE html>
@@ -50,16 +50,20 @@
 				
 			<h1>Saved Reports</h1>
 			<table id="users" class="table table-striped">
-				<tr><th>ID</th><th>Name</th><th>Query</th><th>Report Type</th><th>User</th><th>Run Report</th></tr>
+				<tr><th>Name</th><th>Description</th><th>Query</th><th>User</th><th>Run Report</th></tr>
 					<cfoutput query="test_query">
-					<tr>
-						<td>#test_query.id#</td> 
-						<td>#test_query.name#</td>
-						<td>#test_query.query_string#</td>
-						<td>#test_query.report_type_string#</td>
-						<td>#test_query.username#</td>
-						<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#test_query.id#' onclick="runSavedReport(#test_query.id#)">Run</button></td>
-					</tr>
+						<cfset query_json = deserializeJSON(#test_query.query_string#)>
+						<tr>
+							<td>#test_query.name#</td>
+							<td>#test_query.description#</td>
+							<cfloop array="#query_json#" index="idx">
+								<cfif #idx.type# eq "filter_string">
+									<td>#idx.string#</td>
+								</cfif>
+							</cfloop>
+							<td>#test_query.username#</td>
+							<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#test_query.id#' onclick="runSavedReport(#test_query.id#)">Run</button></td>
+						</tr>
 					</cfoutput>
 			</table>
 

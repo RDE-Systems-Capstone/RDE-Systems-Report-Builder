@@ -381,7 +381,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</cfform>
 	</cffunction>
 
-	<!---Output Data table options --->
+	<!--- get report query json string using report id --->
 	<cffunction name="getreportQuery" returntype="void" access="remote">
 		<cfargument name="id" type=numeric required="true">
 		<cfquery name="report_data" datasource="MEDICALDATA">
@@ -390,12 +390,31 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfoutput>#report_data.query_string#</cfoutput>
 	</cffunction>
 
+	<!--- get report type json string using report id --->
 	<cffunction name="getreportType" returntype="void" access="remote">
 		<cfargument name="id" type=numeric required="true">
 		<cfquery name="report_data" datasource="MEDICALDATA">
 			SELECT report_type_string FROM saved_reports WHERE id=#arguments.id#
 		</cfquery>
 		<cfoutput>#report_data.report_type_string#</cfoutput>
+	</cffunction>
+
+	<!--- function to save a report to the saved_reports table in the DB --->
+	<cffunction name="saveReport" returntype="void" access="remote">
+		<cfargument name="name" type="string" required="true">
+		<cfargument name="description" type="string" required="true">
+		<cfargument name="query_string" type="string" required="true">
+		<cfargument name="report_type_string" type="string" required="true">
+		<cftry>
+			<cfquery name="report_data" datasource="MEDICALDATA">
+				INSERT INTO saved_reports(name, description, query_string, report_type_string, username)
+				VALUES ('#arguments.name#', '#decodefromUrl(arguments.description)#', '#decodefromUrl(arguments.query_string)#', '#decodefromUrl(arguments.report_type_string)#', '#session.username#' )
+			</cfquery>
+			<cfoutput>true</cfoutput>
+		<cfcatch>
+			<cfoutput>false</cfoutput>
+		</cfcatch>
+		</cftry>
 	</cffunction>
 
 </cfcomponent>
