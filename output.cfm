@@ -38,21 +38,31 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 	<div class="row-fluid">
 		<div class="container-fluid">
+			<div hidden class="alert alert-dismissible fade in" id="error_alert">
+				<a href="#" class="close" onclick="$('#error_alert').hide();" aria-label="close">&times;</a>
+				<div id="error_alert_text"></div>
+			</div>
 			<h1>Output:</h1>
 			<div class="col-lg-4">
 				
 				<!--- print detailed report info --->
 				
 				<cfinvoke component="app.builder.output" method="reportDetails" FilterBool="#deserializeJSON(FORM.query_string)#" GraphOptions="#deserializeJSON(FORM.report_type_string)#"></cfinvoke>				
-				
-					<button class="btn btn-primary" data-toggle="collapse" data-target="#displaying">Save Report</button>
-					<!-- <p> tag for spacing purposes -->
-					<p>
-					</p>
-					<!--- form to insert data to database --->					
+					
+				<div class="modal fade" id="saveReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+				  <div class="modal-dialog" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" id="ModalLabel">Save Report</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body">
+						<!--- form to insert data to database --->					
 						<form name="saveForm" method="post">
 							<cfoutput>
-							<div class="collapse" id="displaying">
+							<div id="displaying">
 								<label for="usr">Name:</label>
   								<input type="text" class="form-control" id="report_name" placeholder="Name of Report">
 								<label for="comment">Description:</label>
@@ -60,15 +70,24 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
  								<input type="hidden" id="report_type_string" name="report_type_string" value='#FORM.report_type_string#'/>
 								<input type="hidden" id="query_string" name="query_string" value='#FORM.query_string#'/>
  								<br>
- 								<!-- submit button will call JS function that uses AJAX to save report -->
- 								<button type="button" id="save" class="btn btn-primary mb-2" onclick="saveReport ()">Save</button>
+
 							</div>
 							</cfoutput>
 						</form>
-				<div hidden class="alert alert-dismissible fade in" id="error_alert">
-					<a href="#" class="close" onclick="$('#error_alert').hide();" aria-label="close">&times;</a>
-					<div id="error_alert_text"></div>
+				      </div>
+				      <div class="modal-footer">
+ 							<!-- submit button will call JS function that uses AJAX to save report -->
+ 							<button type="button" id="save" class="btn btn-primary mb-2" data-dismiss="modal" onclick="saveReport()">Save Report</button>
+				      </div>
+				    </div>
+				  </div>
 				</div>
+					<button type="button" class="btn btn-primary btn-space" data-toggle="modal" data-target="#saveReportModal">Save Report</button>
+					<!-- <p> tag for spacing purposes -->
+					<p>
+					</p>
+
+
 			</div>
 			<div class="col-lg-8">
 				<!--- POSTed information is obtained from the superglobal variable FORM. 

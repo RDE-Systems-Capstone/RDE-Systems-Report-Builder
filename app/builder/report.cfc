@@ -417,4 +417,20 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</cftry>
 	</cffunction>
 
+	<!--- function to share a report by saving to the shared_reports table in the DB --->
+	<cffunction name="shareReport" returntype="void" access="remote">
+		<cfargument name="id" type="numeric" required="true">
+		<cfargument name="shared_with" type="string" required="true">
+		<cftry>
+			<cfquery name="report_data" datasource="MEDICALDATA">
+				INSERT INTO shared_reports(report_id, shared_with)
+				VALUES ('#decodefromUrl(arguments.id)#', '#decodefromUrl(arguments.shared_with)#' )
+			</cfquery>
+			<cfoutput>true</cfoutput>
+		<cfcatch>
+			<cfoutput>false</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cffunction>
+
 </cfcomponent>
