@@ -292,10 +292,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				
 				<!--WE NEED TO HANDLE THIS USING view then inner join  -->
 			<cfelseif #TableOptions["type"]# eq "Data"  >
-			
-				<cfquery name = "query" datasource="MEDICALDATA" >
-					Drop view  if exists dbo.temp
-				</cfquery>
 				<cfset optionString = ""/>
 				<cfset bigQ = "With temp as ( #bigQuery#)" />
 				<cfset  i = 0 />
