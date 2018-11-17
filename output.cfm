@@ -297,7 +297,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					Drop view  if exists dbo.temp
 				</cfquery>
 				<cfset optionString = ""/>
-				<cfset bigQ = "create view temp as ( #bigQuery#)" />
+				<cfset bigQ = "With temp as ( #bigQuery#)" />
 				<cfset  i = 0 />
 				
 				<cfloop array = #tableGroupBy# index ="gb">
@@ -310,11 +310,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfset i= 1/>
 				</cfloop>
 				
-				<cfset joinString = "select #optionString# from patients inner join temp on patients.#temp1# = temp.#temp1#"/>
+				<cfset joinString = "#bigQ#select #optionString# from patients inner join temp on patients.#temp1# = temp.#temp1#"/>
 				
 				<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
-				<cfset temp = QueryExecute(#bigQ#, [] ,qoptions)>
-				
 				<cfset MEDICALDATA = QueryExecute(#joinString#, [] ,qoptions)>
 				
 				<cfset temp = MEDICALDATA.recordCount > 
