@@ -226,7 +226,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 								for (var i = 0; i < tableLen; i++) {
 								  if (jsArray[i] == ""){
-								  	data.labels.push("Misisng")
+								  	data.labels.push("Missing")
 								  }
 								  else{
 								  	data.labels.push(jsArray[i])
@@ -328,7 +328,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 									<cfset a = Replace(mystring, "_", " ", "ALL")  />
 									<cfset b = ReReplace(a ,"\b(\w)","\u\1","ALL") />
 									<cfif b eq ""> 
-										<cfset b = "Undefined"/>
+										<cfset b = "Missing"/>
 									</cfif>
 				                    <td><cfoutput>#b#</cfoutput></td>
 				                </cfloop>
@@ -429,7 +429,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 								for (var i = 0; i < tableLen; i++) {
 								  if (jsArray[i] == ""){
-								  	data.labels.push("missing")
+								  	data.labels.push("Missing")
 								  }
 								  else{
 								  	data.labels.push(jsArray[i])
