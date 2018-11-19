@@ -1,3 +1,16 @@
+<!---
+Code for saved report page
+Built using Bootstrap/ColdFusion/JQuery
+
+RDE Systems Capstone Fall 2018
+Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priyankaben Shah
+--->
+
+<cfparam name="session.loggedin" default="false" />
+<cfif NOT session.loggedin>
+  <cflocation url="index.cfm" addtoken="false">
+</cfif>
+
 <cfquery name="saved_reports_query" datasource="MEDICALDATA">
 	SELECT * FROM saved_reports WHERE username = '#session.username#'
 </cfquery>
@@ -56,52 +69,72 @@
 				<a href="#" class="close" onclick="$('#error_alert').hide();" aria-label="close">&times;</a>
 				<div id="error_alert_text"></div>
 			</div>
-			<div class="col-lg-8">
+			<div class="col-lg-12">
 			
-				<!--- add page output here --->
+			<!--- add page output here --->
+			<!--- following code will display the user's saved reports --->
 				
 			<h1>Saved Reports</h1>
-			<p>This is a list of reports that you have created and saved.</p>
 			<div>
-				<table id="users" class="table table-striped">
-					<tr><th>Name</th><th>Description</th><th>Query</th><th>User</th><th>Run Report</th><th>Share Report</th></tr>
-						<cfoutput query="saved_reports_query">
-							<cfset query_json = deserializeJSON(#saved_reports_query.query_string#)>
-							<tr>
-								<td>#saved_reports_query.name#</td>
-								<td>#saved_reports_query.description#</td>
-								<cfloop array="#query_json#" index="idx">
-									<cfif #idx.type# eq "filter_string">
-										<td>#idx.string#</td>
-									</cfif>
-								</cfloop>
-								<td>#saved_reports_query.username#</td>
-								<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#saved_reports_query.id#' onclick="runSavedReport(#saved_reports_query.id#)">Run</button></td>
-								<td><button type="button" class="btn btn-primary btn-space" data-toggle="modal" data-target="##shareReportModal" onclick='$("##share_report_id").val(#saved_reports_query.id#)'>Share</button></td>
-							</tr>
-						</cfoutput>
-						<input type="hidden" id="share_report_id" value=""/>
-				</table>
+				<cfif saved_reports_query.recordcount GT 0>
+					<p>This is a list of reports that you have created and saved.</p>
+					<table id="users" class="table table-striped">
+						<tr><th>Name</th><th>Description</th><th>Type</th><th>Query</th><th>Run Report</th><th>Share Report</th></tr>
+							<cfoutput query="saved_reports_query">
+								<!--- json retrieved from query with report options is converted to coldfusion data types --->
+								<cfset query_json = deserializeJSON(#saved_reports_query.query_string#)>
+								<cfset report_json = deserializeJSON(#saved_reports_query.report_type_string#)>
+								<tr>
+									<!--- for each report available output some information about it --->
+									<td>#saved_reports_query.name#</td>
+									<td>#saved_reports_query.description#</td>
+									<td>#report_json.type#</td>
+									<cfloop array="#query_json#" index="idx">
+										<cfif #idx.type# eq "filter_string">
+											<td>#idx.string#</td>
+										</cfif>
+									</cfloop>
+									<!--- will run saved report using JS function...passes json to output page similar to builder page --->
+									<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#saved_reports_query.id#' onclick="runSavedReport(#saved_reports_query.id#)">Run</button></td>
+									<!--- JS function to share report... will use AJAX to call CFC and insert new shared report entry --->
+									<td><button type="button" class="btn btn-primary btn-space" data-toggle="modal" data-target="##shareReportModal" onclick='$("##share_report_id").val(#saved_reports_query.id#)'>Share</button></td>
+								</tr>
+							</cfoutput>
+							<!--- hidden input field to store shared report id...so JS can access it --->
+							<input type="hidden" id="share_report_id" value=""/>
+					</table>
+				<cfelse>
+					<p>You have no reports saved.</p>
+				</cfif>
 			</div>
 			<h1>Shared Reports</h1>
-			<p>This is a list of reports that have been shared with you.</p>
+			<cfif saved_reports_query.recordcount GT 0>
+				<p>This is a list of reports that have been shared with you.</p>
 				<table id="users" class="table table-striped">
-					<tr><th>Name</th><th>Description</th><th>Query</th><th>User</th><th>Run Report</th></tr>
+					<tr><th>Name</th><th>Description</th><th>Type</th><th>Query</th><th>User</th><th>Run Report</th></tr>
 						<cfoutput query="shared_reports_query">
+							<!--- json retrieved from query with report options is converted to coldfusion data types --->
 							<cfset query_json = deserializeJSON(#shared_reports_query.query_string#)>
+							<cfset report_json = deserializeJSON(#shared_reports_query.report_type_string#)>
 							<tr>
+								<!--- for each report available output some information about it --->
 								<td>#shared_reports_query.name#</td>
 								<td>#shared_reports_query.description#</td>
+								<td>#report_json.type#</td>
 								<cfloop array="#query_json#" index="idx">
 									<cfif #idx.type# eq "filter_string">
 										<td>#idx.string#</td>
 									</cfif>
 								</cfloop>
 								<td>#shared_reports_query.username#</td>
+								<!--- will run saved report using JS function...passes json to output page similar to builder page --->
 								<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#saved_reports_query.id#' onclick="runSavedReport(#shared_reports_query.id#)">Run</button></td>
 							</tr>
 						</cfoutput>
 				</table>
+			<cfelse>
+				<p>You have no shared reports available.</p>
+			</cfif>
 
 
 			<div class="modal fade" id="shareReportModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
@@ -136,6 +169,7 @@
 			    </div>
 			  </div>
 			</div>
+			<!--- report type string and query string (json) to be sent to output page using post --->
 			<form style="display: hidden" action="output.cfm" method="POST" id="form">
 				<input type="hidden" id="report_type_string" name="report_type_string" value=""/>
 				<input type="hidden" id="query_string" name="query_string" value=""/>
