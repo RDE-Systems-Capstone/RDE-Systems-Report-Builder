@@ -108,7 +108,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</cfif>
 			</div>
 			<h1>Shared Reports</h1>
-			<cfif saved_reports_query.recordcount GT 0>
+			<cfif shared_reports_query.recordcount GT 0>
 				<p>This is a list of reports that have been shared with you.</p>
 				<table id="users" class="table table-striped">
 					<tr><th>Name</th><th>Description</th><th>Type</th><th>Query</th><th>User</th><th>Run Report</th></tr>
