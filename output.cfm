@@ -118,7 +118,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<cfif #TableOptions["type"]# eq "bar" or  #TableOptions["type"]# eq "doughnut" or #TableOptions["type"]# eq "pie"  >
 					<cfloop array = #tableGroupBy# index ="gb">
 						<div>
-							<h2> Graph for <cfoutput>#gb#</cfoutput> </h2>
 						
 						<cfset var1="#gb#"/>
 						<!--- Group by age options --->
@@ -200,6 +199,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 								</cfoutput>
 							</cfloop>
 						</cfif>	
+						
+						<cfif #temp# != 0 >
+						<h2> Graph for <cfoutput>#gb#</cfoutput> </h2>
 						<canvas id="myChart<cfoutput>#var1#</cfoutput>">
 							<script type= "text/javascript" language="Javascript"> 
 								/*converting coldfusion array into javascript */	
@@ -226,7 +228,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 								for (var i = 0; i < tableLen; i++) {
 								  if (jsArray[i] == ""){
-								  	data.labels.push("Misisng")
+								  	data.labels.push("Missing")
 								  }
 								  else{
 								  	data.labels.push(jsArray[i])
@@ -287,12 +289,16 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						    	</cfif>
 						    </cfloop>
 						</table>
+					<cfelse>
+						<h1>
+							There is 0 instances fall in this criteria. 
+						</h1>
+					</cfif>
 					</div>
 				</cfloop>
 				
 				<!--WE NEED TO HANDLE THIS USING view then inner join  -->
 			<cfelseif #TableOptions["type"]# eq "Data"  >
-			
 				<cfset optionString = ""/>
 				<cfset bigQ = "With temp as ( #bigQuery#)" />
 				<cfset  i = 0 />
@@ -313,6 +319,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<cfset MEDICALDATA = QueryExecute(#joinString#, [] ,qoptions)>
 				
 				<cfset temp = MEDICALDATA.recordCount > 
+				<cfif #temp# !=0 >
 				<table id = "myTable" class="table table-striped">
 					<style>tr : {background-color:red} </style>
 				    <cfloop from="0" to="#temp#" index="row">
@@ -329,7 +336,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 									<cfset a = Replace(mystring, "_", " ", "ALL")  />
 									<cfset b = ReReplace(a ,"\b(\w)","\u\1","ALL") />
 									<cfif b eq ""> 
-										<cfset b = "Undefined"/>
+										<cfset b = "Missing"/>
 									</cfif>
 				                    <td><cfoutput>#b#</cfoutput></td>
 				                </cfloop>
@@ -337,12 +344,17 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				    	</cfif>
 				    </cfloop>
 				</table>
+				<cfelse>
+						<h1>
+							There is 0 instances fall in this criteria. 
+						</h1>
+				</cfif>
 				
 								
 			<!---output a message for any other graph not supported --->
 			<Cfelseif #TableOptions["type"]# eq "Trend">
 				<cfoutput>
-					<cfset bigQ = "With temp as (#BigQuery#),"/>
+					<cfset bigQ = "With temp as (#bigQuery#),"/>
 					<cfset trendArray = arraynew(1)>
 					<cfset i = 1 />
 					<cfloop collection="#TableOptions#" item="item" >
@@ -358,10 +370,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<h1>Support for this graph type is not available yet and will be added in a future release.</h1>
 					<cfelse>
 						<cfif #trendArray[3]# eq "sum">
-							<cfset perfectQuery= "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (sum (cast(value as float))) as Sum from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(month from date ), datepart(year from date) "/>
+							<cfset perfectQuery= "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (sum (cast(value as float))) as Sum from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(year from date), datepart(month from date ) "/>
 							<cfset var3 = "Sum" />	
 						<cfelseif #trendArray[3]# eq "average">
-							<cfset perfectQuery = "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (avg (cast(value as float))) as Average from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(month from date ), datepart(year from date) "/>
+							<cfset perfectQuery = "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (avg (cast(value as float))) as Average from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(year from date), datepart(month from date ) "/>
 							<cfset var3 = "Average" />					
 						</cfif>
 					</cfif>
@@ -371,6 +383,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfset MEDICALDATA= QueryExecute(#perfectQuery#, [] ,qoptions)>
 					
 					<cfset temp = MEDICALDATA.recordCount >
+
 				<!---Right here in table is followed by month year and sum or avg columns 
 				based on that we have to create threee variables which can help us to convert rows into
 				arrrays for chart.js  
@@ -403,6 +416,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					</cfquery>
 					<cfset x = #query["description"][1]# />
 				</cfoutput>
+				
+				<cfif #temp# != 0 >
 				<canvas id="myChart">
 							<script type= "text/javascript" language="Javascript"> 
 								/*converting coldfusion array into javascript */	
@@ -429,7 +444,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 								for (var i = 0; i < tableLen; i++) {
 								  if (jsArray[i] == ""){
-								  	data.labels.push("missing")
+								  	data.labels.push("Missing")
 								  }
 								  else{
 								  	data.labels.push(jsArray[i])
@@ -482,13 +497,18 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					   		#labels[i]#
 					   </cfoutput></TD>
 					    <TD><cfoutput >
-					    	#values[i]#
+					    	#decimalformat(values[i])#
 					    </cfoutput></TD>
 					</TR> 
 					</Cfloop>
 
 
 				</TABLE>
+				<cfelse>
+						<h1>
+							There is 0 instances fall in this criteria. 
+						</h1>
+				</cfif>
 			</cfif>
 		</div>
 		</div>
