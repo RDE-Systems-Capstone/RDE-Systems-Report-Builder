@@ -313,7 +313,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfset i= 1/>
 				</cfloop>
 				
-				<cfset joinString = "#bigQ#select #optionString# from patients inner join temp on patients.#temp1# = temp.#temp1#"/>
+				<cfset joinString = "#bigQ#select #optionString# from patients inner join temp on patients.id = temp.id"/>
 				
 				<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
 				<cfset MEDICALDATA = QueryExecute(#joinString#, [] ,qoptions)>
