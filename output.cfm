@@ -506,7 +506,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</TABLE>
 				<cfelse>
 						<h1>
-							There is 0 instances fall in this criteria. 
+							There is 0 instance fall in this criteria. 
 						</h1>
 				</cfif>
 			</cfif>
