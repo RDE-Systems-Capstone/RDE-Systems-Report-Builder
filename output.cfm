@@ -226,7 +226,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 								for (var i = 0; i < tableLen; i++) {
 								  if (jsArray[i] == ""){
-								  	data.labels.push("Missing")
+								  	data.labels.push("Misisng")
 								  }
 								  else{
 								  	data.labels.push(jsArray[i])
@@ -292,6 +292,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				
 				<!--WE NEED TO HANDLE THIS USING view then inner join  -->
 			<cfelseif #TableOptions["type"]# eq "Data"  >
+			
 				<cfset optionString = ""/>
 				<cfset bigQ = "With temp as ( #bigQuery#)" />
 				<cfset  i = 0 />
@@ -328,7 +329,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 									<cfset a = Replace(mystring, "_", " ", "ALL")  />
 									<cfset b = ReReplace(a ,"\b(\w)","\u\1","ALL") />
 									<cfif b eq ""> 
-										<cfset b = "Missing"/>
+										<cfset b = "Undefined"/>
 									</cfif>
 				                    <td><cfoutput>#b#</cfoutput></td>
 				                </cfloop>
@@ -341,7 +342,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<!---output a message for any other graph not supported --->
 			<Cfelseif #TableOptions["type"]# eq "Trend">
 				<cfoutput>
-					<cfset bigQ = "With temp as (#bigQuery#),"/>
+					<cfset bigQ = "With temp as (#BigQuery#),"/>
 					<cfset trendArray = arraynew(1)>
 					<cfset i = 1 />
 					<cfloop collection="#TableOptions#" item="item" >
@@ -357,10 +358,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<h1>Support for this graph type is not available yet and will be added in a future release.</h1>
 					<cfelse>
 						<cfif #trendArray[3]# eq "sum">
-							<cfset perfectQuery= "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (sum (cast(value as float))) as Sum from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(year from date), datepart(month from date ) "/>
+							<cfset perfectQuery= "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (sum (cast(value as float))) as Sum from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(month from date ), datepart(year from date) "/>
 							<cfset var3 = "Sum" />	
 						<cfelseif #trendArray[3]# eq "average">
-							<cfset perfectQuery = "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (avg (cast(value as float))) as Average from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(year from date), datepart(month from date ) "/>
+							<cfset perfectQuery = "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (avg (cast(value as float))) as Average from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(month from date ), datepart(year from date) "/>
 							<cfset var3 = "Average" />					
 						</cfif>
 					</cfif>
@@ -370,7 +371,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<cfset MEDICALDATA= QueryExecute(#perfectQuery#, [] ,qoptions)>
 					
 					<cfset temp = MEDICALDATA.recordCount >
-
 				<!---Right here in table is followed by month year and sum or avg columns 
 				based on that we have to create threee variables which can help us to convert rows into
 				arrrays for chart.js  
@@ -429,7 +429,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 								for (var i = 0; i < tableLen; i++) {
 								  if (jsArray[i] == ""){
-								  	data.labels.push("Missing")
+								  	data.labels.push("missing")
 								  }
 								  else{
 								  	data.labels.push(jsArray[i])
