@@ -37,7 +37,7 @@ $(document).ready(function() { 	//only run once page is ready
 		generateBuilderPage();
 	}
 	var sourceElement;
-	
+
 	//allow drag and drop buttons
     $('.btn.verticalButton').draggable({
         cancel: false,

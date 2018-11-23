@@ -40,11 +40,11 @@ function observationsFilterUpdate(filter_id) {
 	var value_num = $("#value_num").val();
 	var filter_text = "Observations: ";
 	
-	button.innerHTML = filter_text;
 	options.each( function() {
-		button.append($(this).text() + " ");
+		filter_text += $(this).text() + " ";
 	});
-	button.append(value_num);
+	filter_text += value_num;
+	button.innerHTML = filter_text;
 };
 
 /* This function will update the text of any checkbox-type filter
@@ -54,12 +54,12 @@ function checkboxFilterUpdate(filter_id, filter_type, filter_text) {
 	var filter_options = $("#" + filter_id);
 	var options = $(filter_options).find(":checked");
 	var values = [];
-	
-	button.innerHTML = filter_text;
+
 	options.each( function() {
 		values.push($(this).attr("data-label"));
 	});
-	button.append(values.join(', '));
+	filter_text += values.join(', ');
+	button.innerHTML = filter_text;
 };
 
 /* This function will update the text of any dropdown-type filter
@@ -69,10 +69,10 @@ function dropdownFilterUpdate(filter_id, filter_type, filter_text) {
 	var filter_options = $("#" + filter_id);
 	var options = $(filter_options).find("option:selected");
 	
-	button.innerHTML = filter_text;
 	options.each( function() {
-		button.append($(this).text());
+		filter_text += $(this).text();
 	});
+	button.innerHTML = filter_text;
 };
 
 //Function that will delete the filter, its filter button and all associated forms and options
