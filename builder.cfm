@@ -87,7 +87,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<div class="filter_drop well">
 						<div id="chosen_filters" style="min-width: 100%;"><p id="drop_text">Drag and drop filters here to add them.</p></div>
 						<div id="filter_forms"></div>
-						<p id="filter_instructions">Click on a filter to configure its options.</p>
+						<p id="filter_instructions"><br>Click on a filter to configure its options.</p>
 					</div>
 					
 					<h1>Output</h1>
