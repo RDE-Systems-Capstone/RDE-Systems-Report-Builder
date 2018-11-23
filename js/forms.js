@@ -7,7 +7,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 //graph options
 $(document).ready(function() { 	//only run once page is ready
 	//Load output section based on report chosen
-	//We do this by making the corresponding div unhidden
+	//We do this by making the corresponding div unhidden0
 	$("#report_type").change(function() {
 		$(".output_div").attr('hidden', true);
 		if ($("#report_type").val() === "trend") {

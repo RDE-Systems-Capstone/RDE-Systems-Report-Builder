@@ -33,7 +33,16 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
 	<script src="js/drag.js"></script>
 	<script src="js/forms.js"></script>
+	<script src="js/preload_filters.js"></script>
 	<script src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" language="JavaScript">
+	<cfoutput>
+		<cfif structKeyExists(form, "report_type_string") and structKeyExists(form, "query_string")>
+			var #toScript(URLDecode(FORM.report_type_string), "report_type_preload")#
+			var #toScript(URLDecode(FORM.query_string), "query_preload")#
+		</cfif>
+	</cfoutput> 
+	</script>
   </head>
 <body>
 	<!-- Navbar code-->

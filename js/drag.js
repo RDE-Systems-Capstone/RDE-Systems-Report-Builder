@@ -6,14 +6,14 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 */
 
 //Generate range silders for the age filter
-function createAgeFilter(option, filter_id) {
+function createAgeFilter(option, filter_id, age_min, age_max) {
 	if (option === "between") {
 		//Generate a range slider with two drag handles
 		$( "#slider" + filter_id ).slider({
 			range: true,
 		    min: 0,
 		    max: 150,
-		    values: [ 20, 50 ],
+		    values: [ age_min, age_max ],
 		    slide: function( event, ui ) {
 		    	//update label for range filter on slide
 	        	$( "#amount" + filter_id ).text( "Between: " + ui.values[ 0 ] + " and " + ui.values[ 1 ] );
@@ -32,6 +32,10 @@ function createAgeFilter(option, filter_id) {
 
 //Allow drag and drop of filters to filter area
 $(document).ready(function() { 	//only run once page is ready
+	//function to preload data if report data is sent to builder page
+	if (typeof report_type_preload != 'undefined' && typeof query_preload != 'undefined') {
+		generateBuilderPage();
+	}
 	var sourceElement;
 	
 	//allow drag and drop buttons
@@ -55,13 +59,13 @@ $(document).ready(function() { 	//only run once page is ready
 			if (sourceElement == "filters_list" || sourceElement == "filter_logic") {
 				//generate a random ID number to associate form data with filter
 				//this will allow us to support multiple versions of the same filter!
-				var filter_id = Math.floor((Math.random() * 10000) +1);
+				var filter_id = Math.floor((Math.random() * 1000000) +1);
 				
 				//Check if the added element is a filter or boolean logic
 				//if it's a filter use AJAX to pull a form to configure filter attributes
 				if ($(ui.draggable).attr('id') === "age_button") {
 					$("#filter_forms").append($('<div>').load("app/builder/filters.cfc?method=getFilterForm&filter=age&id=" + filter_id, function() {
-						createAgeFilter("between", filter_id);
+						createAgeFilter("between", filter_id, 20, 50);
 					}));
 				} 
 				else if ($(ui.draggable).attr('id') === "gender_button") {

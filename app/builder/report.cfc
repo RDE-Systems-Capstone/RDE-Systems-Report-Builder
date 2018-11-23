@@ -360,7 +360,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<label><cfinput type="checkbox" name="columns" value="SSN">Social Security Number</label>
 			<label><cfinput type="checkbox" name="columns" value="DRIVERS">Driver's License Number</label>
 			<label><cfinput type="checkbox" name="columns" value="PASSPORT">Passport Number</label>
-			<label><cfinput type="checkbox" name="columns" value="AGE">Age</label>
 			<label><cfinput type="checkbox" name="columns" value="GENDER">Gender</label>
 			<label><cfinput type="checkbox" name="columns" value="RACE">Race</label>
 			<label><cfinput type="checkbox" name="columns" value="ETHNICITY">Ethnicity</label>

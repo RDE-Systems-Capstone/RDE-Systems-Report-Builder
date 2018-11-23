@@ -83,6 +83,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				  </div>
 				</div>
 					<button type="button" class="btn btn-primary btn-space" data-toggle="modal" data-target="#saveReportModal">Save Report</button>
+					<button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#saved_reports_query.id#' onclick="$('#builder_form').submit();">Modify Report</button>
 					<!-- <p> tag for spacing purposes -->
 					<p>
 					</p>
@@ -513,6 +514,13 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		</div>
 		</div>
 	</div>
+	<!--- report type string and query string (json) to be sent to output page using post --->
+	<form style="display: hidden" action="builder.cfm" method="POST" id="builder_form">
+		<cfoutput>
+		<input type="hidden" id="report_type_string" name="report_type_string" value="#URLEncodedFormat(FORM.report_type_string)#"/>
+		<input type="hidden" id="query_string" name="query_string" value="#URLEncodedFormat(FORM.query_string)#"/>
+		</cfoutput>
+	</form>
 	<cfinvoke component="app.elements" method="outputFooter"></cfinvoke>
   </body>
 </html>
