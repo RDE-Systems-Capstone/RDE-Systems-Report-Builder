@@ -75,6 +75,7 @@ $(document).ready(function() { 	//only run once page is ready
 
     $( "#chosen_filters").sortable({
      	cancel: 'p',
+     	helper : 'clone',
 	    receive: function (e, ui) {
 	        copyHelper = null;
 	        filterSetup(ui.item)
