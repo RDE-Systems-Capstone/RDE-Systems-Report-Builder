@@ -224,7 +224,7 @@ function generateBuilderPage() {
 			var button = $('<button type="button" class="btn btn-primary btn-space filter filter_preloaded" data-toggle="collapse" id="procedures_button" value="0">Procedures</button>').val(filter_id);
 			$("#chosen_filters").append(button);
 			$.get({
-				url: "app/builder/filters.cfc?method=getFilterForm&filter=proceduress&id=" + filter_id, 
+				url: "app/builder/filters.cfc?method=getFilterForm&filter=procedures&id=" + filter_id, 
 				success: function(result) {
 					$('<div>').html(result).appendTo("#filter_forms");
 					$("#" + filter_id).find("[name='procedure']").val(filter_value);
