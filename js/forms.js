@@ -330,20 +330,23 @@ function getFilters() {
 			else if (this.id == "l_paren") {
 				var lparen_arr = {"type":"l_paren"}
 				filters_array.push(lparen_arr);
-				tokens.push("(")
+				tokens.push("(");
 				
 			}
 			else if (this.id == "r_paren") {
 				var rparen_arr = {"type":"r_paren"}
 				filters_array.push(rparen_arr);
-				tokens.pop();
+				if (tokens.pop() !== "(") {
+					error_list +="Filters: Missing parentheses\n";
+					errors++;
+				};
 			}
 			else if (this.id == "and_box") {
-				if (!$(this).prev().hasClass("filter")) {
+				if (!($(this).prev().hasClass("filter"))) {
 					error_list += "Filters: Missing filter before AND!<br />";
 					errors++;
 				}
-				if (!$(this).next().hasClass("filter")) {
+				if (!($(this).next().hasClass("filter") || $(this).next().attr('id') == "l_paren")) {
 					error_list += "Filters: Missing filter after AND!<br />";
 					errors++;
 				}
