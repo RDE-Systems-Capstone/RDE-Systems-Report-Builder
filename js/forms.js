@@ -339,11 +339,27 @@ function getFilters() {
 				tokens.pop();
 			}
 			else if (this.id == "and_box") {
+				if (!$(this).prev().hasClass("filter")) {
+					error_list += "Filters: Missing filter before AND!<br />";
+					errors++;
+				}
+				if (!$(this).next().hasClass("filter")) {
+					error_list += "Filters: Missing filter after AND!<br />";
+					errors++;
+				}
 				var and_arr = {"type":"and"}
 				filters_array.push(and_arr);
 				
 			}
 			else if (this.id == "or_box") {
+				if (!$(this).prev().hasClass("filter")) {
+					error_list += "Filters: Missing filter before OR!<br />";
+					errors++;
+				}
+				if (!$(this).next().hasClass("filter")) {
+					error_list += "Filters: Missing filter after OR!<br />";
+					errors++;
+				}
 				var or_arr = {"type":"or"}
 				filters_array.push(or_arr);
 				
