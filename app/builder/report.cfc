@@ -401,19 +401,35 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<!--- function to save a report to the saved_reports table in the DB --->
 	<cffunction name="saveReport" returntype="void" access="remote">
 		<cfargument name="name" type="string" required="true">
+		<cfargument name="report_id" type="numeric" required="true">
 		<cfargument name="description" type="string" required="true">
 		<cfargument name="query_string" type="string" required="true">
 		<cfargument name="report_type_string" type="string" required="true">
-		<cftry>
-			<cfquery name="report_data" datasource="MEDICALDATA">
-				INSERT INTO saved_reports(name, description, query_string, report_type_string, username)
-				VALUES ('#decodefromUrl(arguments.name)#', '#decodefromUrl(arguments.description)#', '#decodefromUrl(arguments.query_string)#', '#decodefromUrl(arguments.report_type_string)#', '#session.username#' )
-			</cfquery>
-			<cfoutput>true</cfoutput>
-		<cfcatch>
-			<cfoutput>false</cfoutput>
-		</cfcatch>
-		</cftry>
+		<cfif arguments.report_id EQ 0>
+			<cftry>
+				<cfquery name="report_data" datasource="MEDICALDATA">
+					INSERT INTO saved_reports(name, description, query_string, report_type_string, username)
+					VALUES ('#decodefromUrl(arguments.name)#', '#decodefromUrl(arguments.description)#', '#decodefromUrl(arguments.query_string)#', '#decodefromUrl(arguments.report_type_string)#', '#session.username#' )
+				</cfquery>
+				<cfoutput>true</cfoutput>
+			<cfcatch>
+				<cfoutput>false</cfoutput>
+			</cfcatch>
+			</cftry>
+		<cfelse>
+			<cftry>
+				<cfquery name="report_data" datasource="MEDICALDATA">
+					UPDATE saved_reports
+					SET name = '#decodefromUrl(arguments.name)#', description = '#decodefromUrl(arguments.description)#', query_string = '#decodefromUrl(arguments.query_string)#', report_type_string = '#decodefromUrl(arguments.report_type_string)#'
+					WHERE id = '#arguments.report_id#'
+				</cfquery>
+				<cfoutput>true</cfoutput>
+			<cfcatch>
+				<cfoutput>false</cfoutput>
+			</cfcatch>
+			</cftry>
+
+		</cfif>
 	</cffunction>
 
 	<!--- function to share a report by saving to the shared_reports table in the DB --->

@@ -14,6 +14,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cflocation url="builder.cfm" addtoken="false">
 </cfif>
 
+<cfquery name="report_query" datasource="MEDICALDATA">
+	SELECT * FROM saved_reports WHERE id = '#FORM.report_id#'
+</cfquery>
 
 
 <!DOCTYPE html>
@@ -61,23 +64,35 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				      <div class="modal-body">
 						<!--- form to insert data to database --->					
 						<form name="saveForm" method="post">
-							<cfoutput>
 							<div id="displaying">
 								<label for="usr">Name:</label>
-  								<input type="text" class="form-control" id="report_name" placeholder="Name of Report">
-								<label for="comment">Description:</label>
- 								<textarea class="form-control" rows="5" id="report_comment" placeholder="Description or Comments"></textarea>
+								<cfif FORM.report_id EQ 0>
+									<input type="text" class="form-control" id="report_name" placeholder="Name of Report">
+									<label for="comment">Description:</label>
+	 								<textarea class="form-control" rows="5" id="report_comment" placeholder="Description or Comments"></textarea>
+	 							<cfelse>
+	 								<cfoutput query="report_query">
+		 								<input type="text" class="form-control" id="report_name" placeholder="Name of Report" value="#report_query.name#">
+										<label for="comment">Description:</label>
+		 								<textarea class="form-control" rows="5" id="report_comment" placeholder="Description or Comments">#report_query.description#</textarea>
+	 								</cfoutput>
+								</cfif>
+								<cfoutput>
  								<input type="hidden" id="report_type_string" name="report_type_string" value='#FORM.report_type_string#'/>
 								<input type="hidden" id="query_string" name="query_string" value='#FORM.query_string#'/>
  								<br>
-
+ 								</cfoutput>
 							</div>
-							</cfoutput>
 						</form>
 				      </div>
 				      <div class="modal-footer">
+				      	<cfif FORM.report_id EQ 0>
  							<!-- submit button will call JS function that uses AJAX to save report -->
- 							<button type="button" id="save" class="btn btn-primary mb-2" data-dismiss="modal" onclick="saveReport()">Save Report</button>
+ 							<cfoutput><button type="button" id="save" class="btn btn-primary mb-2" data-dismiss="modal" onclick="saveReport(#FORM.report_id#)">Save Report</button></cfoutput>
+ 						<cfelse>
+ 							<cfoutput><button type="button" id="save" class="btn btn-primary mb-2" data-dismiss="modal" onclick="saveReport(#FORM.report_id#)">Update Report</button></cfoutput>
+ 							<cfoutput><button type="button" id="save" class="btn btn-primary mb-2" data-dismiss="modal" onclick="saveReport('0')">Save as New Report</button></cfoutput>
+ 						</cfif>
 				      </div>
 				    </div>
 				  </div>
@@ -292,7 +307,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						</table>
 					<cfelse>
 						<h1>
-							There is 0 instance fall into this criteria. 
+							There are 0 instances that fall into these criteria. 
 						</h1>
 					</cfif>
 					</div>
@@ -347,7 +362,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</table>
 				<cfelse>
 						<h1>
-							There is 0 instance fall into this criteria. 
+							There are 0 instances that fall into these criteria. 
 						</h1>
 				</cfif>
 				
@@ -507,7 +522,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</TABLE>
 				<cfelse>
 						<h1>
-							There is 0 instance fall into this criteria. 
+							There are 0 instances that fall into these criteria. 
 						</h1>
 				</cfif>
 			</cfif>
@@ -519,6 +534,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfoutput>
 		<input type="hidden" id="report_type_string" name="report_type_string" value="#URLEncodedFormat(FORM.report_type_string)#"/>
 		<input type="hidden" id="query_string" name="query_string" value="#URLEncodedFormat(FORM.query_string)#"/>
+		<input type="hidden" id="report_id" name="report_id" value='#FORM.report_id#'/>
 		</cfoutput>
 	</form>
 	<cfinvoke component="app.elements" method="outputFooter"></cfinvoke>

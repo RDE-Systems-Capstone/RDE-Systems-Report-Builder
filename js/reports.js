@@ -24,18 +24,43 @@ function runSavedReport(id) {
 			$("#report_type_string").val(result);
 		}
 	});
+	$("#report_id").val(id);
 
 	$("#form").submit();
 	
 }
 
-function saveReport() {
+function runSharedReport(id) {
+	//get report query and options
+	$.get({
+		url: "app/builder/report.cfc?method=getreportQuery&id=" + id, 
+		async: false,
+		success: function(result) {
+			$("#query_string").val(result);
+		}
+	});
+	$.get({
+		url: "app/builder/report.cfc?method=getreportType&id=" + id, 
+		async: false,
+		success: function(result) {
+			$("#report_type_string").val(result);
+		}
+	});
+
+	$("#form").submit();
+	
+}
+
+
+function saveReport(id) {
+	//run different code if report id == 0; this means that the report is new and should not be modifying the previous report for whatever reason...
 	if ( $("#report_name").val() === "" ) {
 		alert("Report name can't be empty!");
 		return;
 	}
 	$.post( "app/builder/report.cfc", { 
 		method: "saveReport",
+		report_id: id,
 		name: encodeURIComponent($("#report_name").val()), 
 		description: encodeURIComponent($("#report_comment").val()),
 		query_string: encodeURIComponent($("#query_string").val()),

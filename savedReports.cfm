@@ -128,7 +128,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 								</cfloop>
 								<td>#shared_reports_query.username#</td>
 								<!--- will run saved report using JS function...passes json to output page similar to builder page --->
-								<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#saved_reports_query.id#' onclick="runSavedReport(#shared_reports_query.id#)">Run</button></td>
+								<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#saved_reports_query.id#' onclick="runSharedReport(#shared_reports_query.id#)">Run</button></td>
 							</tr>
 						</cfoutput>
 				</table>
@@ -173,6 +173,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<form style="display: hidden" action="output.cfm" method="POST" id="form">
 				<input type="hidden" id="report_type_string" name="report_type_string" value=""/>
 				<input type="hidden" id="query_string" name="query_string" value=""/>
+				<input type="hidden" id="report_id" name="report_id" value="0"/>
 			</form>
 				
 			<!--- end page output here --->
