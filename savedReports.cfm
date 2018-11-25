@@ -27,7 +27,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 <html lang="en">
 <head>
 	<title>
-		Report Builder
+		Saved Reports
 	</title>
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
@@ -79,25 +79,33 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				<cfif saved_reports_query.recordcount GT 0>
 					<p>This is a list of reports that you have created and saved.</p>
 					<table id="users" class="table table-striped">
-						<tr><th>Name</th><th>Description</th><th>Type</th><th>Query</th><th>Run Report</th><th>Share Report</th></tr>
+						<tr><th>Name</th><th>Type</th><th>Description</th><th>Information</th><th>Run Report</th><th>Share Report</th><th>Delete Report</th></tr>
 							<cfoutput query="saved_reports_query">
 								<!--- json retrieved from query with report options is converted to coldfusion data types --->
 								<cfset query_json = deserializeJSON(#saved_reports_query.query_string#)>
 								<cfset report_json = deserializeJSON(#saved_reports_query.report_type_string#)>
+								<cfset report_type = "#deserializeJSON(saved_reports_query.report_type_string).type#" />
 								<tr>
 									<!--- for each report available output some information about it --->
 									<td>#saved_reports_query.name#</td>
+									<cfif report_type EQ "trend">
+										<td>Trend Graph</td>
+									<cfelseif report_type EQ "bar">
+										<td>Bar Chart</td>
+									<cfelseif report_type EQ "pie">
+										<td>Pie Chart</td>
+									<cfelseif report_type EQ "doughnut">
+										<td>Doughnut Chart</td>
+									<cfelseif report_type EQ "data">
+										<td>Data Table</td>
+									</cfif>
 									<td>#saved_reports_query.description#</td>
-									<td>#report_json.type#</td>
-									<cfloop array="#query_json#" index="idx">
-										<cfif #idx.type# eq "filter_string">
-											<td>#idx.string#</td>
-										</cfif>
-									</cfloop>
+									<td><a href="##" onclick="showReportInfo(#saved_reports_query.id#)">View More Information</a></td>
 									<!--- will run saved report using JS function...passes json to output page similar to builder page --->
 									<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#saved_reports_query.id#' onclick="runSavedReport(#saved_reports_query.id#)">Run</button></td>
 									<!--- JS function to share report... will use AJAX to call CFC and insert new shared report entry --->
 									<td><button type="button" class="btn btn-primary btn-space" data-toggle="modal" data-target="##shareReportModal" onclick='$("##share_report_id").val(#saved_reports_query.id#)'>Share</button></td>
+									<td><button type="button" class="btn btn-danger btn-space" data-toggle="modal" onclick="triggerDeleteWarning(#saved_reports_query.id#)">Delete</button></td>
 								</tr>
 							</cfoutput>
 							<!--- hidden input field to store shared report id...so JS can access it --->
@@ -107,28 +115,37 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<p>You have no reports saved.</p>
 				</cfif>
 			</div>
+
+			<!--- following code will display the user's shared reports --->
 			<h1>Shared Reports</h1>
 			<cfif shared_reports_query.recordcount GT 0>
 				<p>This is a list of reports that have been shared with you.</p>
 				<table id="users" class="table table-striped">
-					<tr><th>Name</th><th>Description</th><th>Type</th><th>Query</th><th>User</th><th>Run Report</th></tr>
+					<tr><th>Name</th><th>Type</th><th>Description</th><th>Information</th><th>Owner</th><th>Run Report</th></tr>
 						<cfoutput query="shared_reports_query">
 							<!--- json retrieved from query with report options is converted to coldfusion data types --->
 							<cfset query_json = deserializeJSON(#shared_reports_query.query_string#)>
 							<cfset report_json = deserializeJSON(#shared_reports_query.report_type_string#)>
+							<cfset report_type = "#deserializeJSON(shared_reports_query.report_type_string).type#" />
 							<tr>
 								<!--- for each report available output some information about it --->
 								<td>#shared_reports_query.name#</td>
+								<cfif report_type EQ "trend">
+									<td>Trend Graph</td>
+								<cfelseif report_type EQ "bar">
+									<td>Bar Chart</td>
+								<cfelseif report_type EQ "pie">
+									<td>Pie Chart</td>
+								<cfelseif report_type EQ "doughnut">
+									<td>Doughnut Chart</td>
+								<cfelseif report_type EQ "data">
+									<td>Data Table</td>
+								</cfif>
 								<td>#shared_reports_query.description#</td>
-								<td>#report_json.type#</td>
-								<cfloop array="#query_json#" index="idx">
-									<cfif #idx.type# eq "filter_string">
-										<td>#idx.string#</td>
-									</cfif>
-								</cfloop>
+								<td><a href="##" onclick="showReportInfo(#shared_reports_query.id#)">View More Information</a></td>
 								<td>#shared_reports_query.username#</td>
 								<!--- will run saved report using JS function...passes json to output page similar to builder page --->
-								<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#saved_reports_query.id#' onclick="runSharedReport(#shared_reports_query.id#)">Run</button></td>
+								<td><button type="button" class="btn btn-primary btn-space" data-toggle="collapse" id='#shared_reports_query.id#' onclick="runSharedReport(#shared_reports_query.id#)">Run</button></td>
 							</tr>
 						</cfoutput>
 				</table>
@@ -141,7 +158,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			  <div class="modal-dialog" role="document">
 			    <div class="modal-content">
 			      <div class="modal-header">
-			        <h5 class="modal-title" id="ModalLabel">Share Report</h5>
+			        <h4 class="modal-title" id="ModalLabel">Share Report</h5>
 			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
 			          <span aria-hidden="true">&times;</span>
 			        </button>
@@ -165,6 +182,44 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 			        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="shareReport()">Save changes</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<!-- report info modal -->
+			<div class="modal" id="reportInfoModal" tabindex="-1" role="dialog">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h4 class="modal-title">Report Information</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body" id="reportInfoModalBody">
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>
+			<!-- ask the user if he or she really wants to delete the report.... -->
+			<div class="modal" id="deleteModal" tabindex="-1" role="dialog">
+			  <div class="modal-dialog" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h4 class="modal-title">Delete Report</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body" id="deleteModalBody">
+			      	<p>Are you sure you want to delete this report? This action cannot be undone.</p>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-primary" data-dismiss="modal">Cancel</button>
+			        <button type="button" class="btn btn-danger" id="deleteReportButton" >Delete</button>
 			      </div>
 			    </div>
 			  </div>

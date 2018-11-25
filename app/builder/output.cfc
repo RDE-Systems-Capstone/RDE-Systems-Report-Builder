@@ -346,7 +346,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			</li>
 			</cfoutput>
 		<cfelseif #GraphOptions["type"]# eq "trend">
+			<cfquery name="observation_name" datasource="MEDICALDATA">
+				SELECT DISTINCT DESCRIPTION FROM observations WHERE CODE = '#GraphOptions["observation_id"]#'
+			</cfquery>
 			<cfoutput><li class="list-group-item">Trend Graph</li></cfoutput>
+			<cfoutput><li class="list-group-item">Observation: #observation_name.DESCRIPTION#</li></cfoutput>
 			<cfoutput><li class="list-group-item">Start Date: #GraphOptions["start_date"]#</li></cfoutput>
 			<cfoutput><li class="list-group-item">End Date: #GraphOptions["end_date"]#</li></cfoutput>
 			<cfoutput><li class="list-group-item">Total values: #GraphOptions["options"]#</li></cfoutput>

@@ -47,8 +47,7 @@ function runSharedReport(id) {
 		}
 	});
 
-	$("#form").submit();
-	
+	$("#form").submit();	
 }
 
 
@@ -80,6 +79,7 @@ function saveReport(id) {
 	 });
 }
 
+//function to share a report.
 function shareReport() {
 	$.post( "app/builder/report.cfc", { 
 		method: "shareReport",
@@ -98,4 +98,38 @@ function shareReport() {
 	    	$("#error_alert").show();
 	    }
 	 });
+}
+
+//function to call CF function to pull report info
+function showReportInfo(id) {
+	$.get({
+		url: "app/builder/report.cfc?method=getreportInfo&id=" + id, 
+		success: function(result) {
+			$("#reportInfoModalBody").html(result);
+		}
+	});
+	$('#reportInfoModal').modal()
+}
+
+//trigger a modal that alerts the user that the report delete is permanent
+function triggerDeleteWarning(id) {
+	$("#deleteReportButton").attr("onclick", "deleteReport(" + id + ")");
+	$('#deleteModal').modal()
+}
+
+//function to trigger coldfusion function to delete the report
+function deleteReport(id) {
+	$.get({
+		url: "app/builder/report.cfc?method=deleteReport&id=" + id, 
+		success: function(result) {
+		    if (result.trim() === "true") {
+		    	location.reload(); 
+		    } else {
+			   	$("#error_alert").removeClass("alert-success");
+		    	$("#error_alert").addClass("alert-danger");
+		    	$("#error_alert_text").html("There was an error deleting the report.");
+		    	$("#error_alert").show();
+		    }
+		}
+	});
 }

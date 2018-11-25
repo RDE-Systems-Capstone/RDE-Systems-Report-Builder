@@ -398,6 +398,62 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfoutput>#report_data.report_type_string#</cfoutput>
 	</cffunction>
 
+	<cffunction name="getreportInfo" returntype="void" access="remote">
+		<cfargument name="id" type=numeric required="true">
+		<cfquery name="report_data" datasource="MEDICALDATA">
+			SELECT * FROM saved_reports WHERE id=#arguments.id#
+		</cfquery>
+		<cfoutput>
+			<div>
+				<p>Report name: #report_data.name#</p>
+				<cfset report_type = "#deserializeJSON(report_data.report_type_string).type#" />
+				<cfset report_json = deserializeJSON(#report_data.report_type_string#) />
+				<cfif report_type EQ "trend">
+					<cfquery name="observation_name" datasource="MEDICALDATA">
+						SELECT DISTINCT DESCRIPTION FROM observations WHERE CODE = '#report_json["observation_id"]#'
+					</cfquery>
+					<p>Report type: Trend Graph</p>
+					<p>Observation: #observation_name.DESCRIPTION#</p>
+					<p>Total values: #report_json["options"]#</p>
+					<p>Start Date: #report_json["start_date"]#</p>
+					<p>End Date: #report_json["end_date"]#</p>
+				<cfelseif report_type EQ "bar">
+					<p>Report type: Bar Chart</p>
+					<p> Group by:
+					<cfscript>
+						WriteOutput(ArrayToList(#report_json["group_by"]#))
+					</cfscript></p>
+				<cfelseif report_type EQ "pie">
+					<p>Report type: Pie Chart</p>
+					<p> Group by:
+					<cfscript>
+						WriteOutput(ArrayToList(#report_json["group_by"]#))
+					</cfscript></p>
+				<cfelseif report_type EQ "doughnut">
+					<p>Report type: Doughnut Chart</p>
+					<p> Group by:
+					<cfscript>
+						WriteOutput(ArrayToList(#report_json["group_by"]#))
+					</cfscript></p>
+				<cfelseif report_type EQ "data">
+					<p>Report type: Data Table</p>
+					<p> Group by:
+					<cfscript>
+						WriteOutput(ArrayToList(#report_json["group_by"]#))
+					</cfscript></p>
+				</cfif>
+				<p>Report query: 
+				<cfloop array="#deserializeJSON(report_data.query_string)#" index="idx">
+					<cfif #idx.type# eq "filter_string">
+						<td>#idx.string#</td>
+					</cfif>
+				</cfloop>
+				</p>
+				<p>Report description: #report_data.description#</p>
+			</div>
+		</cfoutput>
+	</cffunction>
+
 	<!--- function to save a report to the saved_reports table in the DB --->
 	<cffunction name="saveReport" returntype="void" access="remote">
 		<cfargument name="name" type="string" required="true">
@@ -440,6 +496,23 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<cfquery name="report_data" datasource="MEDICALDATA">
 				INSERT INTO shared_reports(report_id, shared_with)
 				VALUES ('#decodefromUrl(arguments.id)#', '#decodefromUrl(arguments.shared_with)#' )
+			</cfquery>
+			<cfoutput>true</cfoutput>
+		<cfcatch>
+			<cfoutput>false</cfoutput>
+		</cfcatch>
+		</cftry>
+	</cffunction>
+
+	<cffunction name="deleteReport" returntype="void" access="remote">
+		<cfargument name="id" type="numeric" required="true">
+		<cftry>
+			<!--- only allow the delete if the user is the report owner --->
+			<cfquery name="delete_report_shares" datasource="MEDICALDATA">
+				DELETE FROM shared_reports WHERE report_id IN ( SELECT id FROM saved_reports WHERE id = '#arguments.id#' and username = '#session.username#' )
+			</cfquery>
+			<cfquery name="delete_report" datasource="MEDICALDATA">
+				DELETE FROM saved_reports WHERE id = '#arguments.id#' and username = '#session.username#'
 			</cfquery>
 			<cfoutput>true</cfoutput>
 		<cfcatch>
