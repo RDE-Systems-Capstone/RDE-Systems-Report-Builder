@@ -406,6 +406,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfoutput>
 			<div>
 				<p>Report name: #report_data.name#</p>
+				<p>Report description: #report_data.description#</p>
 				<cfset report_type = "#deserializeJSON(report_data.report_type_string).type#" />
 				<cfset report_json = deserializeJSON(#report_data.report_type_string#) />
 				<cfif report_type EQ "trend">
@@ -449,7 +450,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					</cfif>
 				</cfloop>
 				</p>
-				<p>Report description: #report_data.description#</p>
 			</div>
 		</cfoutput>
 	</cffunction>
