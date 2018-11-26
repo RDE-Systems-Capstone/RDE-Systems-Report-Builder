@@ -450,6 +450,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					</cfif>
 				</cfloop>
 				</p>
+				<p>Report creator: #report_data.username#</p>
 			</div>
 		</cfoutput>
 	</cffunction>
