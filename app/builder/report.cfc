@@ -384,7 +384,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cffunction name="getreportQuery" returntype="void" access="remote">
 		<cfargument name="id" type=numeric required="true">
 		<cfquery name="report_data" datasource="MEDICALDATA">
-			SELECT query_string FROM saved_reports WHERE id=#arguments.id#
+			SELECT query_string FROM saved_reports WHERE id=<cfqueryparam value='#arguments.id#' cfsqltype="CF_SQL_INTEGER">
 		</cfquery>
 		<cfoutput>#report_data.query_string#</cfoutput>
 	</cffunction>
@@ -393,7 +393,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cffunction name="getreportType" returntype="void" access="remote">
 		<cfargument name="id" type=numeric required="true">
 		<cfquery name="report_data" datasource="MEDICALDATA">
-			SELECT report_type_string FROM saved_reports WHERE id=#arguments.id#
+			SELECT report_type_string FROM saved_reports WHERE id=<cfqueryparam value='#arguments.id#' cfsqltype="CF_SQL_INTEGER">
 		</cfquery>
 		<cfoutput>#report_data.report_type_string#</cfoutput>
 	</cffunction>
@@ -401,7 +401,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cffunction name="getreportInfo" returntype="void" access="remote">
 		<cfargument name="id" type=numeric required="true">
 		<cfquery name="report_data" datasource="MEDICALDATA">
-			SELECT * FROM saved_reports WHERE id=#arguments.id#
+			SELECT * FROM saved_reports WHERE id=<cfqueryparam value='#arguments.id#' cfsqltype="CF_SQL_INTEGER">
 		</cfquery>
 		<cfoutput>
 			<div>
@@ -465,7 +465,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<cftry>
 				<cfquery name="report_data" datasource="MEDICALDATA">
 					INSERT INTO saved_reports(name, description, query_string, report_type_string, username)
-					VALUES ('#decodefromUrl(arguments.name)#', '#decodefromUrl(arguments.description)#', '#decodefromUrl(arguments.query_string)#', '#decodefromUrl(arguments.report_type_string)#', '#session.username#' )
+					VALUES (<cfqueryparam value='#decodefromUrl(arguments.name)#' cfsqltype="CF_SQL_NVARCHAR">, 
+						<cfqueryparam value='#decodefromUrl(arguments.description)#' cfsqltype="CF_SQL_NVARCHAR">, 
+						<cfqueryparam value='#decodefromUrl(arguments.query_string)#' cfsqltype="CF_SQL_NVARCHAR">, 
+						<cfqueryparam value='#decodefromUrl(arguments.report_type_string)#' cfsqltype="CF_SQL_NVARCHAR">, 
+						'#session.username#' )
 				</cfquery>
 				<cfoutput>true</cfoutput>
 			<cfcatch>
@@ -476,8 +480,11 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			<cftry>
 				<cfquery name="report_data" datasource="MEDICALDATA">
 					UPDATE saved_reports
-					SET name = '#decodefromUrl(arguments.name)#', description = '#decodefromUrl(arguments.description)#', query_string = '#decodefromUrl(arguments.query_string)#', report_type_string = '#decodefromUrl(arguments.report_type_string)#'
-					WHERE id = '#arguments.report_id#'
+					SET name = <cfqueryparam value='#decodefromUrl(arguments.name)#' cfsqltype="CF_SQL_NVARCHAR">, 
+					description = <cfqueryparam value='#decodefromUrl(arguments.description)#' cfsqltype="CF_SQL_NVARCHAR">, 
+					query_string = <cfqueryparam value='#decodefromUrl(arguments.query_string)#' cfsqltype="CF_SQL_NVARCHAR">, 
+					report_type_string = <cfqueryparam value='#decodefromUrl(arguments.report_type_string)#' cfsqltype="CF_SQL_NVARCHAR">
+					WHERE id = <cfqueryparam value='#arguments.report_id#' cfsqltype="CF_SQL_INTEGER">
 				</cfquery>
 				<cfoutput>true</cfoutput>
 			<cfcatch>
@@ -495,7 +502,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cftry>
 			<cfquery name="report_data" datasource="MEDICALDATA">
 				INSERT INTO shared_reports(report_id, shared_with)
-				VALUES ('#decodefromUrl(arguments.id)#', '#decodefromUrl(arguments.shared_with)#' )
+				VALUES (<cfqueryparam value='#arguments.id#' cfsqltype="CF_SQL_INTEGER">, 
+					<cfqueryparam value='#decodefromUrl(arguments.shared_with)#' cfsqltype="CF_SQL_NVARCHAR"> )
 			</cfquery>
 			<cfoutput>true</cfoutput>
 		<cfcatch>
@@ -509,10 +517,12 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cftry>
 			<!--- only allow the delete if the user is the report owner --->
 			<cfquery name="delete_report_shares" datasource="MEDICALDATA">
-				DELETE FROM shared_reports WHERE report_id IN ( SELECT id FROM saved_reports WHERE id = '#arguments.id#' and username = '#session.username#' )
+				DELETE FROM shared_reports WHERE report_id IN 
+				( SELECT id FROM saved_reports WHERE id = <cfqueryparam value='#arguments.id#' cfsqltype="CF_SQL_INTEGER"> 
+					AND username = '#session.username#' )
 			</cfquery>
 			<cfquery name="delete_report" datasource="MEDICALDATA">
-				DELETE FROM saved_reports WHERE id = '#arguments.id#' and username = '#session.username#'
+				DELETE FROM saved_reports WHERE id = <cfqueryparam value='#arguments.id#' cfsqltype="CF_SQL_INTEGER"> and username = '#session.username#'
 			</cfquery>
 			<cfoutput>true</cfoutput>
 		<cfcatch>
