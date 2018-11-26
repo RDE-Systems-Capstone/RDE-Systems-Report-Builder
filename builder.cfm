@@ -26,7 +26,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		.ui-slider-handle { border-color: #729fcf; }
 		 { cursor: move; }
 		.div-focus {
-			box-shadow: 0 0 20px #66afe9;
+			box-shadow: 0 0 25px #66afe9;
 		}
 	</style>
 	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
@@ -85,9 +85,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					as we add filters, JS code will make the filters unhidden-->
 					<h1>Filters</h1>
 					<div class="filter_drop well">
-						<div id="chosen_filters" style="min-width: 100%;"><p id="drop_text">Drag and drop filters here to add them.</p></div>
+						<div id="chosen_filters" style="min-width: 100%; min-height: 50px; border: 2px dashed gray;"></div>
 						<div id="filter_forms"></div>
-						<p id="filter_instructions"><br>Click on a filter to configure its options.</p>
+						<p id="drop_text"><br>Drag and drop filters above to add them.</p>
+						<p id="filter_instructions">Click on a filter to configure its options.</p>
 					</div>
 					
 					<h1>Output</h1>

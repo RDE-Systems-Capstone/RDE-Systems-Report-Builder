@@ -57,8 +57,7 @@ function generateBuilderPage() {
 	//then for each filter we must add it to the filter output page
 	query_json.forEach(function(filter) {
 		var filter_id = Math.floor((Math.random() * 1000000) +1);
-		$("#drop_text").remove();
-
+		
 		//load the options for the age filter
 		if (filter["type"] === "age") {
 			var age_min = filter["min"];

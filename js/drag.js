@@ -44,14 +44,14 @@ $(document).ready(function() { 	//only run once page is ready
      	cancel: '',
      	forcePlaceholderSize: false,
      	start: function() {
-     		$('.filter_drop').addClass("div-focus");
+     		$('#chosen_filters').addClass("div-focus");
      	},
     	helper: function (e, button) {
         	copyHelper = button.clone().insertAfter(button);
         	return button.clone();
 	    },
 	    stop: function () {
-	    	$('.filter_drop').removeClass("div-focus");
+	    	$('#chosen_filters').removeClass("div-focus");
 	        copyHelper && copyHelper.remove();
 	    }
     });
@@ -61,14 +61,14 @@ $(document).ready(function() { 	//only run once page is ready
      	cancel: '',
      	forcePlaceholderSize: false,
      	start: function() {
-     		$('.filter_drop').addClass("div-focus");
+     		$('#chosen_filters').addClass("div-focus");
      	},
     	helper: function (e, button) {
         	copyHelper = button.clone().insertAfter(button);
         	return button.clone();
 	    },
 	    stop: function () {
-	    	$('.filter_drop').removeClass("div-focus");
+	    	$('#chosen_filters').removeClass("div-focus");
 	        copyHelper && copyHelper.remove();
 	    }
     });
@@ -79,7 +79,6 @@ $(document).ready(function() { 	//only run once page is ready
 	    receive: function (e, ui) {
 	        copyHelper = null;
 	        filterSetup(ui.item)
-	        $("#drop_text").remove();
 	    }
     });
 
