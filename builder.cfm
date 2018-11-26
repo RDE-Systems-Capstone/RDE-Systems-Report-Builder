@@ -85,7 +85,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					as we add filters, JS code will make the filters unhidden-->
 					<h1>Filters</h1>
 					<div class="filter_drop well">
-						<div id="chosen_filters" style="min-width: 100%; min-height: 50px; border: 2px dashed gray;"></div>
+						<div id="chosen_filters" style="min-height: 50px; border: 2px dashed gray;"></div>
 						<div id="filter_forms"></div>
 						<p id="drop_text"><br>Drag and drop filters above to add them.</p>
 						<p id="filter_instructions">Click on a filter to configure its options.</p>
