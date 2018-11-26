@@ -106,6 +106,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 
 			</div>
 			<div class="col-lg-8">
+				<cftry>
 				<!--- POSTed information is obtained from the superglobal variable FORM. 
 					Information is sent in the following manner:
 					report_type_string={json_object}
@@ -527,6 +528,13 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				</cfif>
 			</cfif>
 		</div>
+		<cfcatch>
+			<!-- error message if error occurs -->
+			<div class="alert alert-danger">
+			  <strong>Error!</strong> There was an error in processing your report. Please try again later.
+			</div>
+		</cfcatch>
+		</cftry>
 		</div>
 	</div>
 	<!--- report type string and query string (json) to be sent to output page using post --->

@@ -102,8 +102,16 @@ function getFilters() {
 	//add report type options to array
 	//for trend
 	if ( $("#report_type").val() === "trend" ) {
+		if ($("#trend_observation").val() == null) {
+			errors++;
+			error_list += "Output: Trend observation can't be empty<br />";
+		}
 		report_options["observation_id"] = $("#trend_observation").val();
 		report_options["options"] = $("#trend_numbers").val();
+		if ($("#trend_start_date").val() == "" || $("#trend_end_date").val() == "" ) {
+			errors++;
+			error_list += "Output: Trend dates can't be empty<br />";
+		}
 		report_options["start_date"] = $("#trend_start_date").val();
 		report_options["end_date"] = $("#trend_end_date").val();
 	}
