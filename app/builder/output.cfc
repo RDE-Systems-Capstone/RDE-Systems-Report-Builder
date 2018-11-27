@@ -105,7 +105,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			 	<cfset  atype = "conditions">
 				<cfset id= #item["id"]#>
 				 <cfset MEDICALDATA = dquery(tableName = "conditions")/> 
-				 <cfset MEDICALDATA = "(select * from patients where id in ( #MEDICALDATA# code='#id#' ))" > 
+				 <cfset MEDICALDATA = "(select id from patients where id in ( #MEDICALDATA# code='#id#' ))" > 
 				 <cfoutput >
 				 	<cfset queries[i]= #MEDICALDATA#>
 				 </cfoutput>
