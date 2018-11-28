@@ -7,6 +7,10 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 --->
 
 <cfcomponent displayname="report_builder">
+	<cfparam name="session.loggedin" default="false" />
+	<cfif NOT session.loggedin>
+	  <cflocation url="../timeout.cfm" addtoken="false">
+	</cfif>
 	<!--- Function generateSQLQuery takes in the JSON array from the report builder page and generates an array of queries to obtain the data required --->
 	<cffunction name="generateSQLQuery" returntype="string">
 		<cfargument name="FilterBool" type="array" required="true"/>

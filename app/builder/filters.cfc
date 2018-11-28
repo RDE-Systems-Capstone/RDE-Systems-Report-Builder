@@ -7,7 +7,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 <cfcomponent>
 	<cfparam name="session.loggedin" default="false" />
 	<cfif NOT session.loggedin>
-	  <cflocation url="../../index.cfm" addtoken="false">
+	  <cflocation url="../timeout.cfm" addtoken="false">
 	</cfif>
 	<cffunction name="getFilterForm" access="remote" returntype="void">
 		<cfargument name="filter" type="string" required="yes">

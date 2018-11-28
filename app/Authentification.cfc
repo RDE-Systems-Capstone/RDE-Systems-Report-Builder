@@ -56,7 +56,7 @@
 		<cfif compare(decPass, userLogin.password) eq 0>
 		
 			<!---Log user in--->
-			<cflogin allowconcurrent="false" applicationtoken="test" idletimeout="1800">
+			<cflogin allowconcurrent="false" applicationtoken="test" idletimeout="3600">
 				<cfloginuser name="#userLogin.firstName# #userLogin.lastname#" password="#decPass#" roles="#userLogin.role#" >
 				
 			</cflogin>
