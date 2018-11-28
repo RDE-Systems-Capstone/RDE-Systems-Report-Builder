@@ -33,17 +33,27 @@ function ageFilterUpdate has been moved. See drag.js:createAgeFilter function */
 
 /* This function will update the text of the observations dropdown-type filter
  where filter_id is the unique id of the added filter, filter_type is type of filter (ex. race) and filter_text is text to be prepended (ex. "Race: ") */
-function observationsFilterUpdate(filter_id) {
+function observationsFilterUpdate(filter_id, type) {
 	var button = $("#chosen_filters").find("[type='button'][value=" + filter_id + "]")[0];
 	var filter_options = $("#" + filter_id);
-	var options = $(filter_options).find("option:selected");
-	var value_num = $("#value_num").val();
+	var options = $(filter_options).find("[id='observations_opt']").find("option:selected");
+	var obsv_code = options.val();
+	if (type === 1) {
+		$.get({
+			url: "app/builder/report.cfc?method=observationsValuesCheck&id=" + filter_id + "&code=" + obsv_code, 
+			async: false,
+			success: function(result) {
+				$(filter_options).find("[id='observation_value_input']").html(result);
+			}
+		});
+	}
+	var val_opt = $(filter_options).find("[id='value_options']").find("option:selected");
+	var val_num = $(filter_options).find("[id='value_num']");
+	var val_units = $(filter_options).find("[id='units']");
 	var filter_text = "Observations: ";
 	
-	options.each( function() {
-		filter_text += $(this).text() + " ";
-	});
-	filter_text += value_num;
+	filter_text += options.text() + " " + val_opt.text() + " " + val_num.val() + " " + val_units.text() ;
+
 	button.innerHTML = filter_text;
 };
 
@@ -263,7 +273,7 @@ function getFilters() {
 			}
 			 else if (this.id == "observations_button") {
 				var observations_array = {"type":"observations"}
-				var options = $("#" + this.value).find("[name='observations_opt']").each(function() {
+				var options = $("#" + this.value).find("[id='observations_opt']").each(function() {
 					if ( $(this).val() == null ) {
 						error_list += "Filters: Observations filter is missing options<br />";
 						errors++;

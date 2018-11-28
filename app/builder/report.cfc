@@ -129,32 +129,42 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfinvoke 	component="app.builder.report"
 		method="getObservations"
 		returnvariable="allObservations"></cfinvoke>
-		<cfform name="observations_filter_form" class="form-inline">
-			<cfselect
-				name="observations_opt"
-				id="observations_opt"
-				query="allObservations"
-				queryPosition="below"
-				value="CODE"
-				display="DESCRIPTION"
-				message="Select an observation"
-				class="form-control"
-				onchange="observationsFilterUpdate('#id#')">
-					<option selected="true" disabled="disabled"> -- select an option -- </option>
-			</cfselect>
-			<cfselect
-				name="value_options"
-				id="value_options"
-				class="form-control"
-				onchange="observationsFilterUpdate('#id#')">
+		<form id="observations_filter_form" class="form-inline">
+			<cfoutput><select class="form-control" id="observations_opt" onchange="observationsFilterUpdate('#id#', 1)"></cfoutput>
+				<option selected="true" disabled="disabled"> -- select an option -- </option>
+				<cfloop query="allObservations">
+					<cfoutput><option value="#CODE#" data-units="#UNITS#">#DESCRIPTION#</option></cfoutput>
+				</cfloop>
+			</select>
+			<div style="display: inline-block;" id="observation_value_input"></div>
+		</form>
+	</cffunction>
+
+	<cffunction name="observationsValuesCheck" returntype="void" access="remote">
+		<cfargument name="code" type="string" required="true">
+		<cfargument name="id" type=numeric required="true">
+		<cfquery name="value_numeric_chk" datasource="MEDICALDATA">
+			SELECT DISTINCT VALUE, UNITS FROM observations WHERE code = '#arguments.code#';
+		</cfquery>
+		<cfif IsNumeric(#value_numeric_chk.VALUE#)>
+			<cfoutput><select id="value_options" class="form-control" onchange="observationsFilterUpdate('#id#')"></cfoutput>
 					<option value="greater">></option>
 					<option value="less"><</option>
 					<option value="equal">=</option>
-			</cfselect>
-			<cfoutput>
-			<input id="value_num" class="form-control" onchange="observationsFilterUpdate('#id#')" onkeypress="if (event.keyCode == 13){return false;}" value=0 />
-			</cfoutput>
-		</cfform>
+			</select>
+			<cfoutput><input id="value_num" class="form-control" onchange="observationsFilterUpdate('#id#', 0)" onkeypress="if (event.keyCode == 13){return false;}" value=0 /></cfoutput>
+			<cfoutput><span id="units" style="margin-left:10px;">#value_numeric_chk.UNITS#</span></cfoutput>
+		<cfelse>
+			<cfoutput><select id="value_options" class="form-control" disabled onchange="observationsFilterUpdate('#id#', 0)"></cfoutput>
+					<option value="equal" selected="true">=</option>
+			</select>
+			<cfoutput><select id="value_num" class="form-control" onchange="observationsFilterUpdate('#id#', 0)">
+				<cfloop query="value_numeric_chk">
+					<cfoutput><option value="#VALUE#">#VALUE#</option></cfoutput>
+				</cfloop>
+			</select></cfoutput>
+			<span id="units" style="margin-left:10px;"></span>
+		</cfif>
 	</cffunction>
 	
 	<!--- Output medications list --->

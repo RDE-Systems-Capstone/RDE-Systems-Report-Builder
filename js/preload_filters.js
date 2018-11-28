@@ -141,10 +141,11 @@ function generateBuilderPage() {
 				url: "app/builder/filters.cfc?method=getFilterForm&filter=observations&id=" + filter_id, 
 				success: function(result) {
 					$('<div>').html(result).appendTo("#filter_forms");
-					$("#" + filter_id).find("[name='observations_opt']").val(filter_value);
-					$("#" + filter_id).find("[name='value_options']").val(filter["options"]);
+					$("#" + filter_id).find("[id='observations_opt']").val(filter_value);
+					observationsFilterUpdate(filter_id , 1);
+					$("#" + filter_id).find("[id='value_options']").val(filter["options"]);
 					$("#" + filter_id).find("[id='value_num']").val(filter["value"]);
-					observationsFilterUpdate(filter_id);
+					observationsFilterUpdate(filter_id , 0);
 				}
 			});
 		}
