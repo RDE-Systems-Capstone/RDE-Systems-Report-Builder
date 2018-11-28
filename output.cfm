@@ -153,10 +153,6 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 						<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
 						<cfset MEDICALDATA = QueryExecute(#bigQ#, [] ,qoptions)>
 						
-
-<!---						<cfquery name = "MEDICALDATA" datasource="MEDICALDATA" >
-							#Evaluate(BigQ)#
-						</cfquery>--->
 						<cfif var1 eq "AGE_CATEGORY">
 							<cfset temp = MEDICALDATA.recordCount > 
 						<cfelse>

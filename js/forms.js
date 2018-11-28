@@ -377,7 +377,7 @@ function getFilters() {
 					error_list += "Filters: Missing filter before OR!<br />";
 					errors++;
 				}
-				if (!$(this).next().hasClass("filter")) {
+				if (!($(this).next().hasClass("filter") || $(this).next().attr('id') == "l_paren")) {
 					error_list += "Filters: Missing filter after OR!<br />";
 					errors++;
 				}
