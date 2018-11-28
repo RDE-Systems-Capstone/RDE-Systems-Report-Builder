@@ -16,7 +16,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfquery 
 			name="observations_list"
 			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
-			SELECT DISTINCT DESCRIPTION, CODE, UNITS FROM observations ORDER BY DESCRIPTION
+			SELECT DISTINCT DESCRIPTION, CODE, UNITS FROM observations WHERE VALUE IS NOT NULL ORDER BY DESCRIPTION
 		</cfquery>
 		<cfreturn observations_list>
 	</cffunction>
@@ -143,7 +143,8 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 	<cffunction name="observationsValuesCheck" returntype="void" access="remote">
 		<cfargument name="code" type="string" required="true">
 		<cfargument name="id" type=numeric required="true">
-		<cfquery name="value_numeric_chk" datasource="MEDICALDATA">
+		<cfquery name="value_numeric_chk" datasource="MEDICALDATA"
+			cachedWithin="#CreateTimeSpan(0,12,0,0)#">
 			SELECT DISTINCT VALUE, UNITS FROM observations WHERE code = '#arguments.code#';
 		</cfquery>
 		<cfif IsNumeric(#value_numeric_chk.VALUE#)>
