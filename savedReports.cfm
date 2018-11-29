@@ -199,6 +199,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			        </button>
 			      </div>
 			      <div class="modal-body" id="reportInfoModalBody">
+			      	Loading...
 			      </div>
 			      <div class="modal-footer">
 			        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>

@@ -414,6 +414,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 		<cfquery name="report_data" datasource="MEDICALDATA">
 			SELECT * FROM saved_reports WHERE id=<cfqueryparam value='#arguments.id#' cfsqltype="CF_SQL_INTEGER">
 		</cfquery>
+		<cfquery name="username_data" datasource="MEDICALDATA" cachedWithin="#CreateTimeSpan(0,12,0,0)#">
+			SELECT firstName, lastname FROM users WHERE username='#report_data.username#'
+		</cfquery>
 		<cfoutput>
 			<div>
 				<p>Report name: #report_data.name#</p>
@@ -461,7 +464,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					</cfif>
 				</cfloop>
 				</p>
-				<p>Report creator: #report_data.username#</p>
+				<p>Report creator: #report_data.username# (#username_data.firstName# #username_data.lastname#)</p>
 			</div>
 		</cfoutput>
 	</cffunction>
