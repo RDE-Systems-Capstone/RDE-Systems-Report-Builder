@@ -463,7 +463,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 								  	data.labels.push(jsArray[i])
 								  }
 								  data.total.push(jArray[i])
-								  data.colors.push(getRandomColor())
+								  //data.colors.push(getRandomColor())
 								}
 								var ctx = document.getElementById("myChart").getContext('2d');
 								
@@ -474,7 +474,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 								    datasets: [{
 								    	label:' <cfoutput>#x#</cfoutput> Vs. Time',
 								    	data : data.total,
-								    	backgroundColor: data.colors
+								    	backgroundColor: getRandomColor()
 								    }]
 
 								  },
