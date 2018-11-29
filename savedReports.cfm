@@ -20,7 +20,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 </cfquery>
 
 <cfquery name="usernames_query" datasource="MEDICALDATA">
-	SELECT username FROM users
+	SELECT username, firstName, lastname FROM users WHERE NOT username = '#session.username#'
 </cfquery>
 
 <!DOCTYPE html>
@@ -159,29 +159,31 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 			    <div class="modal-content">
 			      <div class="modal-header">
 			        <h4 class="modal-title" id="ModalLabel">Share Report</h5>
-			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			        <button type="button" class="close" data-dismiss="modal" onclick='$("#shareWarning").hide();' aria-label="Close">
 			          <span aria-hidden="true">&times;</span>
 			        </button>
 			      </div>
 			      <div class="modal-body">
+					<div hidden class="alert alert-warning" id="shareWarning" role="alert">
+						<a href="#" class="close" onclick='$("#shareWarning").hide();' aria-label="close">&times;</a>
+						<div id="shareWarningText">
+						</div>
+					</div>
 			        Share report with which user?
-			        <cfform>
-						<cfselect
-							name="username_opt"
-							id="username_opt"
-							query="usernames_query"
-							queryPosition="below"
-							value="username"
-							display="username"
-							message="Select a username"
-							class="form-control">
-								<option selected="true" disabled="disabled"> -- select a username -- </option>
-						</cfselect>
-			        </cfform>
+			        <form>
+			        	<cfoutput>
+						<select id="username_opt" class="form-control">
+							<option selected="true" disabled="disabled"> -- select a username -- </option>
+							<cfloop query="#usernames_query#">
+								<option value="#username#">#username# (#firstName# #lastName#)</option>
+							</cfloop>
+						</select>
+						</cfoutput>	
+			        </form>
 			      </div>
 			      <div class="modal-footer">
-			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-			        <button type="button" class="btn btn-primary" data-dismiss="modal" onclick="shareReport()">Save changes</button>
+			        <button type="button" class="btn btn-secondary" onclick='$("#shareWarning").hide();' data-dismiss="modal">Cancel</button>
+			        <button type="button" class="btn btn-primary" onclick="shareReport()">Share</button>
 			      </div>
 			    </div>
 			  </div>

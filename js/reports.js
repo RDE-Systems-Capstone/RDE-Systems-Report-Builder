@@ -81,23 +81,31 @@ function saveReport(id) {
 
 //function to share a report.
 function shareReport() {
-	$.post( "app/builder/report.cfc", { 
-		method: "shareReport",
-		id: parseInt($("#share_report_id").val()), 
-		shared_with: encodeURIComponent($("#username_opt").val()) 
-	}).done(function( data ) {
-	    if (data.trim() === "true") {
-	    	$("#error_alert").removeClass("alert-danger");
-	    	$("#error_alert").addClass("alert-success");
-	    	$("#error_alert_text").html("Report was shared successfully!");
-	    	$("#error_alert").show();
-	    } else {
-	    	$("#error_alert").removeClass("alert-success");
-	    	$("#error_alert").addClass("alert-danger");
-	    	$("#error_alert_text").html("There was an error sharing your report.");
-	    	$("#error_alert").show();
-	    }
-	 });
+	if ($("#username_opt").val() == null) {
+		$("#shareWarningText").html("Please select a username.")
+		$("#shareWarning").show();
+	}
+	else {
+		$('#shareReportModal').modal('hide')
+		$("#shareWarning").hide();
+		$.post( "app/builder/report.cfc", { 
+			method: "shareReport",
+			id: parseInt($("#share_report_id").val()), 
+			shared_with: encodeURIComponent($("#username_opt").val()) 
+		}).done(function( data ) {
+		    if (data.trim() === "true") {
+		    	$("#error_alert").removeClass("alert-danger");
+		    	$("#error_alert").addClass("alert-success");
+		    	$("#error_alert_text").html("Report was shared successfully!");
+		    	$("#error_alert").show();
+		    } else {
+		    	$("#error_alert").removeClass("alert-success");
+		    	$("#error_alert").addClass("alert-danger");
+		    	$("#error_alert_text").html("There was an error sharing your report.");
+		    	$("#error_alert").show();
+		    }
+		 });
+	}
 }
 
 //function to call CF function to pull report info
