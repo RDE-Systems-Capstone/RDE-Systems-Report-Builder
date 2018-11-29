@@ -42,7 +42,6 @@ $(document).ready(function() { 	//only run once page is ready
     $( "#filters_list").sortable({
     	connectWith: "#chosen_filters",
      	cancel: '',
-     	forcePlaceholderSize: false,
      	start: function() {
      		$('#chosen_filters').addClass("div-focus");
      	},
@@ -59,7 +58,6 @@ $(document).ready(function() { 	//only run once page is ready
     $( "#filter_logic").sortable({
     	connectWith: "#chosen_filters",
      	cancel: '',
-     	forcePlaceholderSize: false,
      	start: function() {
      		$('#chosen_filters').addClass("div-focus");
      	},
