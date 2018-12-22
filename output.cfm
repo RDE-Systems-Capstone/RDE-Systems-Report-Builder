@@ -133,6 +133,9 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 				
 				
 				<cfif #TableOptions["type"]# eq "bar" or  #TableOptions["type"]# eq "doughnut" or #TableOptions["type"]# eq "pie"  >
+					
+					<cfinvoke component="app.builder.output" method="generateSQLQuery" FilterBool="#deserializeJSON(FORM.query_string)#" returnvariable="bigQuery"></cfinvoke>
+					
 					<cfloop array = #tableGroupBy# index ="gb">
 						<div>
 						
@@ -366,6 +369,7 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 								
 			<!---output a message for any other graph not supported --->
 			<Cfelseif #TableOptions["type"]# eq "Trend">
+				<cfinvoke component="app.builder.output" method="TrendQuery" FilterBool="#deserializeJSON(FORM.query_string)#" returnvariable="bigQuery"></cfinvoke>
 				<cfoutput>
 					<cfset bigQ = "With temp as (#bigQuery#),"/>
 					<cfset trendArray = arraynew(1)>
@@ -377,20 +381,23 @@ Group members: Vincent Abbruzzese, Christopher Campos, Joshua Pontipiedra, Priya
 					<!-- end date,start start, sum or avg, trend, code -->
 					<!---<cfdump var = #trendArray# />--->
 					
-					<cfset trendQuery = "temp1 as (select date,patient,encounter, code, description, value from observations inner join temp on observations.PATIENT = temp.id where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]#')"/>
+					<cfset trendQuery = "temp1 as (select * from observations where code = '#trendArray[5]#' and date between '#trendArray[2]#' and '#trendArray[1]# ')"/>
+					<cfset AQuery = " ,temp2 as (select temp1.*,temp.* from temp1 full join temp on temp.id = temp1.patient where temp1.patient is not null and temp.id is not null )"/>
 					<cfset code = #trendArray[5]# />
 					<cfif #code# eq '363406005'>
 						<h1>Support for this graph type is not available yet and will be added in a future release.</h1>
 					<cfelse>
 						<cfif #trendArray[3]# eq "sum">
-							<cfset perfectQuery= "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (sum (cast(value as float))) as Sum from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(year from date), datepart(month from date ) "/>
+							<cfset perfectQuery= "#bigQ# #trendQuery# #AQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (sum (cast(value as float))) as Sum from temp2 group by datepart(month from date ), datepart(year from date) order by datepart(year from date), datepart(month from date ) "/>
 							<cfset var3 = "Sum" />	
 						<cfelseif #trendArray[3]# eq "average">
-							<cfset perfectQuery = "#bigQ# #trendQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (avg (cast(value as float))) as Average from temp1 inner join temp on temp.id = temp1.patient group by datepart(month from date ), datepart(year from date) order by datepart(year from date), datepart(month from date ) "/>
+							<cfset perfectQuery = "#bigQ# #trendQuery# #AQuery# select datepart(month from date )as Month, datepart(year from date) as Year, (avg (cast(value as float))) as Average from temp2 group by datepart(month from date ), datepart(year from date) order by datepart(year from date), datepart(month from date ) "/>
 							<cfset var3 = "Average" />					
 						</cfif>
 					</cfif>
-
+						<cfoutput >
+							#perfectQuery#
+						</cfoutput>
 					<cfset qoptions = {result="myresult", datasource="MEDICALDATA", fetchclientinfo="yes"}>
 
 					<cfset MEDICALDATA= QueryExecute(#perfectQuery#, [] ,qoptions)>
